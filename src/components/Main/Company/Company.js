@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Store from '../../../context';
 
-export default function Company(props) {
+export default function Company({ navigation }) {
 
   return (
     <Store.Consumer>
