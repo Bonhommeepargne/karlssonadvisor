@@ -29,6 +29,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: "space-evenly",
     borderWidth: 1,
-    borderColor: "green",
   },
 });

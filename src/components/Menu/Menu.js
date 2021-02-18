@@ -39,7 +39,7 @@ export default function ReactNavigationBottomTabs() {
       tabBarOptions={
         {
           // Default Color is blue you can change it by following props
-          activeTintColor: '#1c9434',
+          activeTintColor: '#86B206',
           // inactiveTintColor: '#ff6b81',
           // Default Background Color is white you can change it by following props
           // activeBackgroundColor: '#ced6e0',

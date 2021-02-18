@@ -9,6 +9,10 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
 
 // expo install expo-linear-gradient (For Expo Users)
 // Alternate: npm i react-native-linear-gradient (For non-expo users)
@@ -24,7 +28,18 @@ import NSRegular from '../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf
 import NSBold from '../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
+// import pour la Gestion du formulaire
+import firebase from '../../../firebase';
+import { login, register } from '../../../firebase';
+import Store from '../../../context';
+import Reset from './Reset';
+
+var fullname = "";
+var email = "";
+var password = "";
+
 export default function LoginScreen3() {
+
   const [loaded] = useFonts({
     NSLight,
     NSRegular,
@@ -38,77 +53,114 @@ export default function LoginScreen3() {
     StatusBar.setBarStyle('light-content', true);
   }, []);
 
+  // Gestion du formulaire
+  const [firebaseError, setFirebaseError] = React.useState(null);
+
+  async function authenticateUser(store) {
+    try {
+      if (activeTab === 'Login') {
+        await login(email, password);
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user) {
+            // console.log(user);
+            store.main.change(user);
+          } else {
+            store.main.change(null)
+          }
+        });
+      } else {
+        await register(fullname, email, password);
+      }
+    } catch (err) {
+      console.error("Authentication Error", err);
+      setFirebaseError(err.message);
+    }
+  }
+
   function switchTab() {
     if (activeTab === 'Login') {
+      setFirebaseError(null);
       setActiveTab('Register');
     } else {
+      setFirebaseError(null);
       setActiveTab('Login');
     }
   }
 
   function Login() {
+
+    const navigation = useNavigation();
+
     const [showLoginPassword, setShowLoginPassword] = useState(false);
 
     return (
-      <View style={{ marginTop: 10 }}>
-        <View style={styles.inputView}>
-          <Icon
-            style={{ paddingHorizontal: 4 }}
-            name='envelope'
-            type='font-awesome'
-            color='#fff'
-            size={22}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder='Email'
-            placeholderTextColor='#f1f2f6'
-            keyboardType='email-address'
-            textContentType='emailAddress'
-            autoCapitalize='none'
-            autoCompleteType='email'
-            returnKeyType='next'
-          />
-        </View>
-        <View style={styles.inputView}>
-          <Icon
-            style={{ paddingHorizontal: 4 }}
-            name='key'
-            type='font-awesome-5'
-            color='#fff'
-            size={22}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder='Password'
-            placeholderTextColor='#f1f2f6'
-            secureTextEntry={!showLoginPassword}
-            autoCapitalize='none'
-            textContentType='password'
-            returnKeyType='done'
-          />
-          <TouchableOpacity
-            style={{ paddingVertical: 4 }}
-            onPress={() => {
-              setShowLoginPassword(!showLoginPassword);
-            }}
-          >
-            <Icon
-              style={{ paddingHorizontal: 4 }}
-              name='eye'
-              type='font-awesome'
-              color='#fff'
-              size={22}
-            />
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-        </TouchableOpacity>
-      </View>
+      <Store.Consumer>
+        {(store) => (
+          <View style={{ marginTop: 10 }}>
+            <View style={styles.inputView}>
+              <Icon
+                style={{ paddingHorizontal: 4 }}
+                name='envelope'
+                type='font-awesome'
+                color='#fff'
+                size={22}
+              />
+              <TextInput
+                style={styles.input}
+                onChangeText={text => email = text}
+                placeholder='Email'
+                placeholderTextColor='#f1f2f6'
+                keyboardType='email-address'
+                textContentType='emailAddress'
+                autoCapitalize='none'
+                autoCompleteType='email'
+                returnKeyType='next'
+              />
+            </View>
+            <View style={styles.inputView}>
+              <Icon
+                style={{ paddingHorizontal: 4 }}
+                name='key'
+                type='font-awesome-5'
+                color='#fff'
+                size={22}
+              />
+              <TextInput
+                onChangeText={text => password = text}
+                style={styles.input}
+                placeholder='Password'
+                placeholderTextColor='#f1f2f6'
+                secureTextEntry={!showLoginPassword}
+                autoCapitalize='none'
+                textContentType='password'
+                returnKeyType='done'
+              />
+              <TouchableOpacity
+                style={{ paddingVertical: 4 }}
+                onPress={() => {
+                  setShowLoginPassword(!showLoginPassword);
+                }}
+              >
+                <Icon
+                  style={{ paddingHorizontal: 4 }}
+                  name='eye'
+                  type='font-awesome'
+                  color='#fff'
+                  size={22}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={{ paddingTop: 20 }}>
+              <TouchableOpacity style={styles.button} onPress={() => (authenticateUser(store))}>
+                <Text style={styles.buttonText}>Login</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => (navigation.navigate("Reset"))}>
+                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+      </Store.Consumer>
     );
   }
 
@@ -125,6 +177,7 @@ export default function LoginScreen3() {
             size={22}
           />
           <TextInput
+            onChangeText={text => fullname = text}
             style={styles.input}
             placeholder='Full Name'
             placeholderTextColor='#f1f2f6'
@@ -142,6 +195,7 @@ export default function LoginScreen3() {
             size={22}
           />
           <TextInput
+            onChangeText={text => email = text}
             style={styles.input}
             placeholder='Email'
             placeholderTextColor='#f1f2f6'
@@ -152,7 +206,7 @@ export default function LoginScreen3() {
             returnKeyType='next'
           />
         </View>
-        <View style={styles.inputView}>
+        {/* <View style={styles.inputView}>
           <Icon
             style={{ paddingHorizontal: 4, width: 30 }}
             name='phone'
@@ -167,7 +221,7 @@ export default function LoginScreen3() {
             keyboardType='phone-pad'
             returnKeyType='next'
           />
-        </View>
+        </View> */}
         <View style={styles.inputView}>
           <Icon
             style={{ paddingHorizontal: 4, width: 30 }}
@@ -177,6 +231,7 @@ export default function LoginScreen3() {
             size={22}
           />
           <TextInput
+            onChangeText={text => password = text}
             style={styles.input}
             placeholder='Password'
             placeholderTextColor='#f1f2f6'
@@ -200,55 +255,75 @@ export default function LoginScreen3() {
             />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Register</Text>
-        </TouchableOpacity>
+        <View style={{ paddingTop: 20 }}>
+          <TouchableOpacity style={styles.button} onPress={authenticateUser}>
+            <Text style={styles.buttonText}>Register</Text>
+          </TouchableOpacity>
+        </View>
       </View>
+    );
+  }
+
+  // ['#0aab30', '#1c9434']
+  function Auth() {
+    return (
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <LinearGradient colors={['#6A8712', '#86B206']} style={styles.container}>
+          <Text style={styles.welcomeText}>
+            {activeTab === 'Login' ? 'Login' : 'Register'}
+          </Text>
+          <View style={styles.switchTabsView}>
+            <TouchableOpacity
+              style={{
+                borderBottomWidth: activeTab === 'Login' ? 4 : 0,
+                borderBottomColor: '#fff',
+                paddingHorizontal: 4,
+                marginRight: 14,
+              }}
+              onPress={() => switchTab()}
+            >
+              <Text style={styles.switchText}>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                borderBottomWidth: activeTab === 'Register' ? 4 : 0,
+                borderBottomColor: '#fff',
+                paddingHorizontal: 4,
+                marginRight: 14,
+              }}
+              onPress={() => switchTab()}
+            >
+              <Text style={styles.switchText}>Register</Text>
+            </TouchableOpacity>
+          </View>
+          {activeTab === 'Login' ? <Login /> : <Register />}
+          {firebaseError &&
+            <View style={styles.errorView}>
+              <Text style={styles.errorText}>{firebaseError}</Text>
+            </View>}
+        </LinearGradient>
+      </TouchableWithoutFeedback>
     );
   }
 
   if (!loaded) {
     return (
       <View>
-        <Text>Loading...</Text>
+        <Text></Text>
       </View>
     );
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <LinearGradient colors={['#0aab30', '#1c9434']} style={styles.container}>
-        <Text style={styles.welcomeText}>
-          {activeTab === 'Login' ? 'Login' : 'Register'}
-        </Text>
-        <View style={styles.switchTabsView}>
-          <TouchableOpacity
-            style={{
-              borderBottomWidth: activeTab === 'Login' ? 4 : 0,
-              borderBottomColor: '#fff',
-              paddingHorizontal: 4,
-              marginRight: 14,
-            }}
-            onPress={() => switchTab()}
-          >
-            <Text style={styles.switchText}>Login</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              borderBottomWidth: activeTab === 'Register' ? 4 : 0,
-              borderBottomColor: '#fff',
-              paddingHorizontal: 4,
-              marginRight: 14,
-            }}
-            onPress={() => switchTab()}
-          >
-            <Text style={styles.switchText}>Register</Text>
-          </TouchableOpacity>
-        </View>
-        {activeTab === 'Login' ? <Login /> : <Register />}
-      </LinearGradient>
-    </TouchableWithoutFeedback>
+
+    <Stack.Navigator>
+      <Stack.Screen name="Auth" component={Auth} options={{ headerShown: false }} />
+      <Stack.Screen name="Reset" component={Reset} options={{  title: 'Back', headerTintColor: '#fff',
+                      headerStyle: {backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
+                      borderBottomWidth: 0,} }} />
+    </Stack.Navigator>
   );
+
 }
 
 const styles = StyleSheet.create({
@@ -284,6 +359,17 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  errorView: {
+    marginTop: 40,
+    marginHorizontal: 20,
+  },
+  errorText: {
+    padding: 2,
+    fontSize: 17,
+    color: '#FFA07A',
+    fontFamily: 'NSRegular',
+    textAlign: 'center',
   },
   input: {
     flex: 1,

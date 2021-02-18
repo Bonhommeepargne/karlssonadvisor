@@ -1,34 +1,25 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import Store from '../../../context';
+import { createStackNavigator } from '@react-navigation/stack';
+import UserMenu from './UserMenu'
+import ManageProfile from './ManageProfile'
+import Avatar from './Avatar'
+import Subscription from './ManageProfile'
+import WatchList from './WatchList' 
+import Notifications from './Notifications'
 
-export default function Company(props) {
+const Stack = createStackNavigator();
+
+export default function User() {
 
   return (
-    <Store.Consumer>
-    {(store) => (
-      <View style={styles.container}>
-        <Text>User</Text>
-        <Text>Open up App.js to start working on your app! {store.main.value}</Text>
-        <Button
-          title="To Increment"
-          onPress={() => {}}
-        />
-      </View>
-    )}
-    </Store.Consumer>
+    <Stack.Navigator>
+      <Stack.Screen name="UserMenu" component={UserMenu} options={{ headerShown: false }} />
+      <Stack.Screen name="ManageProfile" component={ManageProfile} options={{  title: 'Edit profile' }} />
+      <Stack.Screen name="Subscription" component={Subscription} options={{  title: 'Subscription' }} />
+      <Stack.Screen name="Avatar" component={Avatar} options={{  title: 'Avatar' }} />
+      <Stack.Screen name="Notifications" component={Notifications} options={{  title: 'Notifications' }} />
+      <Stack.Screen name="WatchList" component={WatchList} options={{  title: 'WatchList' }} />
+    </Stack.Navigator>
   );
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    backgroundColor: "white",
-    alignItems: 'center',
-    justifyContent: "space-evenly",
-    borderWidth: 1,
-    borderColor: "green",
-  },
-});
+}

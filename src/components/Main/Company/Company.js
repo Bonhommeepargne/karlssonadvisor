@@ -1,3 +1,4 @@
+import { NavigationHelpersContext } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Store from '../../../context';
@@ -9,11 +10,17 @@ export default function Company({ navigation }) {
     {(store) => (
       <View style={styles.container}>
         <Text>Company</Text>
-        <Text>Open up App.js to start working on your app! </Text>
+        <Text>{store.main.user.uid}</Text>
+        <Text></Text>
         <Text>{store.main.value}</Text>
+        {store.main.value == 'pipo' && <Text>T'es {store.main.value}</Text>}
         <Button
           title="To Increment"
-          onPress={() => { store.main.change('pipo')}}
+          onPress={() => { store.main.change('pipo');}}
+        />
+        <Button
+          title="Navigate"
+          onPress={() => { navigation.navigate('Screening')}}
         />
       </View>
     )}
@@ -30,6 +37,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: "space-evenly",
     borderWidth: 1,
-    borderColor: "green",
   },
 });
