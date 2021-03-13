@@ -1,22 +1,16 @@
+import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
-import Store from './../../../context';
+import Tab from './Tab';
+
+const Stack = createStackNavigator();
 
 export default function Screening() {
 
   return (
-    <Store.Consumer>
-    {(store) => (
-      <View style={styles.container}>
-        <Text>Screening</Text>
-        <Text>Open up App.js to start working on your app! {store.main.value}</Text>
-        <Button
-          title="To Increment"
-          onPress={() => {}}
-        />
-      </View>
-    )}
-    </Store.Consumer>
+    <Stack.Navigator>
+      <Stack.Screen name="Tab" component={Tab} options={{ headerShown: false }} />
+    </Stack.Navigator>
   );
 }
 
@@ -28,7 +22,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: 'center',
     justifyContent: "space-evenly",
-    borderWidth: 1,
-    borderColor: "purple",
+
   },
 });

@@ -1,14 +1,17 @@
+import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import { StyleSheet, Text, View,StatusBar } from 'react-native';
-
-// npm i @react-navigation/bottom-tabs react-native-elements
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { StyleSheet, Text, View, TouchableWithoutFeedback } from 'react-native';
 import { Icon } from 'react-native-elements';
-import Company from '../Main/Company/Company';
-import Screening from '../Main/Screening/Screening';
-import News from '../Main/News/News';
-import Notifications from '../Main/Notifications/Notifications';
-import User from '../Main/User/User';
+
+import Search from './../Main/Search/Search';
+import WatchListSelect from './../Main/Company/WatchListSelect';
+import UserMenu from './../Main/User/UserMenu';
+import ManageProfile from './../Main/User/ManageProfile';
+import Subscription from './../Main/User/ManageProfile';
+import WatchList from './../Main/WatchList/WatchList';
+import Notifications from './../Main/Notifications/Notifications';
+import Loader from '../Loader/Loader';
+import MenuBottomTab from './MenuBottomTab';
 
 import { useFonts } from 'expo-font';
 import NSLight from '../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
@@ -16,9 +19,10 @@ import NSRegular from '../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
 import NSBold from '../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
-const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
-export default function ReactNavigationBottomTabs() {
+export default function Menu() {
+
   const [loaded] = useFonts({
     NSLight,
     NSRegular,
@@ -28,86 +32,65 @@ export default function ReactNavigationBottomTabs() {
 
   if (!loaded) {
     return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
+      <Loader />
     );
   }
 
   return (
-    <Tab.Navigator
-      tabBarOptions={
-        {
-          // Default Color is blue you can change it by following props
-          activeTintColor: '#86B206',
-          // inactiveTintColor: '#ff6b81',
-          // Default Background Color is white you can change it by following props
-          // activeBackgroundColor: '#ced6e0',
-          // inactiveBackgroundColor: '#ced6e0',
-          labelStyle: {
-            fontSize: 12,
-            fontFamily: 'NSBold',
-          }
+    <Stack.Navigator>
+      <Stack.Screen name="MenuBottomTab" component={MenuBottomTab} options={{ headerShown: false }} />
+      <Stack.Screen name="WatchListSelect" component={WatchListSelect} options={({ route, navigation }) => ({
+        title: '',
+        headerTintColor: 'black', headerStyle: {
+          backgroundColor: '#FFF', elevation: 0, shadowOpacity: 0,
+          borderBottomWidth: 0
+        },
+        headerRight: () => (
+          <TouchableWithoutFeedback onPress={() =>
+            (navigation.navigate('WatchList'))
+          }>
+            <Icon
+              style={{ paddingRight: 25 }}
+              name='edit'
+              type='font-awesome-5'
+              color='black'
+              size={20}
+            />
+          </TouchableWithoutFeedback>
+        )
+      })}
+      />
+      <Stack.Screen name="Search" component={Search} options={{
+        title: 'Search company',
+        headerTintColor: '#fff', headerStyle: {
+          backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
+          borderBottomWidth: 0
         }
-      }
-    >
-      <Tab.Screen
-        name='Company'
-        component={Company}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name='bar-chart' color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name='Screening'
-        component={Screening}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name='grid-on' color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name='News'
-        component={News}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name='library-books' color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name='Notifications'
-        component={Notifications}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name='notifications' color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name='User'
-        component={User}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name='person' color={color} size={size} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+      }} />
+      <Stack.Screen name="UserMenu" component={UserMenu} options={{ headerShown: false }} />
+      <Stack.Screen name="ManageProfile" component={ManageProfile} options={{
+        title: 'Edit profile',
+        headerTintColor: '#fff', headerStyle: {
+          backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
+          borderBottomWidth: 0,
+        }
+      }} />
+      <Stack.Screen name="Subscription" component={Subscription} options={{ title: 'Subscription' }} />
+      {/* <Stack.Screen name="Avatar" component={Avatar} options={{  title: 'Avatar' }} /> */}
+      <Stack.Screen name="Notifications" component={Notifications} options={{ title: 'Notifications' }} />
+      <Stack.Screen name="WatchList" component={WatchList} options={{ title: 'WatchList' }} />
+    </Stack.Navigator>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "white",
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    fontSize: 40,
-    fontWeight: 'bold',
-  },
+    justifyContent: "space-evenly",
+    borderWidth: 1,
+  }
 });

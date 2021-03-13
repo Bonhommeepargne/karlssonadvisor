@@ -4,6 +4,8 @@ import {
   Text,
   View,
   StatusBar,
+  Alert,
+  ActivityIndicator,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -29,9 +31,8 @@ import NSBold from '../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
 // import pour la Gestion du formulaire
-import firebase from '../../../firebase';
-import { login, register } from '../../../firebase';
-import Store from '../../../context';
+import * as fb from "./../../../firebase";
+// import Store from '../../../context';
 import Reset from './Reset';
 
 var fullname = "";
@@ -48,28 +49,29 @@ export default function LoginScreen3() {
   });
 
   const [activeTab, setActiveTab] = useState('Login');
+  const [activityIndicator, setActivityIndicator] = useState(false);
+  const [firebaseError, setFirebaseError] = React.useState(null);
 
   useEffect(function () {
     StatusBar.setBarStyle('light-content', true);
   }, []);
 
-  // Gestion du formulaire
-  const [firebaseError, setFirebaseError] = React.useState(null);
-
-  async function authenticateUser(store) {
+  async function authenticateUser() {
     try {
       if (activeTab === 'Login') {
-        await login(email, password);
-        firebase.auth().onAuthStateChanged(function (user) {
-          if (user) {
-            // console.log(user);
-            store.main.change(user);
-          } else {
-            store.main.change(null)
-          }
-        });
+        setActivityIndicator(true);
+        const user = await fb.login(email, password);
+        // setActivityIndicator(false);
       } else {
-        await register(fullname, email, password);
+        setActivityIndicator(true);
+        const newUser = await fb.register(fullname, email, password);
+        await fb.addUser(newUser.user.uid, {
+          email: email, fullname: fullname,
+          uid: newUser.user.uid, admin: false, created: Date.now()
+        });
+        setActivityIndicator(false);
+        setActiveTab("Login");
+        setFirebaseError("You have successfully been registered ! You can now connect.")
       }
     } catch (err) {
       console.error("Authentication Error", err);
@@ -94,73 +96,69 @@ export default function LoginScreen3() {
     const [showLoginPassword, setShowLoginPassword] = useState(false);
 
     return (
-      <Store.Consumer>
-        {(store) => (
-          <View style={{ marginTop: 10 }}>
-            <View style={styles.inputView}>
-              <Icon
-                style={{ paddingHorizontal: 4 }}
-                name='envelope'
-                type='font-awesome'
-                color='#fff'
-                size={22}
-              />
-              <TextInput
-                style={styles.input}
-                onChangeText={text => email = text}
-                placeholder='Email'
-                placeholderTextColor='#f1f2f6'
-                keyboardType='email-address'
-                textContentType='emailAddress'
-                autoCapitalize='none'
-                autoCompleteType='email'
-                returnKeyType='next'
-              />
-            </View>
-            <View style={styles.inputView}>
-              <Icon
-                style={{ paddingHorizontal: 4 }}
-                name='key'
-                type='font-awesome-5'
-                color='#fff'
-                size={22}
-              />
-              <TextInput
-                onChangeText={text => password = text}
-                style={styles.input}
-                placeholder='Password'
-                placeholderTextColor='#f1f2f6'
-                secureTextEntry={!showLoginPassword}
-                autoCapitalize='none'
-                textContentType='password'
-                returnKeyType='done'
-              />
-              <TouchableOpacity
-                style={{ paddingVertical: 4 }}
-                onPress={() => {
-                  setShowLoginPassword(!showLoginPassword);
-                }}
-              >
-                <Icon
-                  style={{ paddingHorizontal: 4 }}
-                  name='eye'
-                  type='font-awesome'
-                  color='#fff'
-                  size={22}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={{ paddingTop: 20 }}>
-              <TouchableOpacity style={styles.button} onPress={() => (authenticateUser(store))}>
-                <Text style={styles.buttonText}>Login</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => (navigation.navigate("Reset"))}>
-                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
-      </Store.Consumer>
+      <View style={{ marginTop: 10 }}>
+        <View style={styles.inputView}>
+          <Icon
+            style={{ paddingHorizontal: 4 }}
+            name='envelope'
+            type='font-awesome'
+            color='#fff'
+            size={22}
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={text => email = text}
+            placeholder='Email'
+            placeholderTextColor='#f1f2f6'
+            keyboardType='email-address'
+            textContentType='emailAddress'
+            autoCapitalize='none'
+            autoCompleteType='email'
+            returnKeyType='next'
+          />
+        </View>
+        <View style={styles.inputView}>
+          <Icon
+            style={{ paddingHorizontal: 4 }}
+            name='key'
+            type='font-awesome-5'
+            color='#fff'
+            size={22}
+          />
+          <TextInput
+            onChangeText={text => password = text}
+            style={styles.input}
+            placeholder='Password'
+            placeholderTextColor='#f1f2f6'
+            secureTextEntry={!showLoginPassword}
+            autoCapitalize='none'
+            textContentType='password'
+            returnKeyType='done'
+          />
+          <TouchableOpacity
+            style={{ paddingVertical: 4 }}
+            onPress={() => {
+              setShowLoginPassword(!showLoginPassword);
+            }}
+          >
+            <Icon
+              style={{ paddingHorizontal: 4 }}
+              name='eye'
+              type='font-awesome'
+              color='#fff'
+              size={22}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={{ paddingTop: 20 }}>
+          <TouchableOpacity style={styles.button} onPress={() => (authenticateUser())}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => (navigation.navigate("Reset"))}>
+            <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     );
   }
 
@@ -256,9 +254,11 @@ export default function LoginScreen3() {
           </TouchableOpacity>
         </View>
         <View style={{ paddingTop: 20 }}>
-          <TouchableOpacity style={styles.button} onPress={authenticateUser}>
-            <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>
+          {!activityIndicator ?
+            <TouchableOpacity style={styles.button} onPress={authenticateUser}>
+              <Text style={styles.buttonText}>Register</Text>
+            </TouchableOpacity> :
+            <View style={styles.activityIndicator}><ActivityIndicator size="large" color="#FFF" /></View>}
         </View>
       </View>
     );
@@ -318,9 +318,13 @@ export default function LoginScreen3() {
 
     <Stack.Navigator>
       <Stack.Screen name="Auth" component={Auth} options={{ headerShown: false }} />
-      <Stack.Screen name="Reset" component={Reset} options={{  title: 'Back', headerTintColor: '#fff',
-                      headerStyle: {backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
-                      borderBottomWidth: 0,} }} />
+      <Stack.Screen name="Reset" component={Reset} options={{
+        title: 'Back', headerTintColor: '#fff',
+        headerStyle: {
+          backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
+          borderBottomWidth: 0,
+        }
+      }} />
     </Stack.Navigator>
   );
 
@@ -419,4 +423,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: 8,
   },
+  activityIndicator: {
+    marginTop: 22,
+  }
 });

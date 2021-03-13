@@ -1,25 +1,25 @@
-import React, { useState, Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  TouchableHighlight ,
+  TouchableHighlight,
   Image,
   Alert,
   ScrollView,
   FlatList,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
+import * as fb from "./../../../firebase";
+import Store from '../../../context';
+import Loader from './../../Loader/Loader';
 
 import { useFonts } from 'expo-font';
 import NSLight from '../../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
 import NSRegular from '../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
 import NSBold from '../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
-
-// Manage Logout function
-import { logout } from '../../../firebase';
 
 export default function UserMenu() {
 
@@ -41,55 +41,65 @@ export default function UserMenu() {
     { id: 6, title: "WatchList", image: require('../../../../assets/icons/icons8-list-view-100.png'), link: 'WatchList' },
   ]);
 
+  const isFocused = useIsFocused()
+
+  useEffect(() => {
+      //Update the state you want to be updated
+  } , [isFocused])
+
   function navigatePage(link) {
-    link != 'logout' ? navigation.navigate(link) : logout()
+    link != 'logout' ? navigation.navigate(link) : fb.logout()
   }
 
   if (!loaded) {
     return (
       <View>
-        <Text></Text>
+        <Loader />
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.cartouche}>
-          <Text style={styles.nameUser}>Charles Granger de la Rosiere</Text>
-          <Text style={styles.info}>TOTAL SA</Text>
-          <Text style={styles.description}>Investor relation</Text>
-          <Text style={styles.subscription}>Subscription: Free 3 months trial</Text>
-        </View>
-        {/* <TouchableOpacity style={styles.plan} onPress={() => (navigation.navigate('Subscription'))}>
+    <Store.Consumer>
+      {(store) => (
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <View style={styles.cartouche}>
+              <Text style={styles.nameUser}>{store.userInfo.fullname}</Text>
+              <Text style={styles.info}>{store.userInfo.company ? store.userInfo.company : 'No company'}</Text>
+              <Text style={styles.description}>{store.userInfo.position ? store.userInfo.position : 'No position'}</Text>
+              <Text style={styles.subscription}>{store.userInfo.subscription ? store.userInfo.subscription : 'No subscription'}</Text>
+            </View>
+            {/* <TouchableOpacity style={styles.plan} onPress={() => (navigation.navigate('Subscription'))}>
           <Image style={styles.avatar} source={require('../../../../assets/icons/free.png')} />
         </TouchableOpacity> */}
-      </View>
-      <View style={styles.FlatList}>
-        <FlatList style={styles.list}
-          contentContainerStyle={styles.listContainer}
-          data={data}
-          horizontal={false}
-          numColumns={2}
-          keyExtractor={(item) => {
-            return item.id;
-          }}
-          renderItem={({ item }) => {
-            return (
-              <TouchableOpacity style={styles.card} onPress={() => { navigatePage(item.link) }}>
-                <View style={styles.cardFooter}></View>
-                <Image style={styles.cardImage} source={item.image} />
-                <View style={styles.cardHeader}>
-                  <View style={{ alignItems: "center", justifyContent: "center" }}>
-                    <Text style={styles.title}>{item.title}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            )
-          }} />
-      </View>
-    </View>
+          </View>
+          <View style={styles.FlatList}>
+            <FlatList style={styles.list}
+              contentContainerStyle={styles.listContainer}
+              data={data}
+              horizontal={false}
+              numColumns={2}
+              keyExtractor={(item) => {
+                return item.id;
+              }}
+              renderItem={({ item }) => {
+                return (
+                  <TouchableOpacity style={styles.card} onPress={() => { navigatePage(item.link) }}>
+                    <View style={styles.cardFooter}></View>
+                    <Image style={styles.cardImage} source={item.image} />
+                    <View style={styles.cardHeader}>
+                      <View style={{ alignItems: "center", justifyContent: "center" }}>
+                        <Text style={styles.title}>{item.title}</Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                )
+              }} />
+          </View>
+        </View>
+      )}
+    </Store.Consumer>
   );
 
 }
@@ -97,7 +107,7 @@ export default function UserMenu() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#86B206'
+    backgroundColor: '#6A8712', //#86B206'
   },
   header: {
     height: 120,
@@ -110,7 +120,7 @@ const styles = StyleSheet.create({
     paddingRight: 5
   },
   cartouche: {
-    marginLeft:7,
+    marginLeft: 7,
     paddingLeft: 16,
     marginTop: 5,
     // borderLeftColor: '#FFF',
@@ -121,7 +131,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontFamily: 'NSBold',
     color: "#FFF",
-    fontSize: 20,
   },
   info: {
     fontSize: 16,
@@ -144,8 +153,8 @@ const styles = StyleSheet.create({
   },
   FlatList: {
     flex: 1,
-    borderTopColor: '#6A8712',
-    borderTopWidth: 10,
+    // borderTopColor: '#6A8712',
+    // borderTopWidth: 10,
   },
   avatar: {
     width: 100,
@@ -164,7 +173,7 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingHorizontal: 5,
-    backgroundColor: '#FFF'
+    backgroundColor: '#F5F5F5'
   },
   listContainer: {
     alignItems: 'center'

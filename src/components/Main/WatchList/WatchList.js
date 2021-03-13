@@ -38,20 +38,20 @@ export default function WatchList() {
   const [firebaseError, setFirebaseError] = React.useState(null);
   const [modalVisible, setModalVisible] = React.useState(false);
 
-  async function changePassword() {
-    if (email != '') {
-      setFirebaseError(null);
-      try {
-        await resetPassword(email);
-        setModalVisible((prev) => !prev);
-      } catch (err) {
-        console.error("Reset password Error", err);
-        setFirebaseError(err.message);
-      }
-    } else {
-      setFirebaseError('Please enter a valid Email.');
-    }
-  }
+  // async function changePassword() {
+  //   if (email != '') {
+  //     setFirebaseError(null);
+  //     try {
+  //       await resetPassword(email);
+  //       setModalVisible((prev) => !prev);
+  //     } catch (err) {
+  //       console.error("Reset password Error", err);
+  //       setFirebaseError(err.message);
+  //     }
+  //   } else {
+  //     setFirebaseError('Please enter a valid Email.');
+  //   }
+  // }
 
   if (!loaded) {
     return (

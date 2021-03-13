@@ -2,25 +2,19 @@ import { NavigationHelpersContext } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Store from '../../../context';
+import * as fb from "../../../firebase";
 
-export default function Company({ navigation }) {
+export default function WatchListSelect() {
 
   return (
     <Store.Consumer>
     {(store) => (
       <View style={styles.container}>
-        <Text>Company</Text>
-        <Text>{store.main.user.uid}</Text>
-        <Text></Text>
-        <Text>{store.main.value}</Text>
-        {store.main.value == 'pipo' && <Text>T'es {store.main.value}</Text>}
+        <Text>News</Text>
+        <Text>Open up App.js to start working on your app!</Text>
         <Button
           title="To Increment"
-          onPress={() => { store.main.change('pipo');}}
-        />
-        <Button
-          title="Navigate"
-          onPress={() => { navigation.navigate('Screening')}}
+          onPress={() => {}}
         />
       </View>
     )}

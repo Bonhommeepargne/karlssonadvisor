@@ -3,35 +3,27 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Menu from './src/components/Menu/Menu';
 import Login from './src/components/Connection/Login/Login';
+import Loader from './src/components/Loader/Loader';
 import 'react-native-gesture-handler';
 import Context from "./src/context";
 import { NavigationContainer } from '@react-navigation/native';
+import useAuth from "./src/components/Connection/Login/useAuth";
+import { MenuProvider } from 'react-native-popup-menu';
 
 export default function App() {
 
-  const [store, setStore] = useState({
-    main: {
-      user: null,
-      change: changeUser,
-    },
-  });
-
-  function changeUser(newValue) {
-    setStore((oldState) => {
-      oldState.main.user = newValue;
-      return { ...oldState };
-    });
-  }
+  const { user, userInfo } = useAuth();
 
   return (
     <NavigationContainer>
-      <View style={styles.container}>
-        <StatusBar />
-        <Context.Provider value={store}>
-          {!store.main.user ? <Login /> : <Menu />}
-          {/* <Menu /> */}
-        </Context.Provider>
-      </View>
+      <MenuProvider>
+        <View style={styles.container}>
+          <StatusBar style='light' backgroundColor={'#4A5E0C'} />
+          <Context.Provider value={{ user, userInfo }}>
+            {user === null || userInfo === null ? <Loader /> : user === -1 ? <Login /> : <Menu />}
+          </Context.Provider>
+        </View>
+      </MenuProvider>
     </NavigationContainer>
   );
 }

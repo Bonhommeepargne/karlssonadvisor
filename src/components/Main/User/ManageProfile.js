@@ -6,14 +6,16 @@ import {
   StatusBar,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
+  Alert,
   TouchableWithoutFeedback,
   Keyboard,
   Modal,
 } from 'react-native';
+import Loader from './../../Loader/Loader'
 
-// expo install expo-linear-gradient (For Expo Users)
-// Alternate: npm i react-native-linear-gradient (For non-expo users)
-import { LinearGradient } from 'expo-linear-gradient';
+import * as fb from "../../../firebase";
+import Context from '../../../context';
 
 // npm install react-native-elements
 import { Icon } from 'react-native-elements';
@@ -25,12 +27,18 @@ import NSRegular from '../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf
 import NSBold from '../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
-// import pour la Gestion du formulaire
-import { resetPassword } from '../../../firebase';
-
-var email = "";
-
 export default function ManageProfile() {
+
+  const store = React.useContext(Context);
+
+  // Gestion du formulaire
+  const [firebaseError, setFirebaseError] = React.useState(null);
+  const [activityIndicator, setActivityIndicator] = useState(false);
+
+  const [fullname, setFullname] = React.useState(store.userInfo.fullname);
+  const [company, setCompany] = React.useState(store.userInfo.company);
+  const [position, setPosition] = React.useState(store.userInfo.position);
+  const [phone, setPhone] = React.useState(store.userInfo.phone);
 
   const [loaded] = useFonts({
     NSLight,
@@ -39,49 +47,152 @@ export default function ManageProfile() {
     NSExtraBold,
   });
 
-  // useEffect(function () {
-  //   StatusBar.setBarStyle('light-content', true);
-  // }, []);
+  useEffect(function () {
+    StatusBar.setBarStyle('light-content', true);
+  }, []);
 
-  // Gestion du formulaire
-  const [firebaseError, setFirebaseError] = React.useState(null);
-  const [modalVisible, setModalVisible] = React.useState(false);
+  function onEdit() {
+    console.log('prout');
+  }
 
-  async function changePassword() {
-    if (email != '') {
-      setFirebaseError(null);
-      try {
-        await resetPassword(email);
-        setModalVisible((prev) => !prev);
-      } catch (err) {
-        console.error("Reset password Error", err);
-        setFirebaseError(err.message);
-      }
-    } else {
-      setFirebaseError('Please enter a valid Email.');
+  async function updateProfile() {
+    try {
+      setActivityIndicator(true);
+      await fb.updateUser(store.user.uid, {
+        fullname: fullname,
+        company: typeof company == 'undefined' ? '' : company,
+        position: typeof position == 'undefined' ? '' : position,
+        phone: typeof phone == 'undefined' ? '' : phone
+      });
+      store.userInfo.fullname = fullname,
+        store.userInfo.company = typeof company == 'undefined' ? '' : company,
+        store.userInfo.position = typeof position == 'undefined' ? '' : position,
+        store.userInfo.phone = typeof phone == 'undefined' ? '' : phone
+      setActivityIndicator(false);
+      setFirebaseError("Info succesfully updated.")
+    } catch (err) {
+      console.error("Update Info Error", err);
+      setFirebaseError(err.message);
     }
   }
 
   if (!loaded) {
     return (
-      <View>
-        <Text></Text>
-      </View>
+      <Loader />
     );
   }
 
   return (
-      <View>
-        <Text style={styles.welcomeText}>
-          Reset Password
-        </Text>
+    <View style={styles.container}>
+      <View style={styles.inputView}>
+        <Icon
+          style={{ paddingHorizontal: 4, width: 30 }}
+          name='user'
+          type='font-awesome'
+          color='black'
+          size={22}
+        />
+        <TextInput
+          onChangeText={text => setFullname(text)}
+          value={fullname}
+          style={styles.input}
+          placeholder='Full Name'
+          placeholderTextColor='black'
+          textContentType='name'
+          autoCompleteType='name'
+          returnKeyType='next'
+        />
       </View>
-  );
+      <View style={styles.inputView}>
+        <Icon
+          style={{ paddingHorizontal: 4, width: 30 }}
+          name='building'
+          type='font-awesome'
+          color='black'
+          size={22}
+        />
+        <TextInput
+          onChangeText={text => setCompany(text)}
+          value={company}
+          style={styles.input}
+          placeholder='Company'
+          placeholderTextColor='black'
+          textContentType='organizationName'
+          returnKeyType='next'
+          onFocus={onEdit}
+        />
+        <TouchableOpacity
+          style={{ paddingVertical: 4 }}
+          onPress={() => {
+            onEdit();
+          }}
+        >
+          <Icon
+            style={{ paddingHorizontal: 4 }}
+            name='edit'
+            type='font-awesome'
+            color='black'
+            size={22}
+          />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.inputView}>
+        <Icon
+          style={{ paddingHorizontal: 4, width: 30 }}
+          name='user-md'
+          type='font-awesome'
+          color='black'
+          size={22}
+        />
+        <TextInput
+          onChangeText={text => setPosition(text)}
+          value={position}
+          style={styles.input}
+          placeholder='Job Position'
+          placeholderTextColor='black'
+          textContentType='jobTitle'
+          returnKeyType='next'
+        />
+      </View>
+      <View style={styles.inputView}>
+        <Icon
+          style={{ paddingHorizontal: 4, width: 30 }}
+          name='phone'
+          type='font-awesome'
+          color='black'
+          size={22}
+        />
+        <TextInput
+          onChangeText={text => setPhone(text)}
+          value={phone}
+          style={styles.input}
+          placeholder='Phone'
+          placeholderTextColor='black'
+          textContentType='telephoneNumber'
+          autoCompleteType='tel'
+          keyboardType='phone-pad'
+          returnKeyType='next'
+        />
+      </View>
+      <View style={{ paddingTop: 20 }}>
+        {!activityIndicator ?
+          <TouchableOpacity style={styles.button} onPress={updateProfile}>
+            <Text style={styles.buttonText}>Update</Text>
+          </TouchableOpacity> :
+          <View style={styles.activityIndicator}><ActivityIndicator size="large" color="black" /></View>}
+      </View>
+      {firebaseError &&
+        <View style={styles.errorView}>
+          <Text style={styles.errorText}>{firebaseError}</Text>
+        </View>}
+    </View>)
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#FFF",
+    marginTop: 10
   },
   back: {
     marginTop: 20,
@@ -110,7 +221,7 @@ const styles = StyleSheet.create({
   inputView: {
     height: 40,
     borderBottomWidth: 1,
-    borderBottomColor: '#fff',
+    borderBottomColor: 'black',
     marginTop: 10,
     marginHorizontal: 20,
     display: 'flex',
@@ -134,7 +245,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'NSLight',
     paddingHorizontal: 4,
-    color: '#fff',
+    color: 'black',
   },
   button: {
     marginHorizontal: 20,
