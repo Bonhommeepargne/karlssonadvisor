@@ -2,12 +2,14 @@
 // https://aboutreact.com/react-native-search-bar-filter-on-listview/
 
 // import React in our code
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 // import all the components we are going to use
 import { SafeAreaView, Text, StyleSheet, View, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { SearchBar } from 'react-native-elements';
-import { Icon } from 'react-native-elements';
+import * as fb from '../../../firebase';
+import context from '../../../context';
+import Toast from 'react-native-toast-message';
 
 import NSLight from '../../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
 import NSRegular from '../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
@@ -31,6 +33,8 @@ export default function Search({ route, navigation }) {
         console.error(error);
       });
   }, []);
+
+  const user = useContext(context);
 
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
@@ -83,8 +87,30 @@ export default function Search({ route, navigation }) {
   };
 
   const getItem = (item) => {
-    // Function for click on an item
-    alert('Code : ' + item.c + ' Title : ' + item.n);
+    if (route.params.query === 'add') {
+      try {
+        fb.addSecurityToWatchlist({ ...item, uid: user.user.uid });
+        Toast.show({
+          type: 'success',
+          position: 'bottom',
+          text1: item.n + ' added to watchlist',
+          visibilityTime: 4000,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40
+        })
+      } catch (error) {
+        Toast.show({
+          type: 'error',
+          position: 'bottom',
+          text1: 'Error updating',
+          visibilityTime: 4000,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40
+        });
+      }
+    };
   };
 
   return (
@@ -140,4 +166,3 @@ const styles = StyleSheet.create({
     paddingLeft: 20
   },
 });
-

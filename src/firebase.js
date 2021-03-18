@@ -32,6 +32,7 @@ async function resetPassword(email) {
 // Users
 const db = firebase.firestore();
 const users = db.collection('users');
+const watchlist = db.collection('watchlist');
 
 async function getUser(id) {
   const res = await users.doc(id).get();
@@ -41,6 +42,14 @@ async function getUser(id) {
 async function addUser(id, body) {
   const docRef = users.doc(id);
   return await docRef.set(body);
+}
+
+async function addSecurityToWatchlist(body) {
+  return await watchlist.add(body);
+}
+
+async function deleteSecurityToWatchlist(id) {
+  return await watchlist.doc(id).delete();
 }
 
 async function updateUser(id, body) {
@@ -67,6 +76,8 @@ export {
   addUser,
   updateUser,
   readUsers,
+  addSecurityToWatchlist,
+  deleteSecurityToWatchlist
 };
 
 export default firebase;

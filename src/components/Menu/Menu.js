@@ -17,7 +17,7 @@ import { useFonts } from 'expo-font';
 import NSLight from '../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
 import NSRegular from '../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
 import NSBold from '../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
-import NSExtraBold from '../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
+import NSExtraBold from '../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf'; 
 
 const Stack = createStackNavigator();
 
@@ -40,10 +40,10 @@ export default function Menu() {
     <Stack.Navigator>
       <Stack.Screen name="MenuBottomTab" component={MenuBottomTab} options={{ headerShown: false }} />
       <Stack.Screen name="WatchListSelect" component={WatchListSelect} options={({ route, navigation }) => ({
-        title: '',
+        title: 'Watchlist',
         headerTintColor: 'black', headerStyle: {
           backgroundColor: '#FFF', elevation: 0, shadowOpacity: 0,
-          borderBottomWidth: 0
+          borderBottomWidth: 1
         },
         headerRight: () => (
           <TouchableWithoutFeedback onPress={() =>
@@ -78,7 +78,27 @@ export default function Menu() {
       <Stack.Screen name="Subscription" component={Subscription} options={{ title: 'Subscription' }} />
       {/* <Stack.Screen name="Avatar" component={Avatar} options={{  title: 'Avatar' }} /> */}
       <Stack.Screen name="Notifications" component={Notifications} options={{ title: 'Notifications' }} />
-      <Stack.Screen name="WatchList" component={WatchList} options={{ title: 'WatchList' }} />
+      <Stack.Screen name="WatchList" component={WatchList} options={({ route, navigation }) => ({
+        title: 'Watchlist',
+        headerTintColor: '#fff', headerStyle: {
+          backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
+          borderBottomWidth: 0
+        },
+        headerRight: () => (
+          <TouchableWithoutFeedback onPress={() =>
+            (navigation.navigate('Search', { query: 'add' }))
+          }>
+            <Icon
+              style={{ paddingRight: 25 }}
+              name='plus'
+              type='font-awesome-5'
+              color='#FFF'
+              size={20}
+            />
+          </TouchableWithoutFeedback>
+        )
+      })}
+      />
     </Stack.Navigator>
   );
 }

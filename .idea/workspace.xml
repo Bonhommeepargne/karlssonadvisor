@@ -2,19 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6843edc3-3272-4cd5-921b-add006a6a505" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Connection/Login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Connection/Login/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Connection/Login/useAuth.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Connection/Login/useAuth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Main/Company/Company.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Company/Company.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Main/News/News.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/News/News.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Main/Notifications/Notifications.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Notifications/Notifications.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Main/Screening/Screening.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Screening/Screening.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Main/User/ManageProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/User/ManageProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Main/User/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/User/User.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Company/WatchListSelect.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Company/WatchListSelect.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Screening/Tab.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Screening/Tab.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Search/Search.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Search/Search.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Main/User/UserMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/User/UserMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Main/User/WatchList.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/WatchList/WatchList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/WatchList/WatchList.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Menu/Menu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Menu/Menu.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/firebase.js" afterDir="false" />
     </list>
@@ -58,11 +54,15 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="164" y="106" width="1200" height="584" key="AVDManager" timestamp="1615135287824">
+    <state x="227" y="106" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1615815739755">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="164" y="106" width="1200" height="584" key="AVDManager/0.0.1536.824@0.0.1536.824" timestamp="1615135287824" />
-    <state x="861" y="157" width="936" height="738" key="AVDManager/0.0.1920.1040@0.0.1920.1040" timestamp="1614779075338" />
+    <state x="227" y="106" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1536.824@0.0.1536.824" timestamp="1615815739755" />
+    <state x="861" y="157" width="936" height="738" key="AVDManager" timestamp="1616076072551">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="42" y="231" width="933" height="563" key="AVDManager/0.0.1536.824@0.0.1536.824" timestamp="1615815747021" />
+    <state x="861" y="157" width="936" height="738" key="AVDManager/0.0.1920.1040@0.0.1920.1040" timestamp="1616076072551" />
     <state x="426" y="189" width="672" height="677" key="run.anything.popup" timestamp="1614032718609">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

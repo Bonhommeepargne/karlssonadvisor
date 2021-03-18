@@ -31,7 +31,13 @@ const Tab = createMaterialTopTabNavigator();
 
 export default function TopTabs() {
   return (
-    <Tab.Navigator style={{ marginTop: Constants.statusBarHeight }}>
+    <Tab.Navigator style={{ marginTop: Constants.statusBarHeight }} tabBarOptions={{
+      activeTintColor: '#86b206',
+      inactiveTintColor: 'gray',
+      indicatorStyle: {
+        backgroundColor: '#86b206',
+    },
+    }}>
       <Tab.Screen name='ESG' component={TabA} />
       <Tab.Screen name='Carbon' component={TabB} />
       <Tab.Screen name='Performance' component={TabC} />

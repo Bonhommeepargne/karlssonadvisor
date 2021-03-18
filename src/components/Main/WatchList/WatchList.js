@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   StyleSheet,
   Text,
   View,
-  StatusBar,
-  TextInput,
-  TouchableOpacity,
+  SafeAreaView,
+  FlatList,
   TouchableWithoutFeedback,
-  Keyboard,
-  Modal,
 } from 'react-native';
-
-// npm install react-native-elements
+import Toast from 'react-native-toast-message';
+import * as fb from "../../../firebase";
+import context from '../../../context';
 import { Icon } from 'react-native-elements';
 
 // https://fonts.google.com/specimen/Nunito+Sans
@@ -23,50 +21,95 @@ import NSExtraBold from '../../../../assets/fonts/NunitoSans/NunitoSansExtraBold
 
 export default function WatchList() {
 
-  const [loaded] = useFonts({
-    NSLight,
-    NSRegular,
-    NSBold,
-    NSExtraBold,
-  });
+  const user = useContext(context);
+  const [masterDataSource, setMasterDataSource] = useState([]);
 
   useEffect(function () {
-    StatusBar.setBarStyle('light-content', true);
+    fb.db.collection("watchlist").where("uid", "==", user.user.uid)
+      .onSnapshot((querySnapshot) => {
+        var companyList = [];
+        querySnapshot.forEach((doc) => {
+          let obj = doc.data();
+          companyList.push({...obj, id: doc.id});
+        });
+        setMasterDataSource(companyList);
+      });
   }, []);
 
-  // Gestion du formulaire
-  const [firebaseError, setFirebaseError] = React.useState(null);
-  const [modalVisible, setModalVisible] = React.useState(false);
-
-  // async function changePassword() {
-  //   if (email != '') {
-  //     setFirebaseError(null);
-  //     try {
-  //       await resetPassword(email);
-  //       setModalVisible((prev) => !prev);
-  //     } catch (err) {
-  //       console.error("Reset password Error", err);
-  //       setFirebaseError(err.message);
-  //     }
-  //   } else {
-  //     setFirebaseError('Please enter a valid Email.');
-  //   }
-  // }
-
-  if (!loaded) {
+  const ItemView = ({ item }) => {
     return (
-      <View>
-        <Text></Text>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, paddingBottom: 10,
+          paddingLeft:20, paddingRight: 25}}>
+        <View styles={{}}>
+          <Text style={styles.itemName}>
+            {item.n.toUpperCase()}
+          </Text>
+          <Text style={styles.itemCountry}>
+            {item.p}
+          </Text>
+        </View>
+        <View style={{justifyContent: 'center'}}>
+        <TouchableWithoutFeedback onPress={() => getItem(item)}>
+            <Icon
+              style={{}}
+              name='trash-alt'
+              type='font-awesome-5'
+              color='black'
+              size={20}
+            />
+          </TouchableWithoutFeedback>
+        </View>
       </View>
     );
-  }
+  };
+
+  const ItemSeparatorView = () => {
+    return (
+      // Flat List Item Separator
+      <View
+        style={{
+          height: 1,
+          width: '100%',
+          backgroundColor: '#C8C8C8',
+        }}
+      />
+    );
+  };
+
+  const getItem = (item) => {
+    try {
+      fb.deleteSecurityToWatchlist(item.id);
+      Toast.show({
+        type: 'success',
+        position: 'bottom',
+        text1: item.n + ' deleted from watchlist',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40
+      })
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        position: 'bottom',
+        text1: 'Error deleting',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40
+      });
+    };
+  };
 
   return (
-      <View>
-        <Text style={styles.welcomeText}>
-        WatchList
-        </Text>
-      </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <FlatList
+        data={masterDataSource}
+        keyExtractor={(item, index) => index.toString()}
+        ItemSeparatorComponent={ItemSeparatorView}
+        renderItem={ItemView}
+      />
+    </SafeAreaView>
   );
 }
 
@@ -74,116 +117,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  back: {
-    marginTop: 20,
-    marginHorizontal: 0,
-    alignItems: 'flex-start'
-  },
-  welcomeText: {
-    alignSelf: 'center',
-    fontSize: 40,
-    fontFamily: 'NSLight',
-    marginTop: 190,
-    color: '#fff',
-  },
-  switchTabsView: {
-    display: 'flex',
-    flexDirection: 'row',
-    paddingHorizontal: 20,
-    marginTop: 20,
-  },
-  switchText: {
-    padding: 2,
-    fontSize: 20,
-    color: '#fff',
-    fontFamily: 'NSExtraBold',
-  },
-  inputView: {
-    height: 40,
-    borderBottomWidth: 1,
-    borderBottomColor: '#fff',
-    marginTop: 10,
-    marginHorizontal: 20,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  errorView: {
-    marginTop: 40,
-    marginHorizontal: 20,
-  },
-  errorText: {
-    padding: 2,
-    fontSize: 17,
-    color: '#FFA07A',
-    fontFamily: 'NSRegular',
-    textAlign: 'center',
-  },
-  input: {
-    flex: 1,
-    height: 40,
-    fontSize: 16,
-    fontFamily: 'NSLight',
-    paddingHorizontal: 4,
-    color: '#fff',
-  },
-  button: {
-    marginHorizontal: 20,
-    backgroundColor: '#fafafa',
-    marginTop: 12,
-    paddingVertical: 10,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  buttonText: { fontFamily: 'NSRegular', fontSize: 16, color: '#000' },
-  forgotPasswordText: {
-    marginHorizontal: 20,
-    marginTop: 20,
-    alignSelf: 'flex-end',
-    color: '#fff',
-    fontSize: 18,
-    fontFamily: 'NSBold',
-  },
-  buttonOpacity: {
-    backgroundColor: '#222f3e',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 4,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.5,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalView: {
-    width: '90%',
+  container: {
     backgroundColor: 'white',
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    paddingTop: 10,
-    paddingBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+  },
+  itemName: {
+    fontSize: 16,
+    fontFamily: 'NSBold',
+    width: 350
+  },
+  itemCountry: {
+    fontSize: 12,
+    fontFamily: 'NSLight',
   },
 });

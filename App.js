@@ -9,22 +9,26 @@ import Context from "./src/context";
 import { NavigationContainer } from '@react-navigation/native';
 import useAuth from "./src/components/Connection/Login/useAuth";
 import { MenuProvider } from 'react-native-popup-menu';
+import Toast from 'react-native-toast-message';
 
 export default function App() {
 
   const { user, userInfo } = useAuth();
 
   return (
+    <>
     <NavigationContainer>
       <MenuProvider>
         <View style={styles.container}>
           <StatusBar style='light' backgroundColor={'#4A5E0C'} />
           <Context.Provider value={{ user, userInfo }}>
-            {user === null || userInfo === null ? <Loader /> : user === -1 ? <Login /> : <Menu />}
+            { !user || !userInfo ? <Loader /> : user === -1 ? <Login /> : <Menu />}
           </Context.Provider>
         </View>
       </MenuProvider>
     </NavigationContainer>
+    <Toast ref={(ref) => Toast.setRef(ref)} />
+    </>
   );
 }
 

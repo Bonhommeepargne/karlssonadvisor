@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,10 +9,13 @@ import {
   Alert,
   ScrollView,
   FlatList,
+  Modal,
 } from 'react-native';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import * as fb from "./../../../firebase";
 import Store from '../../../context';
+import { Icon } from 'react-native-elements';
+import context from "./../../../context";
 import Loader from './../../Loader/Loader';
 
 import { useFonts } from 'expo-font';
@@ -37,27 +40,50 @@ export default function UserMenu() {
     { id: 2, title: "Subscription", image: require('../../../../assets/icons/icons8-membership-card-100.png'), link: 'Subscription' },
     // { id: 3, title: "Avatar", image: require('../../../../assets/icons/icons8-customer-100.png'), link: 'Avatar' },
     { id: 4, title: "Notifications", image: require('../../../../assets/icons/icons8-notification-100.png'), link: 'Notifications' },
-    { id: 5, title: "Logout", image: require('../../../../assets/icons/icons8-exit-100.png'), link: 'logout' },
-    { id: 6, title: "WatchList", image: require('../../../../assets/icons/icons8-list-view-100.png'), link: 'WatchList' },
+    { id: 5, title: "WatchList", image: require('../../../../assets/icons/icons8-list-view-100.png'), link: 'WatchList' },
+    { id: 6, title: "Chg. Password", image: require('../../../../assets/icons/icons8-key-100.png'), link: 'password' },
+    { id: 7, title: "Logout", image: require('../../../../assets/icons/icons8-exit-100.png'), link: 'logout' },
   ]);
 
   const isFocused = useIsFocused()
 
+  const [firebaseError, setFirebaseError] = React.useState('');
+  const [modalVisible, setModalVisible] = React.useState(false);
+
   useEffect(() => {
-      //Update the state you want to be updated
-  } , [isFocused])
+    //Update the state you want to be updated
+  }, [isFocused])
 
-  function navigatePage(link) {
-    link != 'logout' ? navigation.navigate(link) : fb.logout()
+  const user = useContext(context);
+
+  async function navigatePage(link) {
+    setFirebaseError('');
+    switch (link) {
+      case 'logout':
+        fb.logout()
+        break;
+      case 'password':
+        setFirebaseError(null);
+        try {
+          await fb.resetPassword(user.userInfo.email);
+          setModalVisible((prev) => !prev);
+        } catch (err) {
+          console.error("Reset password Error", err);
+          setFirebaseError('Retry later');
+        }
+        break;
+      default:
+        navigation.navigate(link)
+    }
   }
 
-  if (!loaded) {
-    return (
-      <View>
-        <Loader />
-      </View>
-    );
-  }
+  // if (!loaded) {
+  //   return (
+  //     <View>
+  //       <Loader />
+  //     </View>
+  //   );
+  // }
 
   return (
     <Store.Consumer>
@@ -73,7 +99,29 @@ export default function UserMenu() {
             {/* <TouchableOpacity style={styles.plan} onPress={() => (navigation.navigate('Subscription'))}>
           <Image style={styles.avatar} source={require('../../../../assets/icons/free.png')} />
         </TouchableOpacity> */}
+            <View style={styles.centeredView} >
+              <Modal animationType='slide' transparent={true} visible={modalVisible} >
+                <View style={[styles.centeredView, { marginTop: -100 }]} >
+                  <View style={styles.modalView}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', }} >
+                      <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Reset Password </Text>
+                      <TouchableOpacity style={{ paddingHorizontal: 4 }} onPress={() => setModalVisible((prev) => !prev)}>
+                        <Icon name='close' />
+                      </TouchableOpacity>
+                    </View>
+                    <View>
+                      <Text style={{ marginTop: 40, height: 120, fontSize: 17 }} >
+                        Your Password has been reset.
+                        Check your Email for instructions.
+                  </Text>
+                    </View >
+                  </View>
+                </View>
+              </Modal>
+            </View>
+
           </View>
+
           <View style={styles.FlatList}>
             <FlatList style={styles.list}
               contentContainerStyle={styles.listContainer}
@@ -97,6 +145,7 @@ export default function UserMenu() {
                 )
               }} />
           </View>
+
         </View>
       )}
     </Store.Consumer>
@@ -230,5 +279,26 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     color: "#696969",
     fontFamily: 'NSRegular'
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    width: '90%',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });
