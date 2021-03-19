@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   StyleSheet,
   Text,
   View,
   SafeAreaView,
   ScrollView,
+  Button
 } from 'react-native';
-import Constants from 'expo-constants';
+import axios from 'axios';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 
 import GraphRank from './CompDashboard/GraphRank';
 import TopBar from './TopBar';
@@ -24,44 +26,95 @@ import * as fb from "../../../firebase";
 
 export default function CompanySheet({ route, navigation }) {
 
-  const data = {
-    title: 'ESG Sector Decile',
-    groupname: 'Financials',
-    series: [
-      { month: 'Jan', decile: 7 },
-      { month: 'Fev', decile: 7 },
-      { month: 'Mar', decile: 7 },
-      { month: 'Apr', decile: 7 },
-      { month: 'May', decile: 6 },
-      { month: 'Jun', decile: 6 },
-      { month: 'Jul', decile: 5 },
-      { month: 'Aug', decile: 7 },
-      { month: 'Sept', decile: 8 },
-      { month: 'Oct', decile: 9 },
-      { month: 'Nov', decile: 9 },
-      { month: 'Dec', decile: 10 },
-    ]
-  };
+  const [masterDataSource, setMasterDataSource] = useState({});
+  const [dataLoaded, setDataLoaded] = useState(false);
 
-  return (
+  const dataStore = useContext(Store);
+  const isFocused = useIsFocused();
 
-    <View style={{ backgroundColor: "#F5F5F5", flex:1}}>
-      <TopBar />
-      <View style={styles.company}>
-        <Text style={styles.companyTitle}>Société Générale</Text>
+  const storeData = useContext(Store)
+
+  useEffect(() => {
+
+    var config = {
+      method: 'get',
+      url: 'https://finlive-app.herokuapp.com/ESG/' + dataStore.companyDisplay,
+      headers: {
+        'pass': 'CALLIBRI'
+      }
+    };
+
+
+    console.log(storeData.companyArray.length);
+    let test = false;
+    for (let i = 0; i < storeData.companyArray.length; i++) {
+      if (dataStore.companyDisplay === dataStore.companyArray[i].Sedol7) {
+        test = true;
+        setMasterDataSource(dataStore.companyArray[i]);
+        break;
+      }
+    }
+
+    console.log('__________________')
+    for (let i = 0; i < storeData.companyArray.length; i++) {
+      console.log(dataStore.companyArray[i].NAME)
+    }
+    console.log('__________________')
+
+    if ( test === false ) {
+      axios(config)
+        .then(function (response) {
+          setMasterDataSource(response.data);
+          storeData.pushCompanyArray(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
+
+}, [isFocused]);
+
+const data = {
+  title: 'ESG Sector Decile',
+  groupname: 'Financials',
+  series: [
+    { month: 'Jan', decile: 7 },
+    { month: 'Fev', decile: 7 },
+    { month: 'Mar', decile: 7 },
+    { month: 'Apr', decile: 7 },
+    { month: 'May', decile: 6 },
+    { month: 'Jun', decile: 6 },
+    { month: 'Jul', decile: 5 },
+    { month: 'Aug', decile: 7 },
+    { month: 'Sept', decile: 8 },
+    { month: 'Oct', decile: 9 },
+    { month: 'Nov', decile: 9 },
+    { month: 'Dec', decile: 10 },
+  ]
+};
+
+return (
+  <Store.Consumer>
+    {(store) => (
+      <View style={{ backgroundColor: "#F5F5F5", flex: 1 }}>
+        <TopBar />
+        <View style={styles.company}>
+          <Text style={styles.companyTitle}>{masterDataSource.NAME}</Text>
+        </View>
+        <View>
+          <SafeAreaView>
+            <ScrollView>
+              <GraphRank data={data} />
+              <GraphRank data={data} />
+              <GraphRank data={data} />
+              <GraphRank data={data} />
+            </ScrollView>
+          </SafeAreaView>
+        </View>
       </View>
-      <View>
-        <SafeAreaView>
-          <ScrollView>
-            <GraphRank data={data} />
-            <GraphRank data={data} />
-            <GraphRank data={data} />
-            <GraphRank data={data} />
-          </ScrollView>
-        </SafeAreaView>
-      </View>
-    </View>
-  );
+    )}
+  </Store.Consumer>
+);
 }
 
 const styles = StyleSheet.create({

@@ -89,16 +89,20 @@ export default function Search({ route, navigation }) {
   const getItem = (item) => {
     if (route.params.query === 'add') {
       try {
-        fb.addSecurityToWatchlist({ ...item, uid: user.user.uid });
-        Toast.show({
-          type: 'success',
-          position: 'bottom',
-          text1: item.n + ' added to watchlist',
-          visibilityTime: 4000,
-          autoHide: true,
-          topOffset: 30,
-          bottomOffset: 40
-        })
+        console.log(masterDataSource[1]);
+        console.log(item);
+          // fb.addSecurityToWatchlist({ ...item, uid: user.user.uid });
+          Toast.show({
+            type: 'success',
+            position: 'bottom',
+            text1: item.n + ' added to watchlist',
+            visibilityTime: 4000,
+            autoHide: true,
+            topOffset: 30,
+            bottomOffset: 40
+          })
+        // console.log(navigation)
+        navigation.goBack();
       } catch (error) {
         Toast.show({
           type: 'error',
@@ -109,6 +113,7 @@ export default function Search({ route, navigation }) {
           topOffset: 30,
           bottomOffset: 40
         });
+        // navigation.goBack();
       }
     };
   };

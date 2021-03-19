@@ -5,7 +5,7 @@ import {
   View,
   SafeAreaView,
   FlatList,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import * as fb from "../../../firebase";
@@ -19,18 +19,18 @@ import NSRegular from '../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf
 import NSBold from '../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
-export default function WatchList() {
+export default function WatchList({routes, navigation}) {
 
-  const user = useContext(context);
+  const store = useContext(context);
   const [masterDataSource, setMasterDataSource] = useState([]);
 
   useEffect(function () {
-    fb.db.collection("watchlist").where("uid", "==", user.user.uid)
+    fb.db.collection("watchlist").where("uid", "==", store.user.uid)
       .onSnapshot((querySnapshot) => {
         var companyList = [];
         querySnapshot.forEach((doc) => {
           let obj = doc.data();
-          companyList.push({...obj, id: doc.id});
+          companyList.push({ ...obj, id: doc.id });
         });
         setMasterDataSource(companyList);
       });
@@ -38,15 +38,19 @@ export default function WatchList() {
 
   const ItemView = ({ item }) => {
     return (
-      <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, paddingBottom: 10,
-          paddingLeft:20, paddingRight: 25, backgroundColor: '#FFF'}}>
+      <View style={{
+        flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, paddingBottom: 10,
+        paddingLeft: 20, paddingRight: 25, backgroundColor: '#FFF'
+      }}>
         <View styles={{}}>
-          <Text style={styles.itemName}>
-            {item.n.toUpperCase()}
-          </Text>
-          <Text style={styles.itemCountry}>
-            {item.p}
-          </Text>
+          <TouchableOpacity onPress={() => { getItem(item);}} >
+            <Text style={styles.itemName}>
+              {item.n.toUpperCase()}
+            </Text>
+            <Text style={styles.itemCountry}>
+              {item.p}
+            </Text>
+          </TouchableOpacity>
         </View>
         {/* <View style={{justifyContent: 'center'}}>
         <TouchableWithoutFeedback onPress={() => getItem(item)}>
@@ -77,7 +81,8 @@ export default function WatchList() {
   };
 
   const getItem = (item) => {
-    console.log(item);
+    store.newCompanyDisplay(item.c);
+    navigation.goBack()
   };
 
   return (
