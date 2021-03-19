@@ -13,7 +13,7 @@ import Toast from 'react-native-toast-message';
 
 export default function App() {
 
-  const { user, userInfo } = useAuth();
+  const { user, userInfo, companyDisplay, newCompanyDisplay,companyArray, pushCompanyArray } = useAuth();
 
   return (
     <>
@@ -21,7 +21,8 @@ export default function App() {
       <MenuProvider>
         <View style={styles.container}>
           <StatusBar style='light' backgroundColor={'#4A5E0C'} />
-          <Context.Provider value={{ user, userInfo }}>
+          <Context.Provider value={{ user, userInfo, companyDisplay, newCompanyDisplay,
+              companyArray, pushCompanyArray }}>
             { !user || !userInfo ? <Loader /> : user === -1 ? <Login /> : <Menu />}
           </Context.Provider>
         </View>
