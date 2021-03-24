@@ -6,23 +6,52 @@ import Login from './src/components/Connection/Login/Login';
 import Loader from './src/components/Loader/Loader';
 import 'react-native-gesture-handler';
 import Context from "./src/context";
-import { NavigationContainer } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import useAuth from "./src/components/Connection/Login/useAuth";
 import { MenuProvider } from 'react-native-popup-menu';
 import Toast from 'react-native-toast-message';
 
+import NSLight from './assets/fonts/NunitoSans/NunitoSansLight.ttf';
+import NSRegular from './assets/fonts/NunitoSans/NunitoSansRegular.ttf';
+import NSBold from './assets/fonts/NunitoSans/NunitoSansBold.ttf';
+import NSExtraBold from './assets/fonts/NunitoSans/NunitoSansExtraBold.ttf'; 
+
 export default function App() {
 
-  const { user, userInfo, companyDisplay, newCompanyDisplay,companyArray, pushCompanyArray } = useAuth();
+  const { user, userInfo, updateUserInfo, companyDisplay, newCompanyDisplay,companyArray, pushCompanyArray,
+    watchList, storeWatchList, allSecurities, storeAllSecurities} = useAuth();
+
+  const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: 'black',
+      background:'#FFF'
+    },
+  };
+
+  const [loaded] = useFonts({
+    NSLight,
+    NSRegular,
+    NSBold,
+    NSExtraBold,
+  });
+
+  if (!loaded) {
+    return (
+      <Loader />
+    );
+  }
 
   return (
     <>
-    <NavigationContainer>
+    <NavigationContainer theme={MyTheme}>
       <MenuProvider>
         <View style={styles.container}>
           <StatusBar style='light' backgroundColor={'#4A5E0C'} />
-          <Context.Provider value={{ user, userInfo, companyDisplay, newCompanyDisplay,
-              companyArray, pushCompanyArray }}>
+          <Context.Provider value={{ user, userInfo, updateUserInfo, companyDisplay, newCompanyDisplay,
+              companyArray, pushCompanyArray, watchList, storeWatchList, allSecurities, storeAllSecurities }}>
             { !user || !userInfo ? <Loader /> : user === -1 ? <Login /> : <Menu />}
           </Context.Provider>
         </View>
