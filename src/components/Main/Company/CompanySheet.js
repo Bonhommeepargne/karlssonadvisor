@@ -7,9 +7,10 @@ import {
   ScrollView,
   Button
 } from 'react-native';
-import axios from 'axios';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { getCompanyESG } from './../../../requests/request'
 
+import Summary from './CompDashboard/Summary'
 import GraphRank from './CompDashboard/GraphRank';
 import TopBar from './TopBar';
 
@@ -20,9 +21,7 @@ import TopBar from './TopBar';
 // import NSBold from '../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 // import NSExtraBold from '../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
-import Loader from '../../Loader/Loader'
 import Store from '../../../context';
-import * as fb from "../../../firebase";
 
 export default function CompanySheet({ route, navigation }) {
 
@@ -36,16 +35,6 @@ export default function CompanySheet({ route, navigation }) {
 
   useEffect(() => {
 
-    var config = {
-      method: 'get',
-      url: 'https://finlive-app.herokuapp.com/ESG/' + dataStore.companyDisplay,
-      headers: {
-        'pass': 'CALLIBRI'
-      }
-    };
-
-
-    console.log(storeData.companyArray.length);
     let test = false;
     for (let i = 0; i < storeData.companyArray.length; i++) {
       if (dataStore.companyDisplay === dataStore.companyArray[i].Sedol7) {
@@ -55,66 +44,60 @@ export default function CompanySheet({ route, navigation }) {
       }
     }
 
-    console.log('__________________')
-    for (let i = 0; i < storeData.companyArray.length; i++) {
-      console.log(dataStore.companyArray[i].NAME)
+    async function getESGData() {
+      let response = await getCompanyESG(dataStore.companyDisplay);
+      setMasterDataSource(response.data);
+      storeData.pushCompanyArray(response.data);
     }
-    console.log('__________________')
 
-    if ( test === false ) {
-      axios(config)
-        .then(function (response) {
-          setMasterDataSource(response.data);
-          storeData.pushCompanyArray(response.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-      }
+    if (test === false) { getESGData() }
 
-}, [isFocused]);
+  }, [isFocused]);
 
-const data = {
-  title: 'ESG Sector Decile',
-  groupname: 'Financials',
-  series: [
-    { month: 'Jan', decile: 7 },
-    { month: 'Fev', decile: 7 },
-    { month: 'Mar', decile: 7 },
-    { month: 'Apr', decile: 7 },
-    { month: 'May', decile: 6 },
-    { month: 'Jun', decile: 6 },
-    { month: 'Jul', decile: 5 },
-    { month: 'Aug', decile: 7 },
-    { month: 'Sept', decile: 8 },
-    { month: 'Oct', decile: 9 },
-    { month: 'Nov', decile: 9 },
-    { month: 'Dec', decile: 10 },
-  ]
-};
+  const data = {
+    title: 'ESG Sector Decile',
+    groupname: 'Financials',
+    series: [
+      { month: 'Jan', decile: 7 },
+      { month: 'Fev', decile: 7 },
+      { month: 'Mar', decile: 7 },
+      { month: 'Apr', decile: 7 },
+      { month: 'May', decile: 6 },
+      { month: 'Jun', decile: 6 },
+      { month: 'Jul', decile: 5 },
+      { month: 'Aug', decile: 7 },
+      { month: 'Sept', decile: 8 },
+      { month: 'Oct', decile: 9 },
+      { month: 'Nov', decile: 9 },
+      { month: 'Dec', decile: 10 },
+    ]
+  };
 
-return (
-  <Store.Consumer>
-    {(store) => (
-      <View style={{ backgroundColor: "#F5F5F5", flex: 1 }}>
-        <TopBar />
-        <View style={styles.company}>
-          <Text style={styles.companyTitle}>{masterDataSource.NAME}</Text>
+  return (
+    <Store.Consumer>
+      {(store) => (
+        <View style={{ backgroundColor: "#F5F5F5", flex: 1 }}>
+          <TopBar />
+          <View>
+            <SafeAreaView>
+              <ScrollView>
+                <View style={styles.company}>
+                  <Text style={styles.companyTitle}>{masterDataSource.NAME}</Text>
+                </View>
+                <Summary data={data} />
+                <GraphRank data={data} />
+                <GraphRank data={data} />
+                <GraphRank data={data} />
+                <GraphRank data={data} />
+                <View style={{ height: 200 }}>
+                </View>
+              </ScrollView>
+            </SafeAreaView>
+          </View>
         </View>
-        <View>
-          <SafeAreaView>
-            <ScrollView>
-              <GraphRank data={data} />
-              <GraphRank data={data} />
-              <GraphRank data={data} />
-              <GraphRank data={data} />
-            </ScrollView>
-          </SafeAreaView>
-        </View>
-      </View>
-    )}
-  </Store.Consumer>
-);
+      )}
+    </Store.Consumer>
+  );
 }
 
 const styles = StyleSheet.create({

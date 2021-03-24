@@ -33,6 +33,7 @@ export default function WatchList() {
           let obj = doc.data();
           companyList.push({...obj, id: doc.id});
         });
+        user.storeWatchList(companyList);
         setMasterDataSource(companyList);
       });
   }, []);

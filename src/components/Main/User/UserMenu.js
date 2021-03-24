@@ -11,7 +11,7 @@ import {
   FlatList,
   Modal,
 } from 'react-native';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import * as fb from "./../../../firebase";
 import Store from '../../../context';
 import { Icon } from 'react-native-elements';
@@ -39,20 +39,14 @@ export default function UserMenu() {
     { id: 1, title: "Edit Profile", image: require('../../../../assets/icons/icons8-pencil-100.png'), link: 'ManageProfile' },
     { id: 2, title: "Subscription", image: require('../../../../assets/icons/icons8-membership-card-100.png'), link: 'Subscription' },
     // { id: 3, title: "Avatar", image: require('../../../../assets/icons/icons8-customer-100.png'), link: 'Avatar' },
-    { id: 4, title: "Notifications", image: require('../../../../assets/icons/icons8-notification-100.png'), link: 'Notifications' },
+    { id: 4, title: "Parameters", image: require('../../../../assets/icons/icons8-gear-100.png'), link: 'Parameters' },
     { id: 5, title: "WatchList", image: require('../../../../assets/icons/icons8-list-view-100.png'), link: 'WatchList' },
     { id: 6, title: "Chg. Password", image: require('../../../../assets/icons/icons8-key-100.png'), link: 'password' },
     { id: 7, title: "Logout", image: require('../../../../assets/icons/icons8-exit-100.png'), link: 'logout' },
   ]);
 
-  const isFocused = useIsFocused()
-
   const [firebaseError, setFirebaseError] = React.useState('');
   const [modalVisible, setModalVisible] = React.useState(false);
-
-  useEffect(() => {
-    //Update the state you want to be updated
-  }, [isFocused])
 
   const user = useContext(context);
 
@@ -92,7 +86,7 @@ export default function UserMenu() {
           <View style={styles.header}>
             <View style={styles.cartouche}>
               <Text style={styles.nameUser}>{store.userInfo.fullname}</Text>
-              <Text style={styles.info}>{store.userInfo.company ? store.userInfo.company : 'No company'}</Text>
+              <Text style={styles.info}>{store.userInfo.company ? store.userInfo.company.n : 'No company'}</Text>
               <Text style={styles.description}>{store.userInfo.position ? store.userInfo.position : 'No position'}</Text>
               <Text style={styles.subscription}>{store.userInfo.subscription ? store.userInfo.subscription : 'No subscription'}</Text>
             </View>

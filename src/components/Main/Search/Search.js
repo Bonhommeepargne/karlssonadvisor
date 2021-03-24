@@ -20,21 +20,38 @@ export default function Search({ route, navigation }) {
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
+  const storeData = useContext(context);
 
   useEffect(() => {
-    // https://jsonplaceholder.typicode.com/posts
-    fetch('http://99.80.211.255:8080/ESGlist')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        setFilteredDataSource(responseJson);
-        setMasterDataSource(responseJson);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
 
-  const user = useContext(context);
+    async function fetchData() {
+      if (storeData.allSecurities.length === 0) {
+        response = await fetch('https://finlive-app.herokuapp.com/ESGlist');
+        return await response.json();
+      } else return storeData.allSecurities;
+    }
+
+    fetchData().then((securities) => {
+
+      if (storeData.allSecurities.length === 0) {
+        storeData.storeAllSecurities(securities);
+      }
+      if (route.params.query === 'add') {
+        let watchListc = [];
+        storeData.watchList.forEach(elem => watchListc.push(elem.c));
+        // console.log('watchListc :>> ', watchListc);
+        const securitiesAllowed = storeData.allSecurities.filter(function (item) {
+          return watchListc.indexOf(item.c) == -1;
+        });
+        setFilteredDataSource(securitiesAllowed);
+        setMasterDataSource(securitiesAllowed);
+      } else {
+        setFilteredDataSource(securities);
+        setMasterDataSource(securities);
+      }
+    }).catch(err => console.log(err))
+
+  }, []);
 
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
@@ -89,18 +106,16 @@ export default function Search({ route, navigation }) {
   const getItem = (item) => {
     if (route.params.query === 'add') {
       try {
-        console.log(masterDataSource[1]);
-        console.log(item);
-          // fb.addSecurityToWatchlist({ ...item, uid: user.user.uid });
-          Toast.show({
-            type: 'success',
-            position: 'bottom',
-            text1: item.n + ' added to watchlist',
-            visibilityTime: 4000,
-            autoHide: true,
-            topOffset: 30,
-            bottomOffset: 40
-          })
+        fb.addSecurityToWatchlist({ ...item, uid: storeData.user.uid });
+        Toast.show({
+          type: 'success',
+          position: 'bottom',
+          text1: item.n + ' added to watchlist',
+          visibilityTime: 4000,
+          autoHide: true,
+          topOffset: 30,
+          bottomOffset: 40
+        })
         // console.log(navigation)
         navigation.goBack();
       } catch (error) {
@@ -115,23 +130,41 @@ export default function Search({ route, navigation }) {
         });
         // navigation.goBack();
       }
+    } else if (route.params.query === 'modifycompany') {
+      fb.updateUser(storeData.user.uid, { company: item });
+      storeData.updateUserInfo({ company: item });
+      Toast.show({
+        type: 'success',
+        position: 'bottom',
+        text1: item.n + ' is now your company',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40
+      })
+      navigation.goBack();
+    } else if (route.params.query === 'select') {
+      storeData.newCompanyDisplay(item.c);
+      navigation.goBack();
+    } else if (route.params.query === 'firstuse') {
+      fb.updateUser(storeData.user.uid, { company: item });
+      storeData.updateUserInfo({ company: item });
+      storeData.newCompanyDisplay(item.c);
+      Toast.show({
+        type: 'success',
+        position: 'bottom',
+        text1: item.n + ' is now your company',
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40
+      })
     };
   };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        {/* <TouchableWithoutFeedback onPress={() =>
-      (navigation.goBack())
-    }>
-      <Icon
-        style={{ paddingRight: 20 }}
-        name='arrow-left'
-        type='font-awesome-5'
-        color='black'
-        size={18}
-      />
-    </TouchableWithoutFeedback> */}
         <SearchBar
           round
           lightTheme={true}
@@ -140,7 +173,7 @@ export default function Search({ route, navigation }) {
           searchIcon={{ size: 24 }}
           onChangeText={(text) => searchFilterFunction(text)}
           onClear={(text) => searchFilterFunction('')}
-          placeholder="Type Here..."
+          placeholder="Search..."
           value={search}
         />
         <FlatList

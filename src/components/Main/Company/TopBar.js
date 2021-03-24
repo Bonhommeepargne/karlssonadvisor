@@ -23,7 +23,7 @@ export default function TopBar() {
         <View style={{ flexDirection: "row" }}>
             <View>
                 <TouchableWithoutFeedback onPress={() =>
-                    (navigation.navigate('Search'))
+                    (navigation.navigate('Search', { query: 'select' }))
                 }>
                     <Icon
                         style={{ paddingRight: 20 }}
@@ -63,7 +63,7 @@ export default function TopBar() {
             }>
                 <Icon
                     style={{ paddingLeft: 18, paddingRight: 25 }}
-                    name='bars'
+                    name='list'
                     type='font-awesome-5'
                     color='#fff'
                     size={24}
@@ -71,7 +71,6 @@ export default function TopBar() {
             </TouchableWithoutFeedback>
         </View>
     )
-
 
     return (
         <View style={{

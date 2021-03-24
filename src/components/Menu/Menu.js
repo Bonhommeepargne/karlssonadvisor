@@ -7,34 +7,15 @@ import Search from './../Main/Search/Search';
 import WatchListSelect from './../Main/Company/WatchListSelect';
 import UserMenu from './../Main/User/UserMenu';
 import ManageProfile from './../Main/User/ManageProfile';
-import Subscription from './../Main/User/ManageProfile';
+import Subscription from './../Main/User/Subscription';
+import Parameters from './../Main/User/Parameters';
 import WatchList from './../Main/WatchList/WatchList';
 import Notifications from './../Main/Notifications/Notifications';
-import Loader from '../Loader/Loader';
 import MenuBottomTab from './MenuBottomTab';
-
-import { useFonts } from 'expo-font';
-import NSLight from '../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
-import NSRegular from '../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
-import NSBold from '../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
-import NSExtraBold from '../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf'; 
 
 const Stack = createStackNavigator();
 
 export default function Menu() {
-
-  const [loaded] = useFonts({
-    NSLight,
-    NSRegular,
-    NSBold,
-    NSExtraBold,
-  });
-
-  if (!loaded) {
-    return (
-      <Loader />
-    );
-  }
 
   return (
     <Stack.Navigator>
@@ -72,10 +53,23 @@ export default function Menu() {
         title: 'Edit profile',
         headerTintColor: '#fff', headerStyle: {
           backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
+          borderBottomWidth: 0
+        }
+      }} />
+      <Stack.Screen name="Subscription" component={Subscription} options={{
+        title: 'Subscription',
+        headerTintColor: '#fff', headerStyle: {
+          backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
           borderBottomWidth: 0,
         }
       }} />
-      <Stack.Screen name="Subscription" component={Subscription} options={{ title: 'Subscription' }} />
+      <Stack.Screen name="Parameters" component={Parameters} options={{
+        title: 'Parameters',
+        headerTintColor: '#fff', headerStyle: {
+          backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
+          borderBottomWidth: 0,
+        }
+      }} />
       {/* <Stack.Screen name="Avatar" component={Avatar} options={{  title: 'Avatar' }} /> */}
       <Stack.Screen name="Notifications" component={Notifications} options={{ title: 'Notifications' }} />
       <Stack.Screen name="WatchList" component={WatchList} options={({ route, navigation }) => ({

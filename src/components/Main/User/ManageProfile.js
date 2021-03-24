@@ -13,6 +13,8 @@ import {
   Modal,
 } from 'react-native';
 import Loader from './../../Loader/Loader'
+import { useIsFocused } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 import * as fb from "../../../firebase";
 import Context from '../../../context';
@@ -27,7 +29,7 @@ import NSRegular from '../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf
 import NSBold from '../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
-export default function ManageProfile() {
+export default function ManageProfile({route, navigation}) {
 
   const store = React.useContext(Context);
 
@@ -36,9 +38,10 @@ export default function ManageProfile() {
   const [activityIndicator, setActivityIndicator] = useState(false);
 
   const [fullname, setFullname] = React.useState(store.userInfo.fullname);
-  const [company, setCompany] = React.useState(store.userInfo.company);
+  const [company, setCompany] = React.useState(store.userInfo.company.n);
   const [position, setPosition] = React.useState(store.userInfo.position);
   const [phone, setPhone] = React.useState(store.userInfo.phone);
+  const isFocused = useIsFocused();
 
   const [loaded] = useFonts({
     NSLight,
@@ -46,13 +49,14 @@ export default function ManageProfile() {
     NSBold,
     NSExtraBold,
   });
-
+  
   useEffect(function () {
     StatusBar.setBarStyle('light-content', true);
-  }, []);
+    setCompany(store.userInfo.company.n);
+    }, [isFocused]);
 
   function onEdit() {
-    console.log('prout');
+    (navigation.navigate('Search', { query: 'modifycompany' }))
   }
 
   async function updateProfile() {
@@ -60,19 +64,34 @@ export default function ManageProfile() {
       setActivityIndicator(true);
       await fb.updateUser(store.user.uid, {
         fullname: fullname,
-        company: typeof company == 'undefined' ? '' : company,
         position: typeof position == 'undefined' ? '' : position,
         phone: typeof phone == 'undefined' ? '' : phone
       });
-      store.userInfo.fullname = fullname,
-        store.userInfo.company = typeof company == 'undefined' ? '' : company,
-        store.userInfo.position = typeof position == 'undefined' ? '' : position,
-        store.userInfo.phone = typeof phone == 'undefined' ? '' : phone
+      let response = await fb.getUser(store.user.uid);
+      store.updateUserInfo(response);
       setActivityIndicator(false);
       setFirebaseError("Info succesfully updated.")
+      Toast.show({
+        type: 'success',
+        position: 'bottom',
+        text1: "Info succesfully updated.",
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40
+      })
     } catch (err) {
       console.error("Update Info Error", err);
       setFirebaseError(err.message);
+      Toast.show({
+        type: 'error',
+        position: 'bottom',
+        text1: "Try again later.",
+        visibilityTime: 4000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40
+      })
     }
   }
 
@@ -120,6 +139,7 @@ export default function ManageProfile() {
           textContentType='organizationName'
           returnKeyType='next'
           onFocus={onEdit}
+          editable={false}
         />
         <TouchableOpacity
           style={{ paddingVertical: 4 }}
@@ -181,10 +201,10 @@ export default function ManageProfile() {
           </TouchableOpacity> :
           <View style={styles.activityIndicator}><ActivityIndicator size="large" color="black" /></View>}
       </View>
-      {firebaseError &&
+      {/* {firebaseError &&
         <View style={styles.errorView}>
           <Text style={styles.errorText}>{firebaseError}</Text>
-        </View>}
+        </View>} */}
     </View>)
 }
 
@@ -192,7 +212,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFF",
-    marginTop: 10
+    marginTop: 10,
   },
   back: {
     marginTop: 20,

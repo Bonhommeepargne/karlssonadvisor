@@ -5,15 +5,13 @@ import {
   View,
 } from 'react-native';
 import { Button } from 'react-native-elements';
+import { getColor } from './../../../../util/function'
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryLabel } from "victory-native";
 
 import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
 
-import Loader from '../../../Loader/Loader'
-
 // https://fonts.google.com/specimen/Nunito+Sans
-import { useFonts } from 'expo-font';
 import NSLight from '../../../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
 import NSRegular from '../../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
 import NSBold from '../../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
@@ -28,79 +26,6 @@ export default function GraphRank(props) {
   let groupname = props.data.groupname;
 
   let KarlssonTheme = VictoryTheme.material;
-
-  const tabColor = [
-    {
-      "R": 255,
-      "V": 0,
-      "B": 0
-    },
-    {
-      "R": 255,
-      "V": 42,
-      "B": 0
-    },
-    {
-      "R": 255,
-      "V": 91,
-      "B": 0
-    },
-    {
-      "R": 255,
-      "V": 144,
-      "B": 0
-    },
-    {
-      "R": 255,
-      "V": 198,
-      "B": 0
-    },
-    {
-      "R": 200,
-      "V": 255,
-      "B": 0
-    },
-    {
-      "R": 178,
-      "V": 230,
-      "B": 0
-    },
-    {
-      "R": 91,
-      "V": 200,
-      "B": 0
-    },
-    {
-      "R": 50,
-      "V": 170,
-      "B": 50
-    },
-    {
-      "R": 0,
-      "V": 128,
-      "B": 0
-    }
-  ];
-
-  function getColor(u) {
-    let rvb = tabColor[u - 1];
-    if (typeof rvb != 'undefined') {
-      return 'rgb(' + rvb.R + ',' + rvb.V + ',' + rvb.B + ')';
-    } else { return "#CCC" }
-  }
-
-  const [loaded] = useFonts({
-    NSLight,
-    NSRegular,
-    NSBold,
-    NSExtraBold,
-  });
-
-  // if (!loaded) {
-  //   return (
-  //     <Loader />
-  //   );
-  // }
 
   return (
     <View style={styles.container}>
@@ -178,20 +103,13 @@ const styles = StyleSheet.create({
   },
   barRankHeader: {
     flexDirection: 'row',
-    // borderWidth: 1,
-    // borderColor: 'blue',
     height: 75
-    // justifyContent: 'space-between'
   },
   barRankChart: {
     flex: 1,
-    // borderWidth: 1,
-    // borderColor: 'green'
   },
   barRankHeaderTitle: {
     flex: 3,
-    // borderWidth: 1,
-    // borderColor: 'brown',
     height: 75
   },
   barRankHeaderRanking: {

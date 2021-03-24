@@ -54,7 +54,7 @@ async function deleteSecurityToWatchlist(id) {
 
 async function updateUser(id, body) {
   const docRef = users.doc(id);
-  await docRef.update(body);
+  return await docRef.update(body);
 }
 
 async function readUsers() {

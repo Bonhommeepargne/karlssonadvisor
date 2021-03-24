@@ -25,9 +25,11 @@ export default function WatchList({routes, navigation}) {
   const [masterDataSource, setMasterDataSource] = useState([]);
 
   useEffect(function () {
+    var companyList = [];
+    var myCompany = store.userInfo.company;
+    companyList.push({ ...myCompany, id: 'mycompany' });
     fb.db.collection("watchlist").where("uid", "==", store.user.uid)
       .onSnapshot((querySnapshot) => {
-        var companyList = [];
         querySnapshot.forEach((doc) => {
           let obj = doc.data();
           companyList.push({ ...obj, id: doc.id });
@@ -45,7 +47,7 @@ export default function WatchList({routes, navigation}) {
         <View styles={{}}>
           <TouchableOpacity onPress={() => { getItem(item);}} >
             <Text style={styles.itemName}>
-              {item.n.toUpperCase()}
+              {item.id === 'mycompany' ? item.n.toUpperCase() + ' ◎' : item.n.toUpperCase()}
             </Text>
             <Text style={styles.itemCountry}>
               {item.p}
