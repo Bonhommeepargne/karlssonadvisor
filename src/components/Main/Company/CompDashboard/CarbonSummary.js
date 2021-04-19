@@ -55,7 +55,7 @@ export default function CarbonSummary() {
           <GaugeCircle val={sectorco2} text1='CO2 EMISSION' text2="OF SECTOR" />
         </View>
       </View>
-      <View style={{ paddingBottom: 10 }} >
+      {/* <View style={{ paddingBottom: 10 }} >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 5, alignItems: 'center' }}>
           <View><Text style={{ fontSize: 20, fontFamily: 'NSRegular', color: 'dimgrey' }}>Industry Intensity:</Text></View>
           <TouchableOpacity
@@ -85,7 +85,7 @@ export default function CarbonSummary() {
         <View style={{ paddingHorizontal: 10, }}>
           <GaugeCircle val={industryco2} text1='CO2 EMISSION' text2="OF INDUSTRY" />
         </View>
-      </View>
+      </View> */}
     </View>
   );
 

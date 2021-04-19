@@ -145,7 +145,7 @@ export default function Search({ route, navigation }) {
       navigation.goBack();
     } else if (route.params.query === 'select') {
       storeData.newCompanyDisplay(item.c);
-      navigation.goBack();
+      navigation.navigate('MenuBottomTab');
     } else if (route.params.query === 'firstuse') {
       fb.updateUser(storeData.user.uid, { company: item });
       storeData.updateUserInfo({ company: item });

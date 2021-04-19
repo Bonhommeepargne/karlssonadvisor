@@ -8,12 +8,7 @@ import {
 import Constants from 'expo-constants';
 import { Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-// import {
-//     Menu,
-//     MenuOptions,
-//     MenuOption,
-//     MenuTrigger,
-// } from 'react-native-popup-menu';
+import Store from '../../../context';
 
 export default function TopBar() {
 
@@ -54,22 +49,29 @@ export default function TopBar() {
                 </Menu>
             </View> */}
         </View>
+
     )
 
     let HandlerLeft = () => (
-        <View>
-            <TouchableWithoutFeedback onPress={() =>
-                (navigation.navigate('WatchListSelect'))
-            }>
-                <Icon
-                    style={{ paddingLeft: 18, paddingRight: 25 }}
-                    name='list'
-                    type='font-awesome-5'
-                    color='#fff'
-                    size={24}
-                />
-            </TouchableWithoutFeedback>
-        </View>
+        <Store.Consumer>
+            {(store) => (
+                <View>
+                    <TouchableWithoutFeedback onPress={() => {
+                        // navigation.navigate('WatchListSelect');
+                        store.setSideModalVisible((value) => (!value));
+                    }
+                    }>
+                        <Icon
+                            style={{ paddingLeft: 18, paddingRight: 25 }}
+                            name='list'
+                            type='font-awesome-5'
+                            color='#fff'
+                            size={24}
+                        />
+                    </TouchableWithoutFeedback>
+                </View>
+            )}
+        </Store.Consumer>
     )
 
     return (

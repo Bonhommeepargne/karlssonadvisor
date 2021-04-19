@@ -40,9 +40,10 @@ export default function WatchList() {
 
   const ItemView = ({ item }) => {
     return (
-      <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, paddingBottom: 10,
-          paddingLeft:20, paddingRight: 25}}>
-        <View styles={{}}>
+      <View style={{flex: 1, display: "flex", flexDirection: 'row', justifyContent: 'space-between',
+        paddingTop: 10, paddingBottom: 10,
+        paddingLeft:20, paddingRight: 25, }}>
+        <View style={{flex: 1, display: "flex", flexDirection: 'column', width: "80%", height: "100%",}}>
           <Text style={styles.itemName}>
             {item.n.toUpperCase()}
           </Text>
@@ -51,7 +52,7 @@ export default function WatchList() {
           </Text>
         </View>
         <View style={{justifyContent: 'center'}}>
-        <TouchableWithoutFeedback onPress={() => getItem(item)}>
+          <TouchableWithoutFeedback onPress={() => getItem(item)}>
             <Icon
               style={{}}
               name='trash-alt'
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
   itemName: {
     fontSize: 16,
     fontFamily: 'NSBold',
-    width: 350
+    width: "100%",
   },
   itemCountry: {
     fontSize: 12,

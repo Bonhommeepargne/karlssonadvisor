@@ -51,7 +51,7 @@ export default function GaugeSummary({ val }) {
           flex: 1, alignItems: 'center', backgroundColor: (riskLevel == 3 ? 'lightgreen' : '#FFF'), borderTopWidth: 1,
           borderColor: '#C8C8C8', borderBottomWidth: 1, borderLeftWidth: 1, padding: 5,
         }}>
-          <Text style={{ fontSize: 12, fontFamily: 'NSExtraBold', color: (riskLevel == 3 ? '#FFF' : '#C8C8C8') }}>MODERATE</Text>
+          <Text style={{ fontSize: 12, fontFamily: 'NSExtraBold', color: (riskLevel == 3 ? '#FFF' : '#C8C8C8') }}>MEDIUM</Text>
         </View>
         <View style={{
           flex: 1, alignItems: 'center', backgroundColor: (riskLevel == 4 ? 'green' : '#FFF'), borderWidth: 1,

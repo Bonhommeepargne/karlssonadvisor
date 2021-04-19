@@ -4,21 +4,18 @@
     <list default="true" id="6843edc3-3272-4cd5-921b-add006a6a505" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Connection/Login/useAuth.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Connection/Login/useAuth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Main/Company/CompDashboard/GraphRank.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Company/CompDashboard/GraphRank.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Company/CompDashboard/CarbonSummary.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Company/CompDashboard/CarbonSummary.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Company/CompDashboard/GaugeCircle.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Company/CompDashboard/GaugeCircle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Company/CompDashboard/GaugeLinear4.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Company/CompDashboard/GaugeLinear4.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Company/CompDashboard/Summary.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Company/CompDashboard/Summary.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Company/CompDashboard/TableSummary.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Company/CompDashboard/TableSummary.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Main/Company/CompanySheet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Company/CompanySheet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Company/Company_old.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Main/Company/TopBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Company/TopBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Main/Company/WatchListSelect.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Company/WatchListSelect.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Main/Search/Search.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Search/Search.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Main/User/ManageProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/User/ManageProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Main/User/Notifications.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Main/User/UserMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/User/UserMenu.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Main/WatchList/WatchList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/WatchList/WatchList.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Menu/Menu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Menu/Menu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Menu/MenuBottomTab.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Menu/MenuBottomTab.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/firebase.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Menu/MenuTree.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Menu/MenuTree.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,11 +61,11 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="227" y="106" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1536.824@0.0.1536.824" timestamp="1615815739755" />
-    <state x="327" y="131" width="933" height="563" key="AVDManager" timestamp="1616521817448">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="937" y="215" width="933" height="563" key="AVDManager" timestamp="1618841950058">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="327" y="131" width="933" height="563" key="AVDManager/0.0.1536.824@0.0.1536.824" timestamp="1616521817448" />
-    <state x="861" y="157" width="936" height="738" key="AVDManager/0.0.1920.1040@0.0.1920.1040" timestamp="1616076072551" />
+    <state x="571" y="159" width="933" height="563" key="AVDManager/0.0.1536.824@0.0.1536.824" timestamp="1618756816915" />
+    <state x="937" y="215" width="933" height="563" key="AVDManager/0.0.1920.1040@0.0.1920.1040" timestamp="1618841950058" />
     <state x="426" y="189" width="672" height="677" key="run.anything.popup" timestamp="1614032718609">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

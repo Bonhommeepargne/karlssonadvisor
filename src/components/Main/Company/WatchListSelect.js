@@ -84,7 +84,7 @@ export default function WatchList({routes, navigation}) {
 
   const getItem = (item) => {
     store.newCompanyDisplay(item.c);
-    navigation.goBack()
+    store.setSideModalVisible((value) => (!value))
   };
 
   return (

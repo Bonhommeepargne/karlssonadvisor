@@ -5,9 +5,7 @@ import {
   View,
   SafeAreaView,
   ScrollView,
-  Button
 } from 'react-native';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { getCompanyESG } from './../../../requests/request'
 
 import Summary from './CompDashboard/Summary'
@@ -29,9 +27,9 @@ export default function CompanySheet({ route, navigation }) {
   const [dataLoaded, setDataLoaded] = useState(false);
 
   const dataStore = useContext(Store);
-  const isFocused = useIsFocused();
 
   const storeData = useContext(Store)
+  console.log(dataStore.companyDisplay)
 
   useEffect(() => {
 
@@ -52,7 +50,9 @@ export default function CompanySheet({ route, navigation }) {
 
     if (test === false) { getESGData() }
 
-  }, [isFocused]);
+  }, [dataStore.companyDisplay]);
+
+  // console.log(masterDataSource);
 
   const data = {
     title: 'ESG Sector Decile',
@@ -76,7 +76,7 @@ export default function CompanySheet({ route, navigation }) {
   return (
     <Store.Consumer>
       {(store) => (
-        <View style={{ backgroundColor: "#F5F5F5", flex: 1 }}>
+        <View style={{ backgroundColor: "#F5F5F5", flex: 1 }} >
           <TopBar />
           <View>
             <SafeAreaView>
@@ -111,5 +111,9 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontFamily: 'NSRegular',
     color: "black",
+  },
+  sideModal: {
+    width: "100%",
+    height: "100%",
   }
 });

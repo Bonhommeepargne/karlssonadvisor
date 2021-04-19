@@ -105,6 +105,5 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: 'center',
     justifyContent: "space-evenly",
-    borderWidth: 1,
   }
 });

@@ -23,8 +23,8 @@ export default function GaugeCircle({ val, text1, text2 }) {
       tintColor="darkgrey"
       tintColorSecondary="darkgrey"
       backgroundColor="lightgrey"
-      arcSweepAngle={240}
-      rotation={240}
+      arcSweepAngle={280}
+      rotation={220}
       lineCap="round"
     >{sales =>
       <View style={{ alignItems: 'center' }}>
@@ -52,21 +52,21 @@ export default function GaugeCircle({ val, text1, text2 }) {
 const styles = StyleSheet.create({
   titleGauge: {
     textAlign: 'center',
-    color: 'darkgrey',
+    color: 'black',
     fontSize: 13,
     fontWeight: '100',
     fontFamily: 'NSLight',
   },
   titleGauge2: {
     textAlign: 'center',
-    color: 'darkgrey',
+    color: 'black',
     fontSize: 14,
     fontWeight: '100',
     fontFamily: 'NSBold',
   },
   points: {
     textAlign: 'center',
-    color: 'darkgrey',
+    color: 'black',
     fontSize: 25,
     fontWeight: '100',
     fontFamily: 'NSLight',

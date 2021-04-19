@@ -30,7 +30,7 @@ export default function Summary(props) {
 
           <View style={{ paddingTop: 20 }}>
             <View style={{ flexDirection: 'row' }}>
-              <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Sector :</Text></View>
+              <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Peergroup :</Text></View>
               <View style={{ paddingLeft: 5 }}>
                 <Text style={{ fontSize: 16, fontFamily: 'NSBold' }}>Finance</Text>
               </View>
@@ -57,7 +57,7 @@ export default function Summary(props) {
             </View>
           </View>
 
-          <View style={{ paddingTop: 10 }}>
+          {/* <View style={{ paddingTop: 10 }}>
             <View style={{ flexDirection: 'row' }}>
               <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Industry :</Text></View>
               <View style={{ paddingLeft: 5 }}>
@@ -84,17 +84,18 @@ export default function Summary(props) {
                 </View>
               </TouchableOpacity>
             </View>
-          </View>
+          </View> */}
 
           <View style={{ paddingTop: 10 }}>
+            <Text style={styles.titleScore}>Carbon</Text>
+            <CarbonSummary />
+          </View>
+
+          <View style={{ paddingTop: 0, paddingBottom: 15 }}>
             <Text style={styles.titleScore}>Controversy</Text>
             <GaugeLinear4 val={3} />
           </View>
 
-          <View style={{ paddingTop: 15, paddingBottom: 10 }}>
-            <Text style={styles.titleScore}>Carbon</Text>
-            <CarbonSummary />
-          </View>
         </View>
       </View>
     </View>
@@ -123,7 +124,6 @@ const styles = StyleSheet.create({
   titleScore: {
     fontSize: 22,
     fontFamily: 'NSExtraBold',
-    color: "black",
-    marginBottom: 10
+    color: "black"
   },
 });

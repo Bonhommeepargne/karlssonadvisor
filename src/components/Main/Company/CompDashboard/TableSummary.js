@@ -22,8 +22,8 @@ export default function TableSummary() {
   const [masterDataSource, setMasterDataSource] = useState({
     header: [' ', 'ESG', 'E', 'S', 'G'],
     data: [
-      ['Sector', '6', '7', '8', '9'],
-      ['Industry', '4', '8', '9', '6'],
+      ['Peer Group', '6', '7', '8', '9'],
+      ['ΔChange 1Y', '+2', '-1', '+1', '+3'],
     ]
   });
 
