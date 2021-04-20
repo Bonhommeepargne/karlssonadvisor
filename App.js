@@ -5,6 +5,7 @@ import Menu from './src/components/Menu/Menu';
 import Login from './src/components/Connection/Login/Login';
 import Loader from './src/components/Loader/Loader';
 import SideModal from './src/components/Menu/SideModal/SideModal';
+import DataLoader from './src/components/Menu/DataLoader/DataLoader';
 
 import 'react-native-gesture-handler';
 import Context from "./src/context";
@@ -25,6 +26,7 @@ export default function App() {
     watchList, storeWatchList, allSecurities, storeAllSecurities} = useAuth();
   
   const [ sideModalVisible, setSideModalVisible ] = useState(false);
+  const [ loader, setLoader ] = useState(false);
 
   const MyTheme = {
     ...DefaultTheme,
@@ -56,9 +58,10 @@ export default function App() {
           <StatusBar style='light' backgroundColor={'#4A5E0C'} />
           <Context.Provider value={{ user, userInfo, updateUserInfo, companyDisplay, newCompanyDisplay,
               companyArray, pushCompanyArray, watchList, storeWatchList, allSecurities, storeAllSecurities, 
-              sideModalVisible, setSideModalVisible }}>
+              sideModalVisible, setSideModalVisible, setLoader }}>
             { !user || !userInfo ? <Loader /> : user === -1 ? <Login /> : <Menu />}
             {sideModalVisible && <SideModal />}
+            {loader && <DataLoader />}
           </Context.Provider>
         </View>
       </MenuProvider>

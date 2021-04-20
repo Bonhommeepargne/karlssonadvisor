@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
+
 import { getCompanyESG } from './../../../requests/request'
 
 import Summary from './CompDashboard/Summary'
@@ -23,36 +24,41 @@ import Store from '../../../context';
 
 export default function CompanySheet({ route, navigation }) {
 
-  const [masterDataSource, setMasterDataSource] = useState({});
-  const [dataLoaded, setDataLoaded] = useState(false);
+  const [index, setIndex] = useState(0);
 
   const dataStore = useContext(Store);
 
-  const storeData = useContext(Store)
-  console.log(dataStore.companyDisplay)
-
   useEffect(() => {
 
+    // console.log("companyDisplay",dataStore.companyDisplay);
+
+    dataStore.setLoader((value) => (!value));
     let test = false;
-    for (let i = 0; i < storeData.companyArray.length; i++) {
+    for (let i = 0; i < dataStore.companyArray.length; i++) {
+      // console.log('dataStore.companyArray[i] :>> ',i, dataStore.companyArray[i].NAME, dataStore.companyArray[i].Sedol7);
       if (dataStore.companyDisplay === dataStore.companyArray[i].Sedol7) {
         test = true;
-        setMasterDataSource(dataStore.companyArray[i]);
+        setIndex(i);
+        dataStore.setLoader((value) => (!value));
         break;
       }
     }
 
     async function getESGData() {
       let response = await getCompanyESG(dataStore.companyDisplay);
-      setMasterDataSource(response.data);
-      storeData.pushCompanyArray(response.data);
+      dataStore.pushCompanyArray(response.data);
+      setIndex(dataStore.companyArray.length-1);
+      dataStore.setLoader((value) => (!value));
+      // for (let i = 0; i < dataStore.companyArray.length; i++) {
+      //   console.log('dataStore.companyArray[i] :>> ',i, dataStore.companyArray[i].NAME, dataStore.companyArray[i].Sedol7);
+      // }
     }
 
-    if (test === false) { getESGData() }
+    if (test === false) { 
+      getESGData();
+    }
 
   }, [dataStore.companyDisplay]);
-
-  // console.log(masterDataSource);
 
   const data = {
     title: 'ESG Sector Decile',
@@ -82,7 +88,7 @@ export default function CompanySheet({ route, navigation }) {
             <SafeAreaView>
               <ScrollView>
                 <View style={styles.company}>
-                  <Text style={styles.companyTitle}>{masterDataSource.NAME}</Text>
+                  <Text style={styles.companyTitle}>{store.companyArray[index].NAME}</Text>
                 </View>
                 <Summary data={data} />
                 <GraphRank data={data} />
@@ -104,13 +110,14 @@ const styles = StyleSheet.create({
   company: {
     marginVertical: 10,
     width: "100%",
-    height: 40,
-    alignItems: 'center',
+    // height: 40,
+    // alignItems: 'center',
   },
   companyTitle: {
     fontSize: 25,
     fontFamily: 'NSRegular',
     color: "black",
+    textAlign: 'center',
   },
   sideModal: {
     width: "100%",

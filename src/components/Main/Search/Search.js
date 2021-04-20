@@ -10,6 +10,7 @@ import { SearchBar } from 'react-native-elements';
 import * as fb from '../../../firebase';
 import context from '../../../context';
 import Toast from 'react-native-toast-message';
+import axios from 'axios';
 
 import NSLight from '../../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
 import NSRegular from '../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
@@ -24,34 +25,42 @@ export default function Search({ route, navigation }) {
 
   useEffect(() => {
 
+    // console.log('masterDataSource :>> ', masterDataSource.length);
     async function fetchData() {
-      if (storeData.allSecurities.length === 0) {
-        response = await fetch('https://finlive-app.herokuapp.com/ESGlist');
-        return await response.json();
-      } else return storeData.allSecurities;
+      let response = await axios.get('https://finlive-app.herokuapp.com/ESGlist');
+      let data = response.data
+
+      storeData.storeAllSecurities(data);
+      setMasterDataSource(watchlistClean(data));
+      setFilteredDataSource(watchlistClean(data));
     }
 
-    fetchData().then((securities) => {
-
-      if (storeData.allSecurities.length === 0) {
-        storeData.storeAllSecurities(securities);
-      }
+    function watchlistClean(data) {
       if (route.params.query === 'add') {
         let watchListc = [];
         storeData.watchList.forEach(elem => watchListc.push(elem.c));
         // console.log('watchListc :>> ', watchListc);
-        const securitiesAllowed = storeData.allSecurities.filter(function (item) {
+        const securitiesAllowed = data.filter(function (item) {
           return watchListc.indexOf(item.c) == -1;
         });
-        setFilteredDataSource(securitiesAllowed);
-        setMasterDataSource(securitiesAllowed);
+        return securitiesAllowed;
       } else {
-        setFilteredDataSource(securities);
-        setMasterDataSource(securities);
+        return data
       }
-    }).catch(err => console.log(err))
+    }
 
-  }, []);
+    if (storeData.allSecurities.length == 0) {
+      try {
+        fetchData();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      setMasterDataSource(storeData.allSecurities);
+      setFilteredDataSource(storeData.allSecurities);
+    }
+
+  }, [ ]);
 
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank

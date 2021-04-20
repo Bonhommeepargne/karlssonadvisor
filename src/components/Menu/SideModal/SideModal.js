@@ -17,7 +17,7 @@ export default function SideModal(props) {
 
   return (
     <View style={styles.container}> 
-      <TouchableOpacity style={styles.backList} activeOpacity={1} onPress={() => { console.log('Outside list'); store.setSideModalVisible((value) => (!value))}}></TouchableOpacity>
+      <TouchableOpacity style={styles.backList} activeOpacity={1} onPress={() => { store.setSideModalVisible((value) => (!value))}}></TouchableOpacity>
       <View style={styles.list}>
         <View style={{height: Constants.statusBarHeight}}></View>
         <View style={styles.listCompany}>
