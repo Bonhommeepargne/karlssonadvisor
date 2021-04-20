@@ -153,12 +153,12 @@ export default function Search({ route, navigation }) {
       })
       navigation.goBack();
     } else if (route.params.query === 'select') {
-      storeData.newCompanyDisplay(item.c);
+      storeData.newCompanyDisplay({ code: item.c, name: item.n });
       navigation.navigate('MenuBottomTab');
     } else if (route.params.query === 'firstuse') {
       fb.updateUser(storeData.user.uid, { company: item });
       storeData.updateUserInfo({ company: item });
-      storeData.newCompanyDisplay(item.c);
+      storeData.newCompanyDisplay({ code: item.c, name: item.n });
       Toast.show({
         type: 'success',
         position: 'bottom',

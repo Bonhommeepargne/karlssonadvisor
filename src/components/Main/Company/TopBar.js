@@ -57,8 +57,8 @@ export default function TopBar() {
             {(store) => (
                 <View>
                     <TouchableWithoutFeedback onPress={() => {
-                        // navigation.navigate('WatchListSelect');
-                        store.setSideModalVisible((value) => (!value));
+                        navigation.navigate("SideModal")
+                        // store.setSideModalVisible((value) => (!value));
                     }
                     }>
                         <Icon

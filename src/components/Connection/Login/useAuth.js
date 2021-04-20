@@ -5,12 +5,13 @@ import { getCompanyESG } from '../../../requests/request'
 
 function useAuth() {
   const [authUser, setAuthUser] = useState({user: null, userInfo: null, updateUser: null, companyDisplay: null, 
-    newCompanyDisplay: null, companyArray: null, pushCompanyArray: null, 
+    companyDisplayName: null, newCompanyDisplay: null, companyArray: null, pushCompanyArray: null, 
     watchList: null, storeWatchList: null, allSecurities: null, storeAllSecurities: null }); 
 
-  const newCompanyDisplay = (code) => {
+  const newCompanyDisplay = ({code, name}) => {
     setAuthUser((oldState) => {
       oldState.companyDisplay = code;
+      oldState.companyDisplayName = name;
       return { ...oldState };
     });
   }
@@ -61,11 +62,11 @@ function useAuth() {
         }).then((ESGData) => {
           if (!dataUser.company || !ESGData.data.NAME) {
             setAuthUser({user: userCred, userInfo: dataUser, updateUserInfo: updateUserInfo, companyDisplay: '',
-              newCompanyDisplay: newCompanyDisplay, companyArray: [], pushCompanyArray: pushCompanyArray, 
+              companyDisplayName: '', newCompanyDisplay: newCompanyDisplay, companyArray: [], pushCompanyArray: pushCompanyArray, 
               watchList: [], storeWatchList: storeWatchList, allSecurities: [], storeAllSecurities: storeAllSecurities});
           } else {
             setAuthUser({user: userCred, userInfo: dataUser, updateUserInfo: updateUserInfo, companyDisplay: dataUser.company.c,
-              newCompanyDisplay: newCompanyDisplay, companyArray: [ ESGData.data ], pushCompanyArray: pushCompanyArray, 
+              companyDisplayName: dataUser.company.n, newCompanyDisplay: newCompanyDisplay, companyArray: [ ESGData.data ], pushCompanyArray: pushCompanyArray, 
               watchList: [], storeWatchList: storeWatchList, allSecurities: [], storeAllSecurities: storeAllSecurities});
           }
         }).catch(err=> console.log(err))

@@ -19,7 +19,9 @@ import NSRegular from '../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf
 import NSBold from '../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
-export default function WatchList({routes, navigation}) {
+export default function WatchList({route, navigation}) {
+
+  // console.log(navigation)
 
   const store = useContext(context);
   const [masterDataSource, setMasterDataSource] = useState([]);
@@ -83,8 +85,9 @@ export default function WatchList({routes, navigation}) {
   };
 
   const getItem = (item) => {
-    store.newCompanyDisplay(item.c);
-    store.setSideModalVisible((value) => (!value))
+    store.newCompanyDisplay({ code: item.c, name: item.n });
+    navigation.goBack();
+    // store.setSideModalVisible((value) => (!value))
   };
 
   return (

@@ -5,6 +5,7 @@ import {
   View,
   SafeAreaView,
   ScrollView,
+  Button
 } from 'react-native';
 
 import { getCompanyESG } from './../../../requests/request'
@@ -30,25 +31,22 @@ export default function CompanySheet({ route, navigation }) {
 
   useEffect(() => {
 
-    // console.log("companyDisplay",dataStore.companyDisplay);
-
-    dataStore.setLoader((value) => (!value));
     let test = false;
     for (let i = 0; i < dataStore.companyArray.length; i++) {
       // console.log('dataStore.companyArray[i] :>> ',i, dataStore.companyArray[i].NAME, dataStore.companyArray[i].Sedol7);
       if (dataStore.companyDisplay === dataStore.companyArray[i].Sedol7) {
         test = true;
         setIndex(i);
-        dataStore.setLoader((value) => (!value));
         break;
       }
     }
 
     async function getESGData() {
+      dataStore.setLoader((value) => (true));
       let response = await getCompanyESG(dataStore.companyDisplay);
       dataStore.pushCompanyArray(response.data);
       setIndex(dataStore.companyArray.length-1);
-      dataStore.setLoader((value) => (!value));
+      dataStore.setLoader((value) => (false));
       // for (let i = 0; i < dataStore.companyArray.length; i++) {
       //   console.log('dataStore.companyArray[i] :>> ',i, dataStore.companyArray[i].NAME, dataStore.companyArray[i].Sedol7);
       // }
@@ -88,7 +86,7 @@ export default function CompanySheet({ route, navigation }) {
             <SafeAreaView>
               <ScrollView>
                 <View style={styles.company}>
-                  <Text style={styles.companyTitle}>{store.companyArray[index].NAME}</Text>
+                  <Text style={styles.companyTitle}>{dataStore.companyDisplayName}</Text>
                 </View>
                 <Summary data={data} />
                 <GraphRank data={data} />

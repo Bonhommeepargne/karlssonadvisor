@@ -12,8 +12,30 @@ import Parameters from './../Main/User/Parameters';
 import WatchList from './../Main/WatchList/WatchList';
 import Notifications from './../Main/Notifications/Notifications';
 import MenuBottomTab from './MenuBottomTab';
+import SideModal from './../Menu/SideModal/SideModal';
 
 const Stack = createStackNavigator();
+
+const modalOptions = {
+  headerShown: false,
+  cardStyle: { backgroundColor: "transparent" },
+  cardOverlayEnabled: true,
+  cardStyleInterpolator: ({ current: { progress } }) => ({
+    cardStyle: {
+      opacity: progress.interpolate({
+        inputRange: [0, 0.5, 0.9, 1],
+        outputRange: [0, 0.1, 0.3, 0.7]
+      })
+    },
+    overlayStyle: {
+      opacity: progress.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 0.4],
+        extrapolate: "clamp"
+      })
+    }
+  })
+};
 
 export default function Menu() {
 
@@ -72,6 +94,7 @@ export default function Menu() {
       }} />
       {/* <Stack.Screen name="Avatar" component={Avatar} options={{  title: 'Avatar' }} /> */}
       <Stack.Screen name="Notifications" component={Notifications} options={{ title: 'Notifications' }} />
+      <Stack.Screen name="SideModal" component={SideModal} options={modalOptions} />
       <Stack.Screen name="WatchList" component={WatchList} options={({ route, navigation }) => ({
         title: 'Watchlist',
         headerTintColor: '#fff', headerStyle: {
