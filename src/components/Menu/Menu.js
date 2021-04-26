@@ -1,6 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import { StyleSheet, Text, View, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, TouchableWithoutFeedback, Animated } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 import Search from './../Main/Search/Search';
@@ -14,25 +14,37 @@ import Notifications from './../Main/Notifications/Notifications';
 import MenuBottomTab from './MenuBottomTab';
 import SideModal from './../Menu/SideModal/SideModal';
 
+import { Dimensions } from "react-native";
+const screenWidth = Dimensions.get("window").width;
+
 const Stack = createStackNavigator();
 
 const modalOptions = {
-  headerShown: false,
-  cardStyle: { backgroundColor: "transparent" },
   cardOverlayEnabled: true,
+  headerShown: false,
+  cardStyle: {
+    backgroundColor: "transparent",
+  },
   cardStyleInterpolator: ({ current: { progress } }) => ({
     cardStyle: {
-      opacity: progress.interpolate({
-        inputRange: [0, 0.5, 0.9, 1],
-        outputRange: [0, 0.1, 0.3, 0.7]
+      translateX: progress.interpolate({
+        inputRange: [0, 0.5,  1],
+        outputRange: [-screenWidth, -1 * screenWidth, 0],
+        extrapolate: "clamp",
       })
+
     },
     overlayStyle: {
       opacity: progress.interpolate({
         inputRange: [0, 1],
         outputRange: [0, 0.4],
         extrapolate: "clamp"
-      })
+      }),
+      // translateX: progress.interpolate({
+      //   inputRange: [0, 0.5,  1],
+      //   outputRange: [0, 0, 0],
+      //   extrapolate: "clamp",
+      // })
     }
   })
 };

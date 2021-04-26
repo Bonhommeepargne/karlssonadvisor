@@ -63,16 +63,11 @@ export default function GraphRank(props) {
                 data: {
                   fill: ({ datum }) => (getColor(datum.decile)),
                   fillOpacity: 0.7,
-                  // strokeWidth: 3
                 },
               }}
               x="month"
               y="decile"
               barRatio={0.8}
-            // animate={{
-            //   duration: 2000,
-            //   onLoad: {duration: 1000 }
-            // }} 
             />
           </VictoryChart>
         </View>
@@ -150,15 +145,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   titleScore: {
-    marginLeft: 15,
+    marginLeft: 11,
     fontSize: 22,
-    fontFamily: 'NSExtraBold',
+    fontFamily: 'NSBold',
     color: "black",
   },
   industry: {
-    marginLeft: 15,
+    marginLeft: 11,
     fontSize: 22,
-    fontFamily: 'NSBold',
+    fontFamily: 'NSRegular',
     color: "#696969",
   },
   rankScore: {

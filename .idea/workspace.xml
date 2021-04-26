@@ -3,6 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="6843edc3-3272-4cd5-921b-add006a6a505" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Company/CompDashboard/GraphRank.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Company/CompDashboard/GraphRank.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Company/CompDashboard/Summary.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Company/CompDashboard/Summary.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Company/CompanySheet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Company/CompanySheet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Company/WatchListSelect.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Company/WatchListSelect.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/WatchList/WatchList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/WatchList/WatchList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Menu/SideModal/SideModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Menu/SideModal/SideModal.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

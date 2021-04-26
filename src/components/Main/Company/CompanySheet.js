@@ -7,6 +7,7 @@ import {
   ScrollView,
   Button
 } from 'react-native';
+import dataGraph from '../../../util/dataGraph';
 
 import { getCompanyESG } from './../../../requests/request'
 
@@ -45,36 +46,54 @@ export default function CompanySheet({ route, navigation }) {
       dataStore.setLoader((value) => (true));
       let response = await getCompanyESG(dataStore.companyDisplay);
       dataStore.pushCompanyArray(response.data);
-      setIndex(dataStore.companyArray.length-1);
+      setIndex(dataStore.companyArray.length - 1);
       dataStore.setLoader((value) => (false));
       // for (let i = 0; i < dataStore.companyArray.length; i++) {
       //   console.log('dataStore.companyArray[i] :>> ',i, dataStore.companyArray[i].NAME, dataStore.companyArray[i].Sedol7);
       // }
     }
 
-    if (test === false) { 
+    if (test === false) {
       getESGData();
     }
 
   }, [dataStore.companyDisplay]);
 
-  const data = {
-    title: 'ESG Sector Decile',
-    groupname: 'Financials',
-    series: [
-      { month: 'Jan', decile: 7 },
-      { month: 'Fev', decile: 7 },
-      { month: 'Mar', decile: 7 },
-      { month: 'Apr', decile: 7 },
-      { month: 'May', decile: 6 },
-      { month: 'Jun', decile: 6 },
-      { month: 'Jul', decile: 5 },
-      { month: 'Aug', decile: 7 },
-      { month: 'Sept', decile: 8 },
-      { month: 'Oct', decile: 9 },
-      { month: 'Nov', decile: 9 },
-      { month: 'Dec', decile: 10 },
-    ]
+  const seriesESG = dataGraph(dataStore.companyArray[index].ESG_IG_decile, dataStore.companyArray[index].Datenum);
+  const seriesE = dataGraph(dataStore.companyArray[index].E_IG_decile, dataStore.companyArray[index].Datenum);
+  const seriesS = dataGraph(dataStore.companyArray[index].S_IG_decile, dataStore.companyArray[index].Datenum);
+  const seriesG = dataGraph(dataStore.companyArray[index].G_IG_decile, dataStore.companyArray[index].Datenum);
+  const sector = dataStore.companyArray[index].SASBSubSector;
+
+  const dataESG = {
+    title: 'Agregate ESG Rating',
+    groupname: sector,
+    series: seriesESG
+  }
+
+  const dataE = {
+    title: 'Environmental Rating',
+    groupname: sector,
+    series: seriesE
+  }
+
+  const dataS = {
+    title: 'Social Rating',
+    groupname: sector,
+    series: seriesS
+  }
+  const dataG = {
+    title: 'Governance Rating',
+    groupname: sector,
+    series: seriesG
+  }
+
+  const dataSummary = { sector: sector, ESG: seriesESG[11].decile, E: seriesE[11].decile, S: seriesS[11].decile, G: seriesG[11].decile,
+    ESG1Y: seriesESG[11].decile - seriesESG[0].decile, E1Y: seriesE[11].decile - seriesE[0].decile, S1Y: seriesS[11].decile - seriesS[0].decile, 
+    G1Y: seriesG[11].decile - seriesG[0].decile, intensityRank: dataStore.companyArray[index].intensityRank,
+    controversies: dataStore.companyArray[index].controversies,
+    pctSales: ( dataStore.companyArray[index].salesAverage[1] / dataStore.companyArray[index].totalSalesGroup[1] ) * 100,
+    pctCO2: ( dataStore.companyArray[index].carbonAverage[1] / dataStore.companyArray[index].totalCarbonGroup[1] ) * 100
   };
 
   return (
@@ -88,11 +107,11 @@ export default function CompanySheet({ route, navigation }) {
                 <View style={styles.company}>
                   <Text style={styles.companyTitle}>{dataStore.companyDisplayName}</Text>
                 </View>
-                <Summary data={data} />
-                <GraphRank data={data} />
-                <GraphRank data={data} />
-                <GraphRank data={data} />
-                <GraphRank data={data} />
+                <Summary data={dataSummary} />
+                <GraphRank data={dataESG} />
+                <GraphRank data={dataE} />
+                <GraphRank data={dataS} />
+                <GraphRank data={dataG} />
                 <View style={{ height: 200 }}>
                 </View>
               </ScrollView>

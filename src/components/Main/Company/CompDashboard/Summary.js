@@ -21,22 +21,17 @@ import { Row } from 'react-native-table-component';
 
 export default function Summary(props) {
 
+  const obj = props.data;
+
   return (
     <View style={styles.container}>
       <View style={styles.barRank}>
         <View style={{ marginHorizontal: 15 }}>
-          <Text style={styles.titleScore}>ESG Rankings Decile</Text>
-          <TableSummary />
+          <Text style={styles.titleScore}>ESG Sector Rankings</Text>
 
-          <View style={{ paddingTop: 20 }}>
-            <View style={{ flexDirection: 'row' }}>
-              <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Peergroup :</Text></View>
-              <View style={{ paddingLeft: 5 }}>
-                <Text style={{ fontSize: 16, fontFamily: 'NSBold' }}>Finance</Text>
-              </View>
-            </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 5, alignItems: 'center' }}>
-              <View><Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>70 Stocks</Text></View>
+          <View style={{ paddingVertical: 10 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <View><Text style={{ fontSize: 20, fontFamily: 'NSRegular', }}>Sector :</Text></View>
               <TouchableOpacity
                 style={{ borderWidth: 1, paddingVertical: 3, paddingHorizontal: 5, borderRadius: 10, borderColor: 'grey' }}
                 onPress={() => (console.log('prout'))}
@@ -55,8 +50,13 @@ export default function Summary(props) {
                 </View>
               </TouchableOpacity>
             </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 5, alignItems: 'center' }}>
+              <Text style={{ fontSize: 20, fontFamily: 'NSBold', color: 'blue' }}>{obj.sector}</Text>
+              <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>70 Stocks</Text>
+            </View>
           </View>
 
+          <TableSummary data={obj} />
           {/* <View style={{ paddingTop: 10 }}>
             <View style={{ flexDirection: 'row' }}>
               <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Industry :</Text></View>
@@ -88,12 +88,12 @@ export default function Summary(props) {
 
           <View style={{ paddingTop: 10 }}>
             <Text style={styles.titleScore}>Carbon</Text>
-            <CarbonSummary />
+            <CarbonSummary data={obj} />
           </View>
 
           <View style={{ paddingTop: 0, paddingBottom: 15 }}>
             <Text style={styles.titleScore}>Controversy</Text>
-            <GaugeLinear4 val={3} />
+            <GaugeLinear4 val={obj.controversies} />
           </View>
 
         </View>

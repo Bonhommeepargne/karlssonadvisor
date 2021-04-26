@@ -10,6 +10,9 @@ import Constants from 'expo-constants';
 import WatchListSelect from '../../../components/Main/Company/WatchListSelect'
 import { Icon } from 'react-native-elements';
 
+import { Dimensions } from "react-native";
+const screenWidth = Dimensions.get("window").width;
+
 /* Modal watch list select Select compagny */
 
 export default function SideModal({route, navigation}) {
@@ -53,17 +56,18 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     flex: 1,
-    width: '100%',
+    width: '200%',
     height: '100%',
   },
   backList: {
     position: "absolute",
     width: '100%',
     height: '100%',
-    backgroundColor: '#000000aa',
+    
+    backgroundColor: '#00000000',
   },
   list: {
-    width: '75%',
+    width: screenWidth * 0.75,
     height: '100%',
     backgroundColor: '#FFFFFF',
   },
@@ -71,6 +75,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
+    backgroundColor: "#FFF"
   },
   buttonLeft: {
     flex: 1,

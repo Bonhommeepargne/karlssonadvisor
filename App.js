@@ -12,7 +12,7 @@ import Context from "./src/context";
 import { useFonts } from 'expo-font';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import useAuth from "./src/components/Connection/Login/useAuth";
-import { MenuProvider } from 'react-native-popup-menu';
+// import { MenuProvider } from 'react-native-popup-menu';
 import Toast from 'react-native-toast-message';
 
 import NSLight from './assets/fonts/NunitoSans/NunitoSansLight.ttf';
@@ -54,7 +54,7 @@ export default function App() {
   return (
     <>
     <NavigationContainer theme={MyTheme}>
-      <MenuProvider>
+      {/* <MenuProvider> */}
         <View style={styles.container}>
           <StatusBar style='light' backgroundColor={'#4A5E0C'} />
           <Context.Provider value={{ user, userInfo, updateUserInfo, companyDisplay, companyDisplayName, newCompanyDisplay,
@@ -65,7 +65,7 @@ export default function App() {
             {loader && <DataLoader />}
           </Context.Provider>
         </View>
-      </MenuProvider>
+      {/* </MenuProvider> */}
     </NavigationContainer>
     <Toast ref={(ref) => Toast.setRef(ref)} />
     </>

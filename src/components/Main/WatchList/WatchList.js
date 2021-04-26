@@ -26,7 +26,7 @@ export default function WatchList() {
   const [masterDataSource, setMasterDataSource] = useState([]);
 
   useEffect(function () {
-    fb.db.collection("watchlist").where("uid", "==", user.user.uid)
+    let unsubscribe = fb.db.collection("watchlist").where("uid", "==", user.user.uid)
       .onSnapshot((querySnapshot) => {
         var companyList = [];
         querySnapshot.forEach((doc) => {
@@ -36,6 +36,8 @@ export default function WatchList() {
         user.storeWatchList(companyList);
         setMasterDataSource(companyList);
       });
+    
+      return unsubscribe;
   }, []);
 
   const ItemView = ({ item }) => {
