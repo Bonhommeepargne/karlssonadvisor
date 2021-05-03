@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import GaugeCircle from './GaugeCircle';
 import GaugeLinear4 from './GaugeLinear4';
-import { Icon } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/core';
 
 import NSLight from '../../../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
 import NSRegular from '../../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
@@ -12,40 +12,43 @@ import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraB
 import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
 
-export default function CarbonSummary() {
+export default function CarbonSummary(props) {
 
-  const sectorsales = 35;
-  const sectorco2 = 28;
-  const industrysales = 15;
-  const industryco2 = 12;
+  const company = props.data;
 
-  const carbon = 47;
-  const gaugeWidth = Math.round(screenWidth * 0.38);
+  const sectorsales = ( company.salesAverage[1] / company.totalSalesGroup[1] ) * 100;
+  const sectorco2 = ( company.carbonAverage[1] / company.totalCarbonGroup[1] ) * 100;
+
+  const navigation = useNavigation();
+
+  // const carbon = 47;
+  // const gaugeWidth = Math.round(screenWidth * 0.38);
 
   return (
     <View style={styles.container}>
       <View style={{ paddingBottom: 10 }} >
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 5, alignItems: 'center' }}>
-          <View><Text style={{ fontSize: 20, fontFamily: 'NSRegular', color: 'dimgrey' }}>Sector Intensity:</Text></View>
-          <TouchableOpacity
-            style={{ borderWidth: 1, paddingVertical: 3, paddingHorizontal: 5, borderRadius: 10, borderColor: 'grey' }}
-            onPress={() => (console.log('prout'))}
-          >
-            <View style={{ flexDirection: 'row' }}>
-              <View style={{ justifyContent: 'center' }}>
-                <Icon
-                  style={{ paddingHorizontal: 5 }}
-                  name='th'
-                  type='font-awesome'
-                  color='grey'
-                  size={22}
-                />
-              </View>
-              <View style={{ justifyContent: 'center' }}><Text style={{ fontSize: 18, color: 'grey' }}> &gt; </Text></View>
+        <View style={{ paddingVertical: 10 }}>
+        <View style={{ flexDirection: 'row'}}>
+              <View><Text style={{ fontSize: 20, fontFamily: 'NSRegular', }}>Sector : </Text></View>
+              <Text style={{ fontSize: 20, fontFamily: 'NSBold', color: 'blue' }}>{company.SASBSubSector}</Text>
             </View>
-          </TouchableOpacity>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 5, alignItems: 'center' }}>
+            <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>Total {company.carbonAverage_nb[1]} Stocks</Text>
+            <TouchableOpacity
+              style={{ borderWidth: 1, paddingVertical: 3, paddingHorizontal: 8, borderRadius: 10, borderColor: 'grey' }}
+              onPress={() => (navigation.navigate('Screening', { screen: 'Carbon'}))}
+            >
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{ justifyContent: 'center' }}>
+                  <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>{company.carbonAverage_nb_rk[1]} Ranked</Text>
+                </View>
+                <View style={{ justifyContent: 'center' }}><Text style={{ fontSize: 18, color: 'grey' }}> &gt;&gt;</Text></View>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
-        <GaugeLinear4 val={1} />
+
+        <GaugeLinear4 val={company.intensityRank[1]} />
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <View style={{ paddingHorizontal: 10, }}>

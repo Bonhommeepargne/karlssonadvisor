@@ -23,8 +23,9 @@ import NSExtraBold from './assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 export default function App() {
 
   const { user, userInfo, updateUserInfo, companyDisplay, companyDisplayName, newCompanyDisplay,companyArray, pushCompanyArray,
+    sectorDisplay, sectorDisplayName, newSectorDisplay, sectorArray, pushSectorArray,
     watchList, storeWatchList, allSecurities, storeAllSecurities} = useAuth();
-  
+
   // const [ sideModalVisible, setSideModalVisible ] = useState(false);
   const [ loader, setLoader ] = useState(false);
 
@@ -57,8 +58,12 @@ export default function App() {
       {/* <MenuProvider> */}
         <View style={styles.container}>
           <StatusBar style='light' backgroundColor={'#4A5E0C'} />
-          <Context.Provider value={{ user, userInfo, updateUserInfo, companyDisplay, companyDisplayName, newCompanyDisplay,
-              companyArray, pushCompanyArray, watchList, storeWatchList, allSecurities, storeAllSecurities, 
+          <Context.Provider value={{ user, userInfo, updateUserInfo, 
+              companyDisplay, companyDisplayName, newCompanyDisplay,
+              companyArray, pushCompanyArray, 
+              sectorDisplay, sectorDisplayName, newSectorDisplay, 
+              sectorArray, pushSectorArray,
+              watchList, storeWatchList, allSecurities, storeAllSecurities, 
               loader, setLoader }}>
             { !user || !userInfo ? <Loader /> : user === -1 ? <Login /> : <Menu />}
             {/* {sideModalVisible && <SideModal />} */}

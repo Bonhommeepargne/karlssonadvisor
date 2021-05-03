@@ -186,6 +186,7 @@ export default function Search({ route, navigation }) {
           value={search}
         />
         <FlatList
+          keyboardShouldPersistTaps={'handled'}
           data={filteredDataSource}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={ItemSeparatorView}

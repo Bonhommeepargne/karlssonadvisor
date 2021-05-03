@@ -15,7 +15,7 @@ import UserMenu from '../Main/User/UserMenu';
 
 const Tab = createBottomTabNavigator();
 
-export default function MenuTree() {
+export default function MenuTree({route, navigation}) {
 
   return (
     <>

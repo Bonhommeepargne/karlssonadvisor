@@ -16,16 +16,37 @@ import NSLight from '../../../../../assets/fonts/NunitoSans/NunitoSansLight.ttf'
 import NSRegular from '../../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
 import NSBold from '../../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
+import { setStatusBarStyle } from 'expo-status-bar';
 
-export default function TableSummary() {
+export default function TableSummary(props) {
 
-  const [masterDataSource, setMasterDataSource] = useState({
-    header: [' ', 'ESG', 'E', 'S', 'G'],
-    data: [
-      ['Peer Group', '6', '7', '8', '9'],
-      ['ΔChange 1Y', '+2', '-1', '+1', '+3'],
-    ]
-  });
+  const company = props.data;
+  const header = [' ', 'ESG', 'E', 'S', 'G'];
+  const data = [['Peer Group', company.ESG, company.E, company.S, company.G], ['ΔChange 1Y', company.ESG1Y,
+    company.E1Y,
+    company.S1Y,
+    company.G1Y],
+  ];
+
+  function getColor2(data) {
+    if ( data > 0 ) {
+      return 'blue'
+    } else if ( data < 0) {
+      return 'red'
+    } else if ( data == 0 ) {
+      return 'grey'
+    } 
+  }
+
+  function transform(data) {
+    if ( data > 0 ) {
+      return '+' + data;
+    } else if ( data < 0) {
+      return data
+    } else if ( data == 0 ) {
+      return 'stable'
+    } 
+  }
 
   function RowHeader({ column }) {
     let first = column[0];
@@ -56,24 +77,27 @@ export default function TableSummary() {
     );
   }
 
-  function Row({ column }) {
+  function Row({ column, index }) {
     let first = column[0];
 
     return (
       <View style={styles.rowStyle}>
         <FirstCell data={first} />
         {column.slice(1).map((data, ind) => (
-          <Cell key={ind} data={data} />
+          <Cell key={ind} data={data} ind={ind} nrow={index} />
         ))}
       </View>
     );
   }
 
-  function Cell({ data }) {
+  function Cell({ ind, data, nrow }) {
+
     return (
-      <View style={styles.cellStyle}>
+      nrow ==0 ? (<View style={styles.cellStyle}>
         <Text style={{ color: getColor(data), fontSize: 16, fontFamily: 'NSExtraBold', }}>{data}</Text>
-      </View>
+      </View>) : (<View style={styles.cellStyle}>
+        <Text style={{ color: getColor2(data), fontSize: 14, fontFamily: 'NSExtraBold', }}>{transform(data)}</Text>
+      </View>)
     );
   }
 
@@ -90,14 +114,14 @@ export default function TableSummary() {
       <>
         <RowHeader column={header} />
         {data.map((column, index) => (
-          <Row key={index} column={column} />
+          <Row key={index} column={column} index={index} />
         ))}
       </>
     )
   }
 
   return (
-    <TableData header={masterDataSource.header} data={masterDataSource.data} />
+    <TableData header={header} data={data} />
   );
 }
 

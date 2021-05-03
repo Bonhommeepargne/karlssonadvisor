@@ -27,7 +27,7 @@ export default function DataLoader(props) {
         <View style={{ justifyContent:'center', alignItems:'center', flex:1}} >
           <View style={styles.listCompany}>
             <Text style={{textAlign: 'center', fontSize: 15,
-                fontFamily: 'NSRegular',}}>Loading Company</Text>
+                fontFamily: 'NSRegular',}}>Loading...</Text>
             <ActivityIndicator size="large" color="#86B206" />
           </View>
         </View>

@@ -59,11 +59,12 @@ export default function CompanySheet({ route, navigation }) {
 
   }, [dataStore.companyDisplay]);
 
-  const seriesESG = dataGraph(dataStore.companyArray[index].ESG_IG_decile, dataStore.companyArray[index].Datenum);
-  const seriesE = dataGraph(dataStore.companyArray[index].E_IG_decile, dataStore.companyArray[index].Datenum);
-  const seriesS = dataGraph(dataStore.companyArray[index].S_IG_decile, dataStore.companyArray[index].Datenum);
-  const seriesG = dataGraph(dataStore.companyArray[index].G_IG_decile, dataStore.companyArray[index].Datenum);
-  const sector = dataStore.companyArray[index].SASBSubSector;
+  const company = dataStore.companyArray[index];
+  const seriesESG = dataGraph(company.ESG_IG_decile, company.Datenum);
+  const seriesE = dataGraph(company.E_IG_decile, company.Datenum);
+  const seriesS = dataGraph(company.S_IG_decile, company.Datenum);
+  const seriesG = dataGraph(company.G_IG_decile, company.Datenum);
+  const sector = company.SASBSubSector;
 
   const dataESG = {
     title: 'Agregate ESG Rating',
@@ -88,14 +89,6 @@ export default function CompanySheet({ route, navigation }) {
     series: seriesG
   }
 
-  const dataSummary = { sector: sector, ESG: seriesESG[11].decile, E: seriesE[11].decile, S: seriesS[11].decile, G: seriesG[11].decile,
-    ESG1Y: seriesESG[11].decile - seriesESG[0].decile, E1Y: seriesE[11].decile - seriesE[0].decile, S1Y: seriesS[11].decile - seriesS[0].decile, 
-    G1Y: seriesG[11].decile - seriesG[0].decile, intensityRank: dataStore.companyArray[index].intensityRank,
-    controversies: dataStore.companyArray[index].controversies,
-    pctSales: ( dataStore.companyArray[index].salesAverage[1] / dataStore.companyArray[index].totalSalesGroup[1] ) * 100,
-    pctCO2: ( dataStore.companyArray[index].carbonAverage[1] / dataStore.companyArray[index].totalCarbonGroup[1] ) * 100
-  };
-
   return (
     <Store.Consumer>
       {(store) => (
@@ -105,9 +98,9 @@ export default function CompanySheet({ route, navigation }) {
             <SafeAreaView>
               <ScrollView>
                 <View style={styles.company}>
-                  <Text style={styles.companyTitle}>{dataStore.companyDisplayName}</Text>
+                  <Text style={styles.companyTitle}>{store.companyDisplayName}</Text>
                 </View>
-                <Summary data={dataSummary} />
+                <Summary data={company} />
                 <GraphRank data={dataESG} />
                 <GraphRank data={dataE} />
                 <GraphRank data={dataS} />
@@ -131,7 +124,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
   },
   companyTitle: {
-    fontSize: 25,
+    fontSize: 22,
     fontFamily: 'NSRegular',
     color: "black",
     textAlign: 'center',

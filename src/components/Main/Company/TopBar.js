@@ -68,6 +68,7 @@ export default function TopBar() {
                             color='#fff'
                             size={24}
                         />
+
                     </TouchableWithoutFeedback>
                 </View>
             )}
