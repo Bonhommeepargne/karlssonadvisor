@@ -11,6 +11,7 @@ import * as fb from '../../../firebase';
 import context from '../../../context';
 import Toast from 'react-native-toast-message';
 import axios from 'axios';
+import { getAllSecurities } from '../../../requests/request';
 
 import NSLight from '../../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
 import NSRegular from '../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
@@ -27,8 +28,8 @@ export default function Search({ route, navigation }) {
 
     // console.log('masterDataSource :>> ', masterDataSource.length);
     async function fetchData() {
-      let response = await axios.get('https://finlive-app.herokuapp.com/ESGlist');
-      let data = response.data
+      let res = await getAllSecurities();
+      let data = res.data;
 
       storeData.storeAllSecurities(data);
       setMasterDataSource(watchlistClean(data));
@@ -154,7 +155,7 @@ export default function Search({ route, navigation }) {
       navigation.goBack();
     } else if (route.params.query === 'select') {
       storeData.newCompanyDisplay({ code: item.c, name: item.n });
-      navigation.navigate('MenuBottomTab');
+      navigation.goBack();
     } else if (route.params.query === 'firstuse') {
       fb.updateUser(storeData.user.uid, { company: item });
       storeData.updateUserInfo({ company: item });

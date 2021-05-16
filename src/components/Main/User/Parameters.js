@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  StatusBar,
   Switch
 } from 'react-native';
 import Context from './../../../context';
@@ -48,7 +47,6 @@ export default function Parameters() {
     } else {
       setIsEnabled(store.userInfo.notification)
     }
-    // StatusBar.setBarStyle('light-content', true);
   }, []);
 
   return (

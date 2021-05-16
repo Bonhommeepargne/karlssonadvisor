@@ -16,13 +16,12 @@ import NSLight from '../../../../../assets/fonts/NunitoSans/NunitoSansLight.ttf'
 import NSRegular from '../../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
 import NSBold from '../../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
-import { setStatusBarStyle } from 'expo-status-bar';
 
 export default function TableSummary(props) {
 
   const company = props.data;
   const header = [' ', 'ESG', 'E', 'S', 'G'];
-  const data = [['Peer Group', company.ESG, company.E, company.S, company.G], ['ΔChange 1Y', company.ESG1Y,
+  const data = [['Sector', company.ESG, company.E, company.S, company.G], ['ΔChange 1Y', company.ESG1Y,
     company.E1Y,
     company.S1Y,
     company.G1Y],

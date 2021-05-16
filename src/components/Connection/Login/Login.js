@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  StatusBar,
   Alert,
   ActivityIndicator,
   TextInput,
@@ -51,10 +50,6 @@ export default function LoginScreen3() {
   const [activeTab, setActiveTab] = useState('Login');
   const [activityIndicator, setActivityIndicator] = useState(false);
   const [firebaseError, setFirebaseError] = React.useState(null);
-
-  useEffect(function () {
-    StatusBar.setBarStyle('light-content', true);
-  }, []);
 
   async function authenticateUser() {
     try {

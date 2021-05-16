@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  StatusBar,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -38,10 +37,6 @@ export default function Reset() {
     NSBold,
     NSExtraBold,
   });
-
-  useEffect(function () {
-    StatusBar.setBarStyle('light-content', true);
-  }, []);
 
   // Gestion du formulaire
   const [firebaseError, setFirebaseError] = React.useState(null);

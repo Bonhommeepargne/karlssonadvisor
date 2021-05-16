@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  StatusBar,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -33,10 +32,6 @@ export default function Subscription() {
     NSBold,
     NSExtraBold,
   });
-
-  useEffect(function () {
-    StatusBar.setBarStyle('light-content', true);
-  }, []);
 
   if (!loaded) {
     return (

@@ -23,7 +23,6 @@ export default function DataLoader(props) {
     <View style={styles.container}>
       <View style={styles.backList} ></View>
       <View style={styles.list}>
-        <View style={{ height: Constants.statusBarHeight }}></View>
         <View style={{ justifyContent:'center', alignItems:'center', flex:1}} >
           <View style={styles.listCompany}>
             <Text style={{textAlign: 'center', fontSize: 15,

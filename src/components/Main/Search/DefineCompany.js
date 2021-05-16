@@ -18,7 +18,7 @@ export default function DefineCompany() {
     return (
         <View style={{ flex: 1 }}>
             <View style={{
-                marginTop: Constants.statusBarHeight, backgroundColor: '#6A8712',
+                marginTop: 0, backgroundColor: '#6A8712',
                 color: '#FFF', height: 50, flexDirection: "row", justifyContent: 'center',
                 alignItems: 'center'
             }}>

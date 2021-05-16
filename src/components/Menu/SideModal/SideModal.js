@@ -23,7 +23,6 @@ export default function SideModal({route, navigation}) {
     <View style={styles.container}>
       <TouchableOpacity style={styles.backList} activeOpacity={1} onPress={() => { navigation.goBack() }}></TouchableOpacity>
       <View style={styles.list}>
-        <View style={{ height: Constants.statusBarHeight }}></View>
         <View style={styles.listCompany}>
           <WatchListSelect route={route} navigation={navigation} />
         </View >

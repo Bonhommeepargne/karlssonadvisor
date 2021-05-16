@@ -69,7 +69,7 @@ export default function GaugeLinear4Controversy({ val }) {
           flex: 1, alignItems: 'center', backgroundColor: (riskLevel == 4 ? 'green' : '#FFF'), borderWidth: 1,
           borderBottomRightRadius: 10, borderColor: '#C8C8C8', padding: 5, borderTopRightRadius: 10,
         }}>
-          <Text style={{ fontSize: 12, fontFamily: 'NSExtraBold', color: (riskLevel == 4 ? '#FFF' : '#C8C8C8') }}>QUIET</Text>
+          <Text style={{ fontSize: 12, fontFamily: 'NSExtraBold', color: (riskLevel == 4 ? '#FFF' : '#C8C8C8') }}>NONE</Text>
         </View>
       </View>
 

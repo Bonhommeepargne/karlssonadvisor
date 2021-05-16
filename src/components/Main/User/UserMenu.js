@@ -71,14 +71,6 @@ export default function UserMenu() {
     }
   }
 
-  // if (!loaded) {
-  //   return (
-  //     <View>
-  //       <Loader />
-  //     </View>
-  //   );
-  // }
-
   return (
     <Store.Consumer>
       {(store) => (
@@ -90,9 +82,6 @@ export default function UserMenu() {
               <Text style={styles.description}>{store.userInfo.position ? store.userInfo.position : 'No position'}</Text>
               <Text style={styles.subscription}>{store.userInfo.subscription ? store.userInfo.subscription : 'No subscription'}</Text>
             </View>
-            {/* <TouchableOpacity style={styles.plan} onPress={() => (navigation.navigate('Subscription'))}>
-          <Image style={styles.avatar} source={require('../../../../assets/icons/free.png')} />
-        </TouchableOpacity> */}
             <View style={styles.centeredView} >
               <Modal animationType='slide' transparent={true} visible={modalVisible} >
                 <View style={[styles.centeredView, { marginTop: -100 }]} >
@@ -155,7 +144,6 @@ const styles = StyleSheet.create({
   header: {
     height: 120,
     flexDirection: 'row',
-    marginTop: 30,
     marginHorizontal: 20,
   },
   plan: {
@@ -166,8 +154,6 @@ const styles = StyleSheet.create({
     marginLeft: 7,
     paddingLeft: 16,
     marginTop: 5,
-    // borderLeftColor: '#FFF',
-    // borderLeftWidth: 4,
     marginBottom: 12
   },
   nameUser: {

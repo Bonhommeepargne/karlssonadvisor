@@ -1,18 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Menu from './src/components/Menu/Menu';
-import Login from './src/components/Connection/Login/Login';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, StatusBar, SafeAreaView } from 'react-native';
+// import Menu from './src/components/Menu/Menu';
+// import Login from './src/components/Connection/Login/Login';
 import Loader from './src/components/Loader/Loader';
 // import SideModal from './src/components/Menu/SideModal/SideModal';
 import DataLoader from './src/components/Menu/DataLoader/DataLoader';
+import Main from './src/components/Menu/Main';
 
 import 'react-native-gesture-handler';
 import Context from "./src/context";
 import { useFonts } from 'expo-font';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import useAuth from "./src/components/Connection/Login/useAuth";
-// import { MenuProvider } from 'react-native-popup-menu';
 import Toast from 'react-native-toast-message';
 
 import NSLight from './assets/fonts/NunitoSans/NunitoSansLight.ttf';
@@ -21,13 +20,11 @@ import NSBold from './assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from './assets/fonts/NunitoSans/NunitoSansExtraBold.ttf'; 
 
 export default function App() {
-
-  const { user, userInfo, updateUserInfo, companyDisplay, companyDisplayName, newCompanyDisplay,companyArray, pushCompanyArray,
-    sectorDisplay, sectorDisplayName, newSectorDisplay, sectorArray, pushSectorArray,
-    watchList, storeWatchList, allSecurities, storeAllSecurities} = useAuth();
-
-  // const [ sideModalVisible, setSideModalVisible ] = useState(false);
   const [ loader, setLoader ] = useState(false);
+
+  let { user, userInfo, updateUserInfo, companyDisplay, companyDisplayName, newCompanyDisplay,companyArray, pushCompanyArray,
+    sectorDisplay, sectorDisplayName, newSectorDisplay, sectorArray, pushSectorArray, indexArray, newIndexArray,
+    watchList, storeWatchList, allSecurities, storeAllSecurities} = useAuth();
 
   const MyTheme = {
     ...DefaultTheme,
@@ -50,27 +47,24 @@ export default function App() {
       <Loader />
     );
   }
-
+  
   // sideModalVisible, setSideModalVisible, 
   return (
     <>
+    <StatusBar backgroundColor="#6A8712"/>
     <NavigationContainer theme={MyTheme}>
-      {/* <MenuProvider> */}
-        <View style={styles.container}>
-          <StatusBar style='light' backgroundColor={'#4A5E0C'} />
+        <SafeAreaView style={styles.container}>
           <Context.Provider value={{ user, userInfo, updateUserInfo, 
               companyDisplay, companyDisplayName, newCompanyDisplay,
               companyArray, pushCompanyArray, 
               sectorDisplay, sectorDisplayName, newSectorDisplay, 
-              sectorArray, pushSectorArray,
+              sectorArray, pushSectorArray, indexArray, newIndexArray,
               watchList, storeWatchList, allSecurities, storeAllSecurities, 
               loader, setLoader }}>
-            { !user || !userInfo ? <Loader /> : user === -1 ? <Login /> : <Menu />}
-            {/* {sideModalVisible && <SideModal />} */}
-            {loader && <DataLoader />}
+              <Main />
+              {loader && <DataLoader />}
           </Context.Provider>
-        </View>
-      {/* </MenuProvider> */}
+        </SafeAreaView>
     </NavigationContainer>
     <Toast ref={(ref) => Toast.setRef(ref)} />
     </>

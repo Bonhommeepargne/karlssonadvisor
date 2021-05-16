@@ -27,12 +27,12 @@ export default function CarbonSummary(props) {
   return (
     <View style={styles.container}>
       <View style={{ paddingBottom: 10 }} >
-        <View style={{ paddingVertical: 10 }}>
+        <View style={{ paddingBottom: 10 }}>
         <View style={{ flexDirection: 'row'}}>
-              <View><Text style={{ fontSize: 20, fontFamily: 'NSRegular', }}>Sector : </Text></View>
-              <Text style={{ fontSize: 20, fontFamily: 'NSBold', color: 'blue' }}>{company.SASBSubSector}</Text>
+              <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Industry: </Text></View>
+              <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.SASBIndustryGroup}</Text>
             </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 5, alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, alignItems: 'center' }}>
             <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>Total {company.carbonAverage_nb[1]} Stocks</Text>
             <TouchableOpacity
               style={{ borderWidth: 1, paddingVertical: 3, paddingHorizontal: 8, borderRadius: 10, borderColor: 'grey' }}
@@ -58,37 +58,6 @@ export default function CarbonSummary(props) {
           <GaugeCircle val={sectorco2} text1='CO2 EMISSION' text2="OF SECTOR" />
         </View>
       </View>
-      {/* <View style={{ paddingBottom: 10 }} >
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 5, alignItems: 'center' }}>
-          <View><Text style={{ fontSize: 20, fontFamily: 'NSRegular', color: 'dimgrey' }}>Industry Intensity:</Text></View>
-          <TouchableOpacity
-            style={{ borderWidth: 1, paddingVertical: 3, paddingHorizontal: 5, borderRadius: 10, borderColor: 'grey' }}
-            onPress={() => (console.log('prout'))}
-          >
-            <View style={{ flexDirection: 'row' }}>
-              <View style={{ justifyContent: 'center' }}>
-                <Icon
-                  style={{ paddingHorizontal: 5 }}
-                  name='th'
-                  type='font-awesome'
-                  color='grey'
-                  size={22}
-                />
-              </View>
-              <View style={{ justifyContent: 'center' }}><Text style={{ fontSize: 18, color: 'grey' }}> &gt; </Text></View>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <GaugeLinear4 val={3} />
-      </View>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <View style={{ paddingHorizontal: 10, }}>
-          <GaugeCircle val={industrysales} text1='TOTAL SALES' text2="OF INDUSTRY" />
-        </View>
-        <View style={{ paddingHorizontal: 10, }}>
-          <GaugeCircle val={industryco2} text1='CO2 EMISSION' text2="OF INDUSTRY" />
-        </View>
-      </View> */}
     </View>
   );
 

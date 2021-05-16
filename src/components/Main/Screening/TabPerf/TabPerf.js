@@ -1,46 +1,56 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import _ from "lodash"
+import Store from '../../../../context';
+import _ from "lodash";
+import { useNavigation } from '@react-navigation/native';
 
 import NSLight from '../../../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
 import NSRegular from '../../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
 import NSBold from '../../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
-export default function TabPerf() {
+// "alpha-s-circle-outline" : "alpha-s-circle-outline"
+
+export default function TabESG() {
+
+    const navigation = useNavigation();
     const [columns, setColumns] = useState([
         "Name",
-        "ESG",
-        "E",
-        "S",
-        "G"
+        "s",
+        "Perf1M",
+        "Perf3M",
+        "Perf1Y",
+        "Perf3Y"
     ])
-
-    let tab = [];
-    for (let i = 0; i < 9; i++) {
-        var obj = {
-            Name: "MUCNHEC LDLDK RUCK",
-            ESG: Math.floor(Math.random() * 10),
-            E: Math.floor(Math.random() * 10),
-            S: Math.floor(Math.random() * 10),
-            G: Math.floor(Math.random() * 10)
-        };
-
-        tab.push(obj);
-    }
-
     const [direction, setDirection] = useState(null)
     const [selectedColumn, setSelectedColumn] = useState(null)
-    const [pets, setPets] = useState(tab)
+    const [data, setData] = useState([]);
+
+    const dataStore = useContext(Store);
+
+    useEffect(() => {
+
+        setData(_.orderBy(dataStore.sectorArray[dataStore.indexArray], 's', "desc"));
+
+    }, [dataStore.indexArray]);
+
+    const getItem = (item) => {
+        navigation.navigate('Company');
+        dataStore.newCompanyDisplay(item);
+      };
 
     const sortTable = (column) => {
-        const newDirection = direction === "desc" ? "asc" : "desc"
-        const sortedData = _.orderBy(pets, [column], [newDirection])
+        let newDirection = null;
+        if (column == selectedColumn) {
+            newDirection = direction === "desc" ? "asc" : "desc"
+        } else {
+            newDirection = "desc"
+        }
+        const sortedData = _.orderBy(data, [column], [newDirection])
         setSelectedColumn(column)
         setDirection(newDirection)
-        setPets(sortedData)
+        setData(sortedData)
     }
     const tableHeader = () => (
         <View style={styles.tableHeader}>
@@ -50,11 +60,12 @@ export default function TabPerf() {
                         return (
                             <TouchableOpacity
                                 key={index}
-                                style={index == 0 ? styles.columnFirstHeader : styles.columnHeader}
+                                style={index == 0 ? styles.columnFirstHeader : (index == 1 ? styles.columnSecondHeader : styles.columnHeader)}
                                 onPress={() => sortTable(column)}>
-                                <Text style={styles.columnHeaderTxt}>{column + " "}
+                                <Text style={styles.columnHeaderTxt}>{column == 's' ? selectedColumn != 's' && <MaterialCommunityIcons
+                                    name='alpha-c-box' size={20} /> : (column.substring(0, 4) == 'Perf' ? column.substring(4, 6) : column )}
                                     {selectedColumn === column && <MaterialCommunityIcons
-                                        name={direction === "desc" ? "arrow-down-drop-circle" : "arrow-up-drop-circle"}
+                                        name={direction === "desc" ? "arrow-down-drop-circle" : "arrow-up-drop-circle"} size={column == 's' ? 20 : 12} // "arrow-down-drop-circle" : "arrow-up-drop-circle"
                                     />
                                     }
                                 </Text>
@@ -66,11 +77,27 @@ export default function TabPerf() {
         </View>
     )
 
+    const DisplayRank = ({ perf }) => (
+        <Text style={{ ...styles.columnRowTxt, color: perf > 0 ? 'blue' : 'red'}}>{perf === 0 ? '-' : perf}</Text>
+    )
+
+    // {delta > 1 ? '↑' : ( delta > -1 ? '' :'↓' )}
+
+    const DisplaySize = ({ size }) => (
+        <>
+            {size > 10 ? <Text style={{ ...styles.columnSecondRowTxt, color: 'dodgerblue' }}>L</Text> : (
+                size > 2 ? <Text style={{ ...styles.columnSecondRowTxt, color: 'deepskyblue' }}>M</Text> :
+                    <Text style={{ ...styles.columnSecondRowTxt, color: 'lightskyblue' }}>S</Text>
+            )}
+        </>
+    )
+
     return (
+
         <View style={styles.container}>
 
             <FlatList
-                data={pets}
+                data={data}
                 style={{ width: "100%" }}
                 keyExtractor={(item, index) => index + ""}
                 ListHeaderComponent={tableHeader}
@@ -78,16 +105,19 @@ export default function TabPerf() {
                 renderItem={({ item, index }) => {
                     return (
                         <View style={{ ...styles.tableRow, backgroundColor: index % 2 == 1 ? "#f6f6f6" : "white" }}>
-                            <Text style={{ ...styles.columnFirstRowTxt, fontWeight: "bold" }}>{item.Name}</Text>
-                            <Text style={styles.columnRowTxt}>{item.ESG}</Text>
-                            <Text style={styles.columnRowTxt}>{item.E}</Text>
-                            <Text style={styles.columnRowTxt}>{item.S}</Text>
-                            <Text style={styles.columnRowTxt}>{item.G}</Text>
+                            <TouchableOpacity style={{width: "39%"}} onPress={() => { getItem({ code: item.Sedol7, name: item.Name }) }} >
+                                <Text style={styles.columnFirstRowTxt}>{item.Name}</Text>
+                            </TouchableOpacity>
+                            <DisplaySize size={item.s} />
+                            <DisplayRank perf={item.Perf1M} />
+                            <DisplayRank perf={item.Perf3M} />
+                            <DisplayRank perf={item.Perf1Y} />
+                            <DisplayRank perf={item.Perf3Y} />
                         </View>
                     )
                 }}
             />
-            <StatusBar style="auto" />
+
         </View>
     );
 }
@@ -104,7 +134,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-evenly",
         alignItems: "center",
-        backgroundColor: "#86b206",
+        backgroundColor: "#353535", //#6A8712",
         // borderTopEndRadius: 10,
         // borderTopStartRadius: 10,
         height: 50
@@ -115,12 +145,17 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     columnFirstHeader: {
-        width: "40%",
+        width: "39%",
         justifyContent: "center",
         alignItems: "center"
     },
+    columnSecondHeader: {
+        width: "5%",
+        justifyContent: "center",
+        alignItems: "flex-start"
+    },
     columnHeader: {
-        width: "15%",
+        width: "14%",
         justifyContent: "center",
         alignItems: "center"
     },
@@ -129,14 +164,20 @@ const styles = StyleSheet.create({
         fontFamily: 'NSBold',
     },
     columnFirstRowTxt: {
-        width: "40%",
         textAlign: "left",
         fontFamily: 'NSRegular',
         paddingLeft: 10,
     },
     columnRowTxt: {
-        width: "15%",
+        width: "14%",
         textAlign: "center",
-        fontFamily: 'NSRegular',
+        fontFamily: 'NSBold',
+        fontSize: 13,
+    },
+    columnSecondRowTxt: {
+        width: "5%",
+        textAlign: "center",
+        fontFamily: 'NSLight',
+        fontSize: 10,
     }
 });

@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  StatusBar,
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
@@ -51,7 +50,6 @@ export default function ManageProfile({route, navigation}) {
   });
   
   useEffect(function () {
-    StatusBar.setBarStyle('light-content', true);
     setCompany(store.userInfo.company.n);
     }, [isFocused]);
 

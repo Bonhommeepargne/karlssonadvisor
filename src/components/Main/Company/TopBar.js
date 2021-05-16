@@ -77,7 +77,7 @@ export default function TopBar() {
 
     return (
         <View style={{
-            marginTop: Constants.statusBarHeight, backgroundColor: '#6A8712',
+            marginTop: 0, backgroundColor: '#6A8712',
             color: '#FFF', height: 50, flexDirection: "row", justifyContent: 'space-between',
             alignItems: 'center'
         }}>

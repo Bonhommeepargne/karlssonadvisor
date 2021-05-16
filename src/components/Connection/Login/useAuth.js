@@ -8,7 +8,7 @@ function useAuth() {
     companyDisplayName: null, newCompanyDisplay: null,
     companyArray: null, pushCompanyArray: null, 
     sectorDisplay: null, sectorDisplayName: null, newSectorDisplay: null, 
-    sectorArray: null, pushSectorArray: null,
+    sectorArray: null, pushSectorArray: null, indexArray: null, newIndexArray: null,
     watchList: null, storeWatchList: null, allSecurities: null, storeAllSecurities: null }); 
 
   const newCompanyDisplay = ({code, name}) => {
@@ -64,16 +64,23 @@ function useAuth() {
     });
   }
 
+  const newIndexArray = ( n ) => {
+    setAuthUser((oldState) => {
+      oldState.indexArray = n;
+      return { ...oldState };
+    });
+  }
+
   React.useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged(user => {
-      console.log('connected')
+      // console.log('connected')
 
       var userCred = user;
       setAuthUser({user: userCred, userInfo: null});
       if (user) {
         var dataUser;
         fb.getUser(user.uid).then((data)=> {
-          console.log('data user ok')
+          // console.log('data user ok')
 
           dataUser = data;
           if (!data.company) {
@@ -82,24 +89,24 @@ function useAuth() {
             return getCompanyESG(data.company.c)
           };
         }).then((ESGData) => {
-          console.log('data company retrieved.')
+          // console.log('data company retrieved.')
 
           if (!dataUser.company || !ESGData.data.NAME) {
             setAuthUser({user: userCred, userInfo: dataUser, updateUserInfo: updateUserInfo, companyDisplay: '',
               companyDisplayName: '', newCompanyDisplay: newCompanyDisplay, 
               companyArray: [], pushCompanyArray: pushCompanyArray, 
               sectorDisplay: '', sectorDisplayName: '', newSectorDisplay: newSectorDisplay,
-              sectorArray: [], pushSectorArray: pushSectorArray,
+              sectorArray: [], pushSectorArray: pushSectorArray, indexArray: null, newIndexArray: newIndexArray,
               watchList: [], storeWatchList: storeWatchList, allSecurities: [], storeAllSecurities: storeAllSecurities});
           } else {
             setAuthUser({user: userCred, userInfo: dataUser, updateUserInfo: updateUserInfo, companyDisplay: dataUser.company.c,
               companyDisplayName: dataUser.company.n, newCompanyDisplay: newCompanyDisplay, 
               companyArray: [ ESGData.data ], pushCompanyArray: pushCompanyArray, 
-              sectorDisplay: ESGData.data.SASBSubSectorCode, sectorDisplayName: ESGData.data.SASBSubSector, newSectorDisplay: newSectorDisplay,
-              sectorArray: [], pushSectorArray: pushSectorArray,
+              sectorDisplay: ESGData.data.SASBIndustryGroupCode, sectorDisplayName: ESGData.data.SASBIndustryGroup, newSectorDisplay: newSectorDisplay,
+              sectorArray: [], pushSectorArray: pushSectorArray,  indexArray: null, newIndexArray: newIndexArray,
               watchList: [], storeWatchList: storeWatchList, allSecurities: [], storeAllSecurities: storeAllSecurities});
           }
-        }).catch(err=> console.log(err))
+        }).catch(err=> console.log('Erreur useAuth : ', err))
       } else {
         setAuthUser({user: -1, userInfo: -1});
       }

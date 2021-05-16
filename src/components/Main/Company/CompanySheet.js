@@ -4,8 +4,7 @@ import {
   Text,
   View,
   SafeAreaView,
-  ScrollView,
-  Button
+  ScrollView
 } from 'react-native';
 import dataGraph from '../../../util/dataGraph';
 
@@ -31,13 +30,15 @@ export default function CompanySheet({ route, navigation }) {
   const dataStore = useContext(Store);
 
   useEffect(() => {
-
+    console.log('company')
     let test = false;
     for (let i = 0; i < dataStore.companyArray.length; i++) {
-      // console.log('dataStore.companyArray[i] :>> ',i, dataStore.companyArray[i].NAME, dataStore.companyArray[i].Sedol7);
       if (dataStore.companyDisplay === dataStore.companyArray[i].Sedol7) {
         test = true;
+        console.log('valeur trouvée')
         setIndex(i);
+        dataStore.newSectorDisplay({code: dataStore.companyArray[i].SASBIndustryGroupCode, 
+                      name: dataStore.companyArray[i].SASBIndustryGroup })
         break;
       }
     }
@@ -47,24 +48,26 @@ export default function CompanySheet({ route, navigation }) {
       let response = await getCompanyESG(dataStore.companyDisplay);
       dataStore.pushCompanyArray(response.data);
       setIndex(dataStore.companyArray.length - 1);
+      dataStore.newSectorDisplay({code: response.data.SASBIndustryGroupCode, 
+        name: response.data.SASBIndustryGroup })
       dataStore.setLoader((value) => (false));
-      // for (let i = 0; i < dataStore.companyArray.length; i++) {
-      //   console.log('dataStore.companyArray[i] :>> ',i, dataStore.companyArray[i].NAME, dataStore.companyArray[i].Sedol7);
-      // }
     }
 
     if (test === false) {
+      console.log('valeur pas trouvée')
       getESGData();
     }
 
-  }, [dataStore.companyDisplay]);
+  }, [ dataStore.companyDisplay ]);
 
   const company = dataStore.companyArray[index];
-  const seriesESG = dataGraph(company.ESG_IG_decile, company.Datenum);
-  const seriesE = dataGraph(company.E_IG_decile, company.Datenum);
-  const seriesS = dataGraph(company.S_IG_decile, company.Datenum);
-  const seriesG = dataGraph(company.G_IG_decile, company.Datenum);
+
+  const seriesESG = dataGraph(company.ESG_SubSector_decile, company.Datenum);
+  const seriesE = dataGraph(company.E_SubSector_decile, company.Datenum);
+  const seriesS = dataGraph(company.S_SubSector_decile, company.Datenum);
+  const seriesG = dataGraph(company.G_SubSector_decile, company.Datenum);
   const sector = company.SASBSubSector;
+  const ig = company.SASBIndustryGroup;
 
   const dataESG = {
     title: 'Agregate ESG Rating',
@@ -99,13 +102,15 @@ export default function CompanySheet({ route, navigation }) {
               <ScrollView>
                 <View style={styles.company}>
                   <Text style={styles.companyTitle}>{store.companyDisplayName}</Text>
+                  <Text style={styles.companyTitle}>{store.sectorDisplay}</Text>
+                  <Text style={styles.companyTitle}>{store.sectorDisplayName}</Text>
                 </View>
                 <Summary data={company} />
                 <GraphRank data={dataESG} />
                 <GraphRank data={dataE} />
                 <GraphRank data={dataS} />
                 <GraphRank data={dataG} />
-                <View style={{ height: 200 }}>
+                <View style={{ height: 100 }}>
                 </View>
               </ScrollView>
             </SafeAreaView>
@@ -120,8 +125,6 @@ const styles = StyleSheet.create({
   company: {
     marginVertical: 10,
     width: "100%",
-    // height: 40,
-    // alignItems: 'center',
   },
   companyTitle: {
     fontSize: 22,
