@@ -19,10 +19,10 @@ export default function TabESG() {
     const [columns, setColumns] = useState([
         "Name",
         "s",
+        "Rank",
         "Int",
-        "Carbon",
-        "SalesPct",
-        "CarbonPct",
+        "SharS",
+        "SharC",
     ])
     const [direction, setDirection] = useState(null)
     const [selectedColumn, setSelectedColumn] = useState(null)
@@ -32,13 +32,14 @@ export default function TabESG() {
 
     useEffect(() => {
 
-        setData(_.orderBy(dataStore.sectorArray[dataStore.indexArray], 's', "desc"));
+        setData(_.orderBy(dataStore.sectorArray[dataStore.indexSector], 's', "desc"));
 
-    }, [dataStore.indexArray]);
+    }, [dataStore.indexSector]);
 
     const getItem = (item) => {
+        // console.log({ row: dataStore.indexSector, col: item.ind });
         navigation.navigate('Company');
-        dataStore.newCompanyDisplay(item);
+        dataStore.newIndexCompany({ row: dataStore.indexSector, col: item.ind });
       };
 
     const sortTable = (column) => {
@@ -64,7 +65,7 @@ export default function TabESG() {
                                 style={index == 0 ? styles.columnFirstHeader : (index == 1 ? styles.columnSecondHeader : styles.columnHeader)}
                                 onPress={() => sortTable(column)}>
                                 <Text style={styles.columnHeaderTxt}>{column == 's' ? selectedColumn != 's' && <MaterialCommunityIcons
-                                    name='alpha-c-box' size={20} /> : column}
+                                    name='alpha-c-box' size={20} /> : ( column )}
                                     {selectedColumn === column && <MaterialCommunityIcons
                                         name={direction === "desc" ? "arrow-down-drop-circle" : "arrow-up-drop-circle"} size={column == 's' ? 20 : 12} // "arrow-down-drop-circle" : "arrow-up-drop-circle"
                                     />
@@ -79,7 +80,7 @@ export default function TabESG() {
     )
 
     const DisplayRank = ( { note } ) => (
-        <Text style={{ ...styles.columnRowTxt, color: 'black' }}>{note}</Text>
+        <Text style={{ ...styles.columnRowTxt, color: 'black' }}>{note == 0 ? '-' : note}</Text>
     )
 
     const DisplayIntensity = ({ note }) => {
@@ -110,14 +111,14 @@ export default function TabESG() {
                 renderItem={({ item, index }) => {
                     return (
                         <View style={{ ...styles.tableRow, backgroundColor: index % 2 == 1 ? "#f6f6f6" : "white" }}>
-                            <TouchableOpacity style={{width: "39%"}} onPress={() => { getItem({ code: item.Sedol7, name: item.Name }) }} >
+                            <TouchableOpacity style={{width: "39%"}} onPress={() => { getItem({ code: item.Sedol7, name: item.Name, ind: item.ind }) }} >
                                 <Text style={styles.columnFirstRowTxt}>{item.Name}</Text>
                             </TouchableOpacity>
                             <DisplaySize size={item.s} />
-                            <DisplayIntensity note={item.Int} />
-                            <DisplayRank note={item.Carbon} />
-                            <DisplayRank note={item.SalesPct} />
-                            <DisplayRank note={item.CarbonPct} />
+                            <DisplayIntensity note={item.Rank} />
+                            <DisplayRank note={item.Int} />
+                            <DisplayRank note={item.SharS} />
+                            <DisplayRank note={item.SharC} />
                         </View>
                     )
                 }}

@@ -17,6 +17,9 @@ async function register(fullname,email, password) {
     email,
     password
   );
+  var user = firebase.auth().currentUser;
+  await user.updateProfile({ displayName: fullname })
+  await user.sendEmailVerification();
   return newUser;
 };
 
@@ -27,7 +30,6 @@ async function logout() {
 async function resetPassword(email) {
   return await firebase.auth().sendPasswordResetEmail(email);
 }
-
 
 // Users
 const db = firebase.firestore();

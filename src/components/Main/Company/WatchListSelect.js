@@ -10,6 +10,7 @@ import {
 import Toast from 'react-native-toast-message';
 import * as fb from "../../../firebase";
 import context from '../../../context';
+import findCompany from '../../../util/findCompany'
 import { Icon } from 'react-native-elements';
 
 // https://fonts.google.com/specimen/Nunito+Sans
@@ -59,17 +60,6 @@ export default function WatchList({route, navigation}) {
             </Text>
           </TouchableOpacity>
         </View>
-        {/* <View style={{justifyContent: 'center'}}>
-        <TouchableWithoutFeedback onPress={() => getItem(item)}>
-            <Icon
-              style={{}}
-              name='trash-alt'
-              type='font-awesome-5'
-              color='black'
-              size={20}
-            />
-          </TouchableWithoutFeedback>
-        </View> */}
       </View>
     );
   };
@@ -88,9 +78,17 @@ export default function WatchList({route, navigation}) {
   };
 
   const getItem = (item) => {
-    store.newCompanyDisplay({ code: item.c, name: item.n });
-    navigation.goBack();
-    // store.setSideModalVisible((value) => (!value))
+    store.setLoader(true);
+    findCompany(store.sectorArray, item).then((val) => {
+      if ( val.tab ) { store.pushSectorArray( val.tab ) }
+      store.newIndexSector(val.coord.row);
+      store.newIndexCompany(val.coord);
+      navigation.navigate('Company');
+      store.setLoader(false);
+    }).catch(err => {
+      store.setLoader(false);
+      console.log(err)
+    });
   };
 
   return (

@@ -29,7 +29,7 @@ export default function Summary(props) {
     <View style={styles.container}>
       <View style={styles.barRank}>
         <View style={{ marginHorizontal: 15 }}>
-          <Text style={styles.titleScore}>ESG Industry Rankings</Text>
+          <Text style={styles.titleScore}>ESG Sector Rankings</Text>
 
           <View style={{ paddingVertical: 15 }}>
             <View style={{ flexDirection: 'row', paddingBottom:10 }}>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'flex-start'
   },
   barRank: {
-    marginVertical: 10,
+    marginBottom: 10,
     justifyContent: 'flex-start',
     width: "95%",
     borderWidth: 1,

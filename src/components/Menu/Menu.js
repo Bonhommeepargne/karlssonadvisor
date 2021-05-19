@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import React, {useEffect,} from 'react';
 import { StyleSheet, Text, View, TouchableWithoutFeedback, Animated } from 'react-native';
 import { Icon } from 'react-native-elements';
 
@@ -57,7 +57,7 @@ export default function Menu() {
     <Store.Consumer>
       {(store) => (
         <Stack.Navigator>
-          {store.companyDisplay == '' ?
+          { !store.userInfo.company ?
           <Stack.Screen name="DefineCompany" component={DefineCompany} options={{ headerShown: false }} />
           :
           <Stack.Screen name="MenuTree" component={MenuTree} options={{ headerShown: false }} />

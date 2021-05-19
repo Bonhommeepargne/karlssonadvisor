@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Store from '../../../context'
 
 const Stack = createStackNavigator();
 
@@ -38,7 +39,7 @@ var fullname = "";
 var email = "";
 var password = "";
 
-export default function LoginScreen3() {
+export default function LoginScreen() {
 
   const [loaded] = useFonts({
     NSLight,
@@ -50,6 +51,12 @@ export default function LoginScreen3() {
   const [activeTab, setActiveTab] = useState('Login');
   const [activityIndicator, setActivityIndicator] = useState(false);
   const [firebaseError, setFirebaseError] = React.useState(null);
+
+  const dataStore = useContext(Store);
+
+  useEffect(() => {
+      dataStore.setOurLoader(true);
+    }, [])
 
   async function authenticateUser() {
     try {
@@ -66,7 +73,7 @@ export default function LoginScreen3() {
         });
         setActivityIndicator(false);
         setActiveTab("Login");
-        setFirebaseError("You have successfully been registered ! You can now connect.")
+        setFirebaseError("Check your Email and clock on the activation link")
       }
     } catch (err) {
       console.error("Authentication Error", err);
@@ -261,6 +268,7 @@ export default function LoginScreen3() {
 
   // ['#0aab30', '#1c9434']
   function Auth() {
+
     return (
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <LinearGradient colors={['#6A8712', '#86B206']} style={styles.container}>
@@ -310,7 +318,6 @@ export default function LoginScreen3() {
   }
 
   return (
-
     <Stack.Navigator>
       <Stack.Screen name="Auth" component={Auth} options={{ headerShown: false }} />
       <Stack.Screen name="Reset" component={Reset} options={{

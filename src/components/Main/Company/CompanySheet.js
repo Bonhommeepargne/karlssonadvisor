@@ -4,11 +4,10 @@ import {
   Text,
   View,
   SafeAreaView,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from 'react-native';
 import dataGraph from '../../../util/dataGraph';
-
-import { getCompanyESG } from './../../../requests/request'
 
 import Summary from './CompDashboard/Summary'
 import GraphRank from './CompDashboard/GraphRank';
@@ -25,87 +24,67 @@ import Store from '../../../context';
 
 export default function CompanySheet({ route, navigation }) {
 
-  const [index, setIndex] = useState(0);
-
   const dataStore = useContext(Store);
 
+  const [comp, setComp] = useState(null);
+  const [dataESG, setDataESG] = useState(null);
+  const [dataE, setDataE] = useState(null);
+  const [dataS, setDataS] = useState(null);
+  const [dataG, setDataG] = useState(null);
+
+  let company = null;
   useEffect(() => {
-    console.log('company')
-    let test = false;
-    for (let i = 0; i < dataStore.companyArray.length; i++) {
-      if (dataStore.companyDisplay === dataStore.companyArray[i].Sedol7) {
-        test = true;
-        console.log('valeur trouvée')
-        setIndex(i);
-        dataStore.newSectorDisplay({code: dataStore.companyArray[i].SASBIndustryGroupCode, 
-                      name: dataStore.companyArray[i].SASBIndustryGroup })
-        break;
-      }
-    }
+    dataStore.setOurLoader(true);
+  }, [])
 
-    async function getESGData() {
-      dataStore.setLoader((value) => (true));
-      let response = await getCompanyESG(dataStore.companyDisplay);
-      dataStore.pushCompanyArray(response.data);
-      setIndex(dataStore.companyArray.length - 1);
-      dataStore.newSectorDisplay({code: response.data.SASBIndustryGroupCode, 
-        name: response.data.SASBIndustryGroup })
-      dataStore.setLoader((value) => (false));
-    }
+  useEffect(() => {
+    company = dataStore.sectorArray[dataStore.indexCompany.row][dataStore.indexCompany.col]
+    setComp(company);
 
-    if (test === false) {
-      console.log('valeur pas trouvée')
-      getESGData();
-    }
+    setDataESG({
+      title: 'Agregate ESG Rating',
+      groupname: company.SASBSubSector,
+      series: dataGraph(company.ESG_SubSector_decile, company.Datenum)
+    });
 
-  }, [ dataStore.companyDisplay ]);
+    setDataE({
+      title: 'Environmental Rating',
+      groupname: company.SASBSubSector,
+      series: dataGraph(company.E_SubSector_decile, company.Datenum)
+    });
 
-  const company = dataStore.companyArray[index];
+    setDataS({
+      title: 'Social Rating',
+      groupname: company.SASBSubSector,
+      series: dataGraph(company.S_SubSector_decile, company.Datenum)
+    })
 
-  const seriesESG = dataGraph(company.ESG_SubSector_decile, company.Datenum);
-  const seriesE = dataGraph(company.E_SubSector_decile, company.Datenum);
-  const seriesS = dataGraph(company.S_SubSector_decile, company.Datenum);
-  const seriesG = dataGraph(company.G_SubSector_decile, company.Datenum);
-  const sector = company.SASBSubSector;
-  const ig = company.SASBIndustryGroup;
+    setDataG({
+      title: 'Governance Rating',
+      groupname: company.SASBSubSector,
+      series: dataGraph(company.G_SubSector_decile, company.Datenum)
+    })
 
-  const dataESG = {
-    title: 'Agregate ESG Rating',
-    groupname: sector,
-    series: seriesESG
-  }
-
-  const dataE = {
-    title: 'Environmental Rating',
-    groupname: sector,
-    series: seriesE
-  }
-
-  const dataS = {
-    title: 'Social Rating',
-    groupname: sector,
-    series: seriesS
-  }
-  const dataG = {
-    title: 'Governance Rating',
-    groupname: sector,
-    series: seriesG
-  }
+  }, [dataStore.indexCompany.row, dataStore.indexCompany.col]);
 
   return (
-    <Store.Consumer>
-      {(store) => (
-        <View style={{ backgroundColor: "#F5F5F5", flex: 1 }} >
+    <>
+      { comp &&
+        (<View style={{ backgroundColor: "#F5F5F5", flex: 1 }} >
           <TopBar />
           <View>
             <SafeAreaView>
               <ScrollView>
                 <View style={styles.company}>
-                  <Text style={styles.companyTitle}>{store.companyDisplayName}</Text>
-                  <Text style={styles.companyTitle}>{store.sectorDisplay}</Text>
-                  <Text style={styles.companyTitle}>{store.sectorDisplayName}</Text>
+                  <Text style={styles.companyTitle}>{comp.Name}</Text>
                 </View>
-                <Summary data={company} />
+                {/* <TouchableOpacity
+                  style={{paddingHorizontal: 5}}
+                  onPress={() => console.log('toto')}
+                >
+                  <Text>Press Here</Text>
+                </TouchableOpacity> */}
+                <Summary data={comp} />
                 <GraphRank data={dataESG} />
                 <GraphRank data={dataE} />
                 <GraphRank data={dataS} />
@@ -115,9 +94,9 @@ export default function CompanySheet({ route, navigation }) {
               </ScrollView>
             </SafeAreaView>
           </View>
-        </View>
-      )}
-    </Store.Consumer>
+        </View>)
+      }
+    </>
   );
 }
 

@@ -10,8 +10,8 @@ import { SearchBar } from 'react-native-elements';
 import * as fb from '../../../firebase';
 import context from '../../../context';
 import Toast from 'react-native-toast-message';
-import axios from 'axios';
 import { getAllSecurities } from '../../../requests/request';
+import findCompany from '../../../util/findCompany';
 
 import NSLight from '../../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
 import NSRegular from '../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
@@ -61,7 +61,7 @@ export default function Search({ route, navigation }) {
       setFilteredDataSource(storeData.allSecurities);
     }
 
-  }, [ ]);
+  }, []);
 
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
@@ -154,12 +154,30 @@ export default function Search({ route, navigation }) {
       })
       navigation.goBack();
     } else if (route.params.query === 'select') {
-      storeData.newCompanyDisplay({ code: item.c, name: item.n });
-      navigation.goBack();
+      storeData.setLoader(true);
+      findCompany(storeData.sectorArray, item).then((val) => {
+        if ( val.tab ) { storeData.pushSectorArray( val.tab ) }
+        storeData.newIndexSector(val.coord.row);
+        storeData.newIndexCompany(val.coord);
+        navigation.navigate('Company');
+        storeData.setLoader(false);
+      }).catch(err => {
+        storeData.setLoader(false);
+        console.log(err)
+      });
     } else if (route.params.query === 'firstuse') {
       fb.updateUser(storeData.user.uid, { company: item });
       storeData.updateUserInfo({ company: item });
-      storeData.newCompanyDisplay({ code: item.c, name: item.n });
+      findCompany(storeData.sectorArray, item).then((val) => {
+        if ( val.tab ) { storeData.pushSectorArray( val.tab ) }
+        storeData.newIndexSector(val.coord.row);
+        storeData.newIndexCompany(val.coord);
+        navigation.navigate('Company');
+        storeData.setLoader(false);
+      }).catch(err => {
+        storeData.setLoader(false);
+        console.log(err)
+      });
       Toast.show({
         type: 'success',
         position: 'bottom',

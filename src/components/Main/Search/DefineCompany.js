@@ -1,12 +1,12 @@
-import React from 'react';
+import React, {useEffect, useContext} from 'react';
 import {
     StyleSheet,
     Text,
     View,
     TouchableWithoutFeedback,
 } from 'react-native';
-import Constants from 'expo-constants';
 import Search from './Search';
+import Store from '../../../context';
 
 import NSLight from '../../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
 import NSRegular from '../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
@@ -14,6 +14,12 @@ import NSBold from '../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
 export default function DefineCompany() {
+
+    const dataStore = useContext(Store);
+
+    useEffect(() => {
+        dataStore.setOurLoader(true);
+      }, [])
 
     return (
         <View style={{ flex: 1 }}>

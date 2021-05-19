@@ -20,11 +20,11 @@ import NSBold from './assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from './assets/fonts/NunitoSans/NunitoSansExtraBold.ttf'; 
 
 export default function App() {
-  const [ loader, setLoader ] = useState(false);
-
-  let { user, userInfo, updateUserInfo, companyDisplay, companyDisplayName, newCompanyDisplay,companyArray, pushCompanyArray,
-    sectorDisplay, sectorDisplayName, newSectorDisplay, sectorArray, pushSectorArray, indexArray, newIndexArray,
-    watchList, storeWatchList, allSecurities, storeAllSecurities} = useAuth();
+  const [ loader, setLoader ] = useState(false); // false == isLoaded
+  const [ourLoader, setOurLoader ] = useState(false);
+  
+  let { user, userInfo, updateUserInfo, sectorArray, pushSectorArray, indexSector, newIndexSector,
+    indexCompany, newIndexCompany, watchList, storeWatchList, allSecurities, storeAllSecurities} = useAuth();
 
   const MyTheme = {
     ...DefaultTheme,
@@ -35,38 +35,29 @@ export default function App() {
     },
   };
 
-  const [loaded] = useFonts({
+  const [loadedFont] = useFonts({
     NSLight,
     NSRegular,
     NSBold,
     NSExtraBold,
   });
 
-  if (!loaded) {
-    return (
-      <Loader />
-    );
-  }
-  
-  // sideModalVisible, setSideModalVisible, 
   return (
     <>
-    <StatusBar backgroundColor="#6A8712"/>
-    <NavigationContainer theme={MyTheme}>
-        <SafeAreaView style={styles.container}>
-          <Context.Provider value={{ user, userInfo, updateUserInfo, 
-              companyDisplay, companyDisplayName, newCompanyDisplay,
-              companyArray, pushCompanyArray, 
-              sectorDisplay, sectorDisplayName, newSectorDisplay, 
-              sectorArray, pushSectorArray, indexArray, newIndexArray,
-              watchList, storeWatchList, allSecurities, storeAllSecurities, 
-              loader, setLoader }}>
-              <Main />
-              {loader && <DataLoader />}
-          </Context.Provider>
-        </SafeAreaView>
-    </NavigationContainer>
-    <Toast ref={(ref) => Toast.setRef(ref)} />
+      <StatusBar backgroundColor="#6A8712"/>
+      <NavigationContainer theme={MyTheme}>
+          <SafeAreaView style={styles.container}>
+            <Context.Provider value={{ user, userInfo, updateUserInfo, sectorArray,
+                pushSectorArray, indexSector, newIndexSector, indexCompany, newIndexCompany,
+                watchList, storeWatchList, allSecurities, storeAllSecurities, 
+                loader, setLoader, ourLoader, setOurLoader }}>
+                  {loadedFont && <Main />}
+                  {!loadedFont || !ourLoader && <Loader />}
+                  {loader && <DataLoader />}
+            </Context.Provider>
+          </SafeAreaView>
+      </NavigationContainer>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </>
   );
 }
@@ -77,4 +68,11 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  hide: {
+    display: 'none',
+    backgroundColor: 'red',
+    borderColor: 'red',
+    borderWidth: 1,
+  }
+
 });

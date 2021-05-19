@@ -32,13 +32,14 @@ export default function TabESG() {
 
     useEffect(() => {
 
-        setData(_.orderBy(dataStore.sectorArray[dataStore.indexArray], 's', "desc"));
+        setData(_.orderBy(dataStore.sectorArray[dataStore.indexSector], 's', "desc"));
 
-    }, [dataStore.indexArray]);
+    }, [dataStore.indexSector]);
 
     const getItem = (item) => {
+        // console.log({ row: dataStore.indexSector, col: item.ind });
         navigation.navigate('Company');
-        dataStore.newCompanyDisplay(item);
+        dataStore.newIndexCompany({ row: dataStore.indexSector, col: item.ind });
       };
 
     const sortTable = (column) => {
@@ -79,8 +80,8 @@ export default function TabESG() {
     )
 
     const DisplayRank = ({ note, delta }) => (
-        <Text style={{ ...styles.columnRowTxt, color: getColor(note) }}>{note}
-            {delta > 1 ? '↑' : (delta > -1 ? '' : '↓')}</Text>
+        <Text style={{ ...styles.columnRowTxt, color: getColor(note) }}>{note == 0 ? '-' : note +
+            (delta > 1 ? '↑' : (delta > -1 ? '' : '↓'))}</Text>
     )
 
     // {delta > 1 ? '↑' : ( delta > -1 ? '' :'↓' )}
@@ -107,7 +108,7 @@ export default function TabESG() {
                 renderItem={({ item, index }) => {
                     return (
                         <View style={{ ...styles.tableRow, backgroundColor: index % 2 == 1 ? "#f6f6f6" : "white" }}>
-                            <TouchableOpacity style={{width: "39%"}} onPress={() => { getItem({ code: item.Sedol7, name: item.Name }) }} >
+                            <TouchableOpacity style={{width: "39%"}} onPress={() => { getItem({ code: item.Sedol7, name: item.Name, ind: item.ind }) }} >
                                 <Text style={styles.columnFirstRowTxt}>{item.Name}</Text>
                             </TouchableOpacity>
                             <DisplaySize size={item.s} />
