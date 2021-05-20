@@ -7,11 +7,12 @@ import {
   ScrollView,
   TouchableOpacity
 } from 'react-native';
-import dataGraph from '../../../util/dataGraph';
 
 import Summary from './CompDashboard/Summary'
 import GraphRank from './CompDashboard/GraphRank';
 import TopBar from './TopBar';
+import Perf from './CompDashboard/Perf'
+import Info from './CompDashboard/Info'
 
 // https://fonts.google.com/specimen/Nunito+Sans
 // import { useFonts } from 'expo-font';
@@ -44,25 +45,25 @@ export default function CompanySheet({ route, navigation }) {
     setDataESG({
       title: 'Agregate ESG Rating',
       groupname: company.SASBSubSector,
-      series: dataGraph(company.ESG_SubSector_decile, company.Datenum)
+      series: company.DataGraphESG
     });
 
     setDataE({
       title: 'Environmental Rating',
       groupname: company.SASBSubSector,
-      series: dataGraph(company.E_SubSector_decile, company.Datenum)
+      series: company.DataGraphE
     });
 
     setDataS({
       title: 'Social Rating',
       groupname: company.SASBSubSector,
-      series: dataGraph(company.S_SubSector_decile, company.Datenum)
+      series: company.DataGraphS
     })
 
     setDataG({
       title: 'Governance Rating',
       groupname: company.SASBSubSector,
-      series: dataGraph(company.G_SubSector_decile, company.Datenum)
+      series: company.DataGraphG
     })
 
   }, [dataStore.indexCompany.row, dataStore.indexCompany.col]);
@@ -78,17 +79,13 @@ export default function CompanySheet({ route, navigation }) {
                 <View style={styles.company}>
                   <Text style={styles.companyTitle}>{comp.Name}</Text>
                 </View>
-                {/* <TouchableOpacity
-                  style={{paddingHorizontal: 5}}
-                  onPress={() => console.log('toto')}
-                >
-                  <Text>Press Here</Text>
-                </TouchableOpacity> */}
                 <Summary data={comp} />
                 <GraphRank data={dataESG} />
                 <GraphRank data={dataE} />
                 <GraphRank data={dataS} />
                 <GraphRank data={dataG} />
+                <Perf data={comp} />
+                <Info data={comp} />
                 <View style={{ height: 100 }}>
                 </View>
               </ScrollView>

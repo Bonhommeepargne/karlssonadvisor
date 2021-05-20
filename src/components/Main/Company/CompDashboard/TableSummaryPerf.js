@@ -17,15 +17,16 @@ import NSRegular from '../../../../../assets/fonts/NunitoSans/NunitoSansRegular.
 import NSBold from '../../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
-export default function TableSummary(props) {
+export default function TableSummaryPerf(props) {
 
   const company = props.data;
-  const header = [' ', 'ESG', 'E', 'S', 'G'];
-  const data = [['Sector', company.ESG, company.E, company.S, company.G], ['ΔChange 1Y', company.ESG1Y,
-    company.E1Y,
-    company.S1Y,
-    company.G1Y],
-  ];
+  const header = [' ', '%'];
+  const data = [['ΔLast Month', company.Perf1M ],
+                ['Δ3 Month', company.PerfYTD ],
+               ['Δ3 Month', company.Perf3M ],
+               ['Δ6 Month', company.Perf6M ],
+               ['Δ 1 Year', company.Perf1Y ],
+               ['Δ 3 Years', company.Perf3Y ]];
 
   function getColor2(data) {
     if ( data > 0 ) {
@@ -63,7 +64,7 @@ export default function TableSummary(props) {
   function CellHeader({ data }) {
     return (
       <View style={styles.cellStyleHeader}>
-        <Text style={{ fontSize: 20, fontFamily: 'NSExtraBold' }}>{data}</Text>
+        <Text style={{ fontSize: 16, fontFamily: 'NSRegular', color: 'grey' }}>{data}</Text>
       </View>
     );
   }
@@ -71,7 +72,7 @@ export default function TableSummary(props) {
   function FirstCellHeader({ data }) {
     return (
       <View style={styles.cellStyleFirstHeader}>
-        <Text style={{ fontSize: 20, fontFamily: 'NSExtraBold' }}>{data}</Text>
+        <Text style={{ fontSize: 16, fontFamily: 'NSExtraBold' }}>{data}</Text>
       </View>
     );
   }
@@ -92,10 +93,8 @@ export default function TableSummary(props) {
   function Cell({ ind, data, nrow }) {
 
     return (
-      nrow ==0 ? (<View style={styles.cellStyle}>
-        <Text style={{ color: getColor(data), fontSize: 16, fontFamily: 'NSExtraBold', }}>{data}</Text>
-      </View>) : (<View style={styles.cellStyle}>
-        <Text style={{ color: getColor2(data), fontSize: 16, fontFamily: 'NSBold', }}>{transform(data)}</Text>
+      (<View style={styles.cellStyle}>
+        <Text style={{ color: getColor2(data), fontSize: 14, fontFamily: 'NSBold', }}>{transform(data)}</Text>
       </View>)
     );
   }
@@ -103,7 +102,7 @@ export default function TableSummary(props) {
   function FirstCell({ data }) {
     return (
       <View style={styles.cellStyleFirst}>
-        <Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>{data}</Text>
+        <Text style={{ fontSize: 14, fontFamily: 'NSRegular', }}>{data}</Text>
       </View>
     );
   }

@@ -40,7 +40,7 @@ export default function CarbonSummary(props) {
             >
               <View style={{ flexDirection: 'row' }}>
                 <View style={{ justifyContent: 'center' }}>
-                  <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>{company.carbonAverage_nb_rk[1]} Ranked</Text>
+                  <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>{company.carbonAverage_nb_rk[1]} Rated</Text>
                 </View>
                 <View style={{ justifyContent: 'center' }}><Text style={{ fontSize: 18, color: 'grey' }}> &gt;&gt;</Text></View>
               </View>
