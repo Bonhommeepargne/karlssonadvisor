@@ -45,13 +45,13 @@ export default function Info(props) {
           <View style={{ paddingVertical: 15 }}>
             <View style={{ width: '90%' }}>
               {/* <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Address: </Text></View> */}
-              <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.Address}</Text>
+              <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.Region}</Text>
               <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.Country}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, alignItems: 'center' }}>
               <View>
                 <Text style={{ fontSize: 14, fontFamily: 'NSBold', color: 'grey' }}>{company.Phone}</Text>
-                <ExternalLinkBtn title={company.Website1} url={company.Website1} />
+                <ExternalLinkBtn title={company.Web} url={company.Web} />
               </View>
               <View>
                 <Text style={{ fontSize: 14, fontFamily: 'NSBold', color: 'grey' }}>#Nb of employee</Text>

@@ -79,7 +79,7 @@ export default function WatchList({route, navigation}) {
 
   const getItem = (item) => {
     store.setLoader(true);
-    findCompany(store.sectorArray, item).then((val) => {
+    findCompany(store.sectorArray, item, store.updateDate).then((val) => {
       if ( val.tab ) { store.pushSectorArray( val.tab ) }
       store.newIndexSector(val.coord.row);
       store.newIndexCompany(val.coord);

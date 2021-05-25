@@ -2,7 +2,7 @@ import _ from 'lodash';
 import transformData from './transformData';
 import { getSectorESG } from '../requests/request';
 
-export default async function findCompany(sectorArray, item) {
+export default async function findCompany(sectorArray, item, datenum) {
 
     let row = -1;
     let col = -1;
@@ -20,7 +20,7 @@ export default async function findCompany(sectorArray, item) {
     }
 
     let ESGData = await getSectorESG('SASBIndustryGroupCode', item.s)
-    let dataObj = transformData(ESGData.data);
+    let dataObj = transformData(ESGData.data, datenum);
     row = sectorArray.length;
     col = _.findIndex(dataObj, function (o) { return o.Sedol7 == item.c; });
     return { tab: dataObj, coord: { row, col }}

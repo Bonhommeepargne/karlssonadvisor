@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import React, {useEffect,} from 'react';
+import React, { useEffect, } from 'react';
 import { StyleSheet, Text, View, TouchableWithoutFeedback, Animated } from 'react-native';
 import { Icon } from 'react-native-elements';
 
@@ -15,6 +15,7 @@ import SideModal from './../Menu/SideModal/SideModal';
 import DefineCompany from '../Main/Search/DefineCompany';
 import MenuTree from './MenuTree';
 import Store from '../../context';
+import EmailActivation from '../Connection/Login/EmailActivation'
 
 import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("window").width;
@@ -52,15 +53,18 @@ const modalOptions = {
 };
 
 export default function Menu() {
-
+  
   return (
     <Store.Consumer>
       {(store) => (
         <Stack.Navigator>
-          { !store.userInfo.company ?
-          <Stack.Screen name="DefineCompany" component={DefineCompany} options={{ headerShown: false }} />
-          :
-          <Stack.Screen name="MenuTree" component={MenuTree} options={{ headerShown: false }} />
+          { store.user.emailVerified == true ?
+            !store.userInfo.company ?
+              <Stack.Screen name="DefineCompany" component={DefineCompany} options={{ headerShown: false }} />
+              :
+              <Stack.Screen name="MenuTree" component={MenuTree} options={{ headerShown: false }} />
+            :
+            <Stack.Screen name="EmailActivation" component={EmailActivation} options={{ headerShown: false }} />
           }
           <Stack.Screen name="WatchListSelect" component={WatchListSelect} options={({ route, navigation }) => ({
             title: 'Watchlist',

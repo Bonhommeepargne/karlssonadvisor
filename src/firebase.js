@@ -23,6 +23,11 @@ async function register(fullname,email, password) {
   return newUser;
 };
 
+async function sendEmailForVerification() {
+  var user = firebase.auth().currentUser;
+  await user.sendEmailVerification();
+}
+
 async function logout() {
   return await firebase.auth().signOut();
 }
@@ -73,6 +78,7 @@ export {
   register,
   logout,
   resetPassword,
+  sendEmailForVerification,
   users,
   getUser,
   addUser,

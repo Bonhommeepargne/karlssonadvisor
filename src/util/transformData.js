@@ -2,7 +2,7 @@ import formatNumber from './formatNumber';
 import namecompany from './namecompany';
 import dataGraph from './dataGraph';
 
-export default function transformData( dataLoaded ) {
+export default function transformData( dataLoaded, datenum ) {
 
     let dataObj = [];
 
@@ -22,10 +22,10 @@ export default function transformData( dataLoaded ) {
         obj.SharC =  formatNumber(( dataLoaded[t].carbonAverage[1] / dataLoaded[t].totalCarbonGroup[1] ) * 100);
         obj.Carbon = Number((Math.abs(dataLoaded[t].carbonAverage[1])/1000).toFixed(1));
         obj.s = parseInt(dataLoaded[t].Market_Cap/100)/10;
-        obj.DataGraphESG = dataGraph(dataLoaded[t].ESG_SubSector_decile, dataLoaded[t].Datenum)
-        obj.DataGraphE = dataGraph(dataLoaded[t].E_SubSector_decile, dataLoaded[t].Datenum)
-        obj.DataGraphS = dataGraph(dataLoaded[t].S_SubSector_decile, dataLoaded[t].Datenum)
-        obj.DataGraphG = dataGraph(dataLoaded[t].G_SubSector_decile, dataLoaded[t].Datenum)
+        obj.DataGraphESG = dataGraph(dataLoaded[t].ESG_SubSector_decile, datenum)
+        obj.DataGraphE = dataGraph(dataLoaded[t].E_SubSector_decile, datenum)
+        obj.DataGraphS = dataGraph(dataLoaded[t].S_SubSector_decile, datenum)
+        obj.DataGraphG = dataGraph(dataLoaded[t].G_SubSector_decile, datenum)
         dataObj.push(obj);
       }
 

@@ -24,7 +24,8 @@ export default function App() {
   const [ourLoader, setOurLoader ] = useState(false);
   
   let { user, userInfo, updateUserInfo, sectorArray, pushSectorArray, indexSector, newIndexSector,
-    indexCompany, newIndexCompany, watchList, storeWatchList, allSecurities, storeAllSecurities} = useAuth();
+    indexCompany, newIndexCompany, watchList, storeWatchList, 
+    allSecurities, storeAllSecurities, updateDate} = useAuth();
 
   const MyTheme = {
     ...DefaultTheme,
@@ -49,7 +50,7 @@ export default function App() {
           <SafeAreaView style={styles.container}>
             <Context.Provider value={{ user, userInfo, updateUserInfo, sectorArray,
                 pushSectorArray, indexSector, newIndexSector, indexCompany, newIndexCompany,
-                watchList, storeWatchList, allSecurities, storeAllSecurities, 
+                watchList, storeWatchList, allSecurities, storeAllSecurities, updateDate,
                 loader, setLoader, ourLoader, setOurLoader }}>
                   {loadedFont && <Main />}
                   {!loadedFont || !ourLoader && <Loader />}

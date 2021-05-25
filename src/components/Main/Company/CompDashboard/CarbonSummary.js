@@ -29,7 +29,7 @@ export default function CarbonSummary(props) {
       <View style={{ paddingBottom: 10 }} >
         <View style={{ paddingBottom: 10 }}>
         <View style={{ flexDirection: 'row'}}>
-              <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Industry: </Text></View>
+              {/* <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Industry: </Text></View> */}
               <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.SASBIndustryGroup}</Text>
             </View>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, alignItems: 'center' }}>

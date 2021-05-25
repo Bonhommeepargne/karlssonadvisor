@@ -33,7 +33,7 @@ export default function GaugeCircle({ val, text1, text2 }) {
             <Text style={styles.percentWhite}>%</Text>
           </View>
           <View>
-            <Text style={styles.points}>{Math.round(sales)}</Text>
+            <Text style={styles.points}>{Math.round(sales*10)/10}</Text>
           </View>
           <View style={{ justifyContent: 'center' }}>
             <Text style={styles.percent}>%</Text>

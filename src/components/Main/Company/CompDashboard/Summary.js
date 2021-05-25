@@ -32,7 +32,7 @@ export default function Summary(props) {
           <Text style={styles.titleScore}>ESG Sector Ratings</Text>
           <View style={{ paddingTop: 10, paddingBottom: 2 }}>
             <View style={{ flexDirection: 'row', paddingBottom: 10 }}>
-              <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Sector: </Text></View>
+              {/* <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Sector: </Text></View> */}
               <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.SASBSubSector} ({company.ESG_SubSector_nb_last})</Text>
             </View>
           </View>
@@ -42,7 +42,7 @@ export default function Summary(props) {
           <View style={{ paddingTop: 20, paddingBottom: 10 }}>
             <Text style={styles.titleScore}>ESG Comparative Universe</Text>
             <View style={{ flexDirection: 'row', paddingTop: 10 }}>
-              <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Industry: </Text></View>
+              {/* <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Industry: </Text></View> */}
               <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.SASBIndustryGroup}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, alignItems: 'center' }}>

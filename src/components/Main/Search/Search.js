@@ -50,15 +50,15 @@ export default function Search({ route, navigation }) {
       }
     }
 
-    if (storeData.allSecurities.length == 0) {
-      try {
+    try {
+      if (storeData.allSecuritie == undefined || storeData.allSecurities.length == 0) {
         fetchData();
-      } catch (error) {
-        console.log(error);
+      } else {
+        setMasterDataSource(storeData.allSecurities);
+        setFilteredDataSource(storeData.allSecurities);
       }
-    } else {
-      setMasterDataSource(storeData.allSecurities);
-      setFilteredDataSource(storeData.allSecurities);
+    } catch (error) {
+      console.log(error);
     }
 
   }, []);
@@ -155,8 +155,8 @@ export default function Search({ route, navigation }) {
       navigation.goBack();
     } else if (route.params.query === 'select') {
       storeData.setLoader(true);
-      findCompany(storeData.sectorArray, item).then((val) => {
-        if ( val.tab ) { storeData.pushSectorArray( val.tab ) }
+      findCompany(storeData.sectorArray, item, storeData.updateDate).then((val) => {
+        if (val.tab) { storeData.pushSectorArray(val.tab) }
         storeData.newIndexSector(val.coord.row);
         storeData.newIndexCompany(val.coord);
         navigation.navigate('Company');
@@ -167,11 +167,11 @@ export default function Search({ route, navigation }) {
       });
     } else if (route.params.query === 'firstuse') {
       fb.updateUser(storeData.user.uid, { company: item });
-      storeData.updateUserInfo({ company: item });
-      findCompany(storeData.sectorArray, item).then((val) => {
-        if ( val.tab ) { storeData.pushSectorArray( val.tab ) }
+      findCompany([], item, storeData.updateDate).then((val) => {
+        if (val.tab) { storeData.pushSectorArray(val.tab) }
         storeData.newIndexSector(val.coord.row);
         storeData.newIndexCompany(val.coord);
+        storeData.updateUserInfo({ company: item });
         navigation.navigate('Company');
         storeData.setLoader(false);
       }).catch(err => {

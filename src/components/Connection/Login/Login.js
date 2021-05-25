@@ -71,13 +71,13 @@ export default function LoginScreen() {
           email: email, fullname: fullname,
           uid: newUser.user.uid, admin: false, created: Date.now()
         });
-        setActivityIndicator(false);
-        setActiveTab("Login");
-        setFirebaseError("Check your Email and clock on the activation link")
+        // setActivityIndicator(false);
+        // setActiveTab("Login");
       }
     } catch (err) {
       console.error("Authentication Error", err);
       setFirebaseError(err.message);
+      setActivityIndicator(false);
     }
   }
 
@@ -153,9 +153,11 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
         <View style={{ paddingTop: 20 }}>
-          <TouchableOpacity style={styles.button} onPress={() => (authenticateUser())}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
+        {!activityIndicator ?
+            <TouchableOpacity style={styles.button} onPress={authenticateUser}>
+              <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity> :
+            <View style={styles.activityIndicator}><ActivityIndicator size="large" color="#FFF" /></View>}
           <TouchableOpacity onPress={() => (navigation.navigate("Reset"))}>
             <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
           </TouchableOpacity>

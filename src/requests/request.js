@@ -74,4 +74,24 @@ async function getAllSecurities() {
     }
 }
 
-export { getCompanyESG, getSectorESG, getAllSecurities };
+// console.log('masterDataSource :>> ', masterDataSource.length);
+async function getUpdateDate() {
+    var config = {
+        method: 'get',
+        url: 'http://99.80.211.255:8080/ESGupdate' ,
+        headers: {
+            'pass': 'CALLIBRI'
+        }
+    };
+
+    try {
+        const res = await axios(config);
+        handleError(res);
+        return res;
+    } catch (e) {
+        console.log('Error axios request.js', e);
+        return e;
+    }
+}
+
+export { getCompanyESG, getSectorESG, getAllSecurities, getUpdateDate };

@@ -1,15 +1,18 @@
-import React, { useState }  from "react";
+import React, { useState } from "react";
 import firebase from "../../../firebase";
 import * as fb from "../../../firebase";
-import { getSectorESG } from '../../../requests/request';
+import { getSectorESG, getUpdateDate } from '../../../requests/request';
 import transformData from '../../../util/transformData';
 import _ from 'lodash';
 
 function useAuth() {
-  const [authUser, setAuthUser] = useState({user: null, userInfo: null, updateUser: null, 
-    sectorArray: null, pushSectorArray: null, indexSector: null, newIndexSector: null, indexCompanyRow: null, 
+  const [authUser, setAuthUser] = useState({
+    user: null, userInfo: null, updateUser: null,
+    sectorArray: null, pushSectorArray: null, indexSector: null, newIndexSector: null, indexCompanyRow: null,
     indexCompanyCol: null, newIndexCompany: null,
-    watchList: null, storeWatchList: null, allSecurities: null, storeAllSecurities: null }); 
+    watchList: null, storeWatchList: null, allSecurities: [], storeAllSecurities: null,
+    updateDate: null
+  });
 
   const pushSectorArray = (compArray) => {
     setAuthUser((oldState) => {
@@ -21,7 +24,7 @@ function useAuth() {
   const updateUserInfo = (data) => {
     setAuthUser((oldState) => {
       for (const key in data) {
-      oldState.userInfo[key] = data[key];
+        oldState.userInfo[key] = data[key];
       }
       return { ...oldState };
     });
@@ -29,7 +32,7 @@ function useAuth() {
 
   const storeWatchList = (list) => {
     setAuthUser((oldState) => {
-      oldState.watchList =  list;
+      oldState.watchList = list;
       return { ...oldState };
     });
   }
@@ -41,7 +44,7 @@ function useAuth() {
     });
   }
 
-  const newIndexSector = ( n ) => {
+  const newIndexSector = (n) => {
     setAuthUser((oldState) => {
       oldState.indexSector = n;
       return { ...oldState };
@@ -62,36 +65,65 @@ function useAuth() {
       var userCred = user;
       var dataObj;
       var companyInSector;
-      setAuthUser({user: userCred, userInfo: null});
+      var ESGData
+      var dataUser;
+
       if (user) {
-        var dataUser;
-        fb.getUser(user.uid).then((data)=> {
+        fb.getUser(user.uid).then((data) => {
           // console.log('data user ok')
           dataUser = data;
-          if (!data.company) {
-            return 0;
-          } else { 
-            return getSectorESG('SASBIndustryGroupCode', data.company.s)
+          if (dataUser == undefined) { dataUser = null }
+          if (!dataUser) {
+            return Promise.all([0, getUpdateDate()]);
+          } else {
+            if (!dataUser.company) {
+              return Promise.all([0, getUpdateDate()]);
+            } else {
+              return Promise.all([getSectorESG('SASBIndustryGroupCode', data.company.s), getUpdateDate()]);
+            }
           };
-        }).then((ESGData) => {
+        }).then((mult) => {
+          ESGData = mult[0];
+          if (ESGData != 'empty data') {
+            if (!dataUser) {
+              setAuthUser({ user: userCred, userInfo: {} });
+            } else {
+              if (!dataUser.company) {
+                setAuthUser({
+                  user: userCred, userInfo: dataUser, updateUserInfo: updateUserInfo,
+                  sectorArray: [], pushSectorArray: pushSectorArray, indexSector: null,
+                  newIndexSector: newIndexSector, indexCompany: { row: 0, col: 0 }, newIndexCompany: newIndexCompany,
+                  watchList: [], storeWatchList: storeWatchList, allSecurities: [], storeAllSecurities: storeAllSecurities,
+                  updateDate: mult[1].data.date
+                })
+              } else {
+                dataObj = transformData(ESGData.data, mult[1].data.date);
+                companyInSector = _.findIndex(dataObj, function (o) { return o.Sedol7 == dataUser.company.c; });
 
-          if (!dataUser.company ) {
-            setAuthUser({user: userCred, userInfo: dataUser, updateUserInfo: updateUserInfo,
+                setAuthUser({
+                  user: userCred, userInfo: dataUser, updateUserInfo: updateUserInfo,
+                  sectorArray: [dataObj], pushSectorArray: pushSectorArray, indexSector: 0,
+                  newIndexSector: newIndexSector, indexCompany: { row: 0, col: companyInSector }, newIndexCompany: newIndexCompany,
+                  watchList: [], storeWatchList: storeWatchList, allSecurities: [], storeAllSecurities: storeAllSecurities,
+                  updateDate: mult[1].data.date
+                });
+              }
+            }
+          } else {
+            if (dataUser.company) {
+              delete dataUser.company
+            }
+            setAuthUser({
+              user: userCred, userInfo: dataUser, updateUserInfo: updateUserInfo,
               sectorArray: [], pushSectorArray: pushSectorArray, indexSector: null,
               newIndexSector: newIndexSector, indexCompany: { row: 0, col: 0 }, newIndexCompany: newIndexCompany,
-              watchList: [], storeWatchList: storeWatchList, allSecurities: [], storeAllSecurities: storeAllSecurities});
-            } else {
-            dataObj = transformData(ESGData.data);
-            companyInSector = _.findIndex(dataObj, function(o) { return o.Sedol7 == dataUser.company.c; });
-
-            setAuthUser({user: userCred, userInfo: dataUser, updateUserInfo: updateUserInfo,
-              sectorArray: [ dataObj ], pushSectorArray: pushSectorArray,  indexSector: 0,
-              newIndexSector: newIndexSector, indexCompany: { row: 0, col: companyInSector }, newIndexCompany: newIndexCompany,
-              watchList: [], storeWatchList: storeWatchList, allSecurities: [], storeAllSecurities: storeAllSecurities});
-            }
-        }).catch(err=> console.log('Erreur useAuth : ', err))
+              watchList: [], storeWatchList: storeWatchList, allSecurities: [], storeAllSecurities: storeAllSecurities,
+              updateDate: mult[1].data.date
+            });
+          }
+        }).catch(err => console.log('Erreur useAuth : ', err))
       } else {
-        setAuthUser({user: -1, userInfo: -1});
+        setAuthUser({ user: - 1, userInfo: -1 });
       }
     });
 

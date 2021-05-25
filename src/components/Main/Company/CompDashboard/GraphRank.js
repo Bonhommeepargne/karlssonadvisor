@@ -105,7 +105,8 @@ const styles = StyleSheet.create({
   },
   barRankHeaderTitle: {
     flex: 3,
-    height: 75
+    height: 75,
+    justifyContent: 'center'
   },
   barRankHeaderRanking: {
     flex: 1,
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
   },
   industry: {
     marginLeft: 11,
-    fontSize: 22,
+    fontSize: 17,
     fontFamily: 'NSRegular',
     color: "#696969",
   },
