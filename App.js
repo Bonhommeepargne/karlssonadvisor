@@ -45,7 +45,7 @@ export default function App() {
 
   return (
     <>
-      <StatusBar backgroundColor="#6A8712"/>
+      <StatusBar backgroundColor="#3c4d08"/>
       <NavigationContainer theme={MyTheme}>
           <SafeAreaView style={styles.container}>
             <Context.Provider value={{ user, userInfo, updateUserInfo, sectorArray,

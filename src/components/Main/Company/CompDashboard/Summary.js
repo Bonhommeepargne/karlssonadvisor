@@ -40,7 +40,7 @@ export default function Summary(props) {
           <TableSummary data={company} />
 
           <View style={{ paddingTop: 20, paddingBottom: 10 }}>
-            <Text style={styles.titleScore}>ESG Comparative Universe</Text>
+            <Text style={styles.underTitleScore}>Comparative Universe</Text>
             <View style={{ flexDirection: 'row', paddingTop: 10 }}>
               {/* <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Industry: </Text></View> */}
               <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.SASBIndustryGroup}</Text>
@@ -49,7 +49,7 @@ export default function Summary(props) {
               <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>Total {company.ESG_IG_nb_last} Stocks</Text>
               <TouchableOpacity
                 style={{ borderWidth: 1, paddingVertical: 3, paddingHorizontal: 8, borderRadius: 10, borderColor: 'grey' }}
-                onPress={() => (navigation.navigate('Screening', { screen: 'ESG' }))}
+                onPress={() => (navigation.navigate('E S G'))}
               >
                 <View style={{ flexDirection: 'row' }}>
                   <View style={{ justifyContent: 'center' }}>
@@ -61,7 +61,7 @@ export default function Summary(props) {
             </View>
           </View>
 
-          <View style={{ paddingTop: 5, paddingBottom: 25 }}>
+          {/* <View style={{ paddingTop: 5, paddingBottom: 25 }}>
             <Text style={styles.titleScore}>Controversy</Text>
             <GaugeLinear4Controversy val={company.controversies} />
           </View>
@@ -69,7 +69,7 @@ export default function Summary(props) {
           <View style={{ paddingBottom: 20 }}>
             <Text style={styles.titleScore}>Carbon Intensity Industry</Text>
             <CarbonSummary data={company} />
-          </View>
+          </View> */}
 
         </View>
       </View>
@@ -100,5 +100,10 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontFamily: 'NSExtraBold',
     color: "black"
+  },
+  underTitleScore: {
+    fontSize: 18,
+    fontFamily: 'NSExtraBold',
+    color: "dimgray"
   },
 });

@@ -13,7 +13,7 @@ import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraB
 
 // "alpha-s-circle-outline" : "alpha-s-circle-outline"
 
-export default function TabESG() {
+export default function TabCarbon() {
 
     const navigation = useNavigation();
     const [columns, setColumns] = useState([

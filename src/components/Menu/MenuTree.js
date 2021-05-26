@@ -8,9 +8,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from 'react-native-elements';
 import CompanySheet from '../Main/Company/CompanySheet';
-import Screening from '../Main/Screening/Tab';
-import News from '../Main/News/News';
-import Notifications from '../Main/Notifications/Notifications';
+
+import MTabESG from '../Main/Screening/TabESG/MTabESG';
+import MTabCarbon from '../Main/Screening/TabCarbon/MTabCarbon';
+import MTabPerf from '../Main/Screening/TabPerf/MTabPerf';
 import UserMenu from '../Main/User/UserMenu';
 
 const Tab = createBottomTabNavigator();
@@ -40,34 +41,34 @@ export default function MenuTree({route, navigation}) {
           component={CompanySheet}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <Icon name='bar-chart' color={color} size={size} />
+              <Icon name='dashboard' color={color} size={size} />
             ),
           }}
         />
         <Tab.Screen
-          name='Screening'
-          component={Screening}
+          name='E S G'
+          component={MTabESG}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <Icon name='grid-on' color={color} size={size} />
+              <Icon name='equalizer' color={color} size={size} />
             ),
           }}
         />
         <Tab.Screen
-          name='News'
-          component={News}
+          name='Carbon'
+          component={MTabCarbon}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <Icon name='library-books' color={color} size={size} />
+              <Icon name='donut-small' color={color} size={size} />
             ),
           }}
         />
         <Tab.Screen
-          name='Notifications'
-          component={Notifications}
+          name='Controversy'
+          component={MTabPerf}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <Icon name='notifications' color={color} size={size} />
+              <Icon name='flash-on' color={color} size={size} />
             ),
           }}
         />

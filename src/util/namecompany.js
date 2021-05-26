@@ -1,10 +1,11 @@
 export default function namecompany(str) {
 
-    const words = str.split(' ');
-    const norm = [];
-    const accro = [ 'plc', 's.p.a', 'oyj', 'sa', 'class', 'S.A.', ',',
+    let words = str.split(' ');
+    let norm = [];
+    let accro = [ 'plc', 's.p.a', 'oyj', 'sa', 'class', 'S.A.', ',',
      'nv', 'asa', 'AB', 'sponsored', 'a.s.', 'ltd', 'ltd.', 'a/s', 'sca', 'ag', 's.p.a.', 'kgaa',
-     'd.D.', 'p/f', 'p.l.c.', 'n.v', 'n.v.', 'se', 'spa'];
+     'd.D.', 'p/f', 'p.l.c.', 'n.v', 'n.v.', 'se', 'spa','Co', 'Co.', 'Co.,', 'Inc.', 'Inc', 'Co.', 'CBP',
+     'Tbk', 'SAB', 'SAB de CV', 'Bhd'];
 
     let bar = 30;
     let tot = 0;
@@ -32,6 +33,7 @@ export default function namecompany(str) {
         }
     }
 
-    return norm.join(" ");
+    let str2 = norm.join(" ");
+    return str2.replace('.', ' ').replace(',', ' ');
 
 }

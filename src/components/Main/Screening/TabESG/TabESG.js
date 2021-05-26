@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-evenly",
         alignItems: "center",
-        backgroundColor: "#6A8712",
+        backgroundColor: "#7c9e15",
         // borderTopEndRadius: 10,
         // borderTopStartRadius: 10,
         height: 50

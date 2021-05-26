@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import controversy from '../../../../util/controversy';
 import Store from '../../../../context';
 import _ from "lodash";
 import { useNavigation } from '@react-navigation/native';
@@ -10,15 +11,13 @@ import NSRegular from '../../../../../assets/fonts/NunitoSans/NunitoSansRegular.
 import NSBold from '../../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
-// "alpha-s-circle-outline" : "alpha-s-circle-outline"
-
 export default function TabESG() {
 
     const navigation = useNavigation();
     const [columns, setColumns] = useState([
         "Name",
         "s",
-        "Perf1M",
+        "Cont",
         "Perf3M",
         "Perf1Y",
         "Perf3Y"
@@ -82,6 +81,10 @@ export default function TabESG() {
         <Text style={{ ...styles.columnRowTxt, color: perf > 0 ? 'blue' : 'red'}}>{perf === 0 ? '-' : perf}</Text>
     )
 
+    const DisplayControversy = ({ note, color }) => {
+        return <Text style={{ ...styles.columnRowTxt, color: color == '' ? 'grey' : color.toLowerCase() }}>{ note }</Text>
+    };
+
     // {delta > 1 ? '↑' : ( delta > -1 ? '' :'↓' )}
 
     const DisplaySize = ({ size }) => (
@@ -110,7 +113,7 @@ export default function TabESG() {
                                 <Text style={styles.columnFirstRowTxt}>{item.Name}</Text>
                             </TouchableOpacity>
                             <DisplaySize size={item.s} />
-                            <DisplayRank perf={item.Perf1M} />
+                            <DisplayControversy note={item.Controversies} color={item.ContColor} />
                             <DisplayRank perf={item.Perf3M} />
                             <DisplayRank perf={item.Perf1Y} />
                             <DisplayRank perf={item.Perf3Y} />

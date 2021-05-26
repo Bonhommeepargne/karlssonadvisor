@@ -7,6 +7,8 @@ import {
 } from 'react-native';
 import TableSummaryPerf from './TableSummaryPerf'
 
+import GaugeLinear4Controversy from './GaugeLinear4Controversy'
+
 // https://fonts.google.com/specimen/Nunito+Sans
 import { useFonts } from 'expo-font';
 import NSLight from '../../../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
@@ -24,23 +26,22 @@ export default function Perf(props) {
   return (
     <View style={styles.container}>
       <View style={styles.barRank}>
-        <View style={{ marginHorizontal: 15 }}>
-          <Text style={styles.titleScore}>Market Performance</Text>
+        <View style={{ marginHorizontal: 15, marginBottom: 20 }}>
+          <Text style={styles.titleScore}>Controversy</Text>
 
-          <View style={{ marginTop: 20 }}>
-            <TableSummaryPerf data={company} />
-          </View>
-
-          <View style={{ paddingVertical: 15 }}>
+          <View style={{ paddingVertical: 10 }}>
+            {/* <View style={{ paddingTop: 20, paddingBottom: 10 }}>
+              <Text style={styles.underTitleScore}>Comparative Universe</Text>
+            </View> */}
             <View style={{ flexDirection: 'row' }}>
-              <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Industry: </Text></View>
+              {/* <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Industry: </Text></View> */}
               <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.SASBIndustryGroup}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, alignItems: 'center' }}>
               <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>Total {company.ESG_IG_nb_last} Stocks</Text>
               <TouchableOpacity
                 style={{ borderWidth: 1, paddingVertical: 3, paddingHorizontal: 8, borderRadius: 10, borderColor: 'grey' }}
-                onPress={() => (navigation.navigate('Screening', { screen: 'Performance' }))}
+                onPress={() => (navigation.navigate('Controversy'))}
               >
                 <View style={{ flexDirection: 'row' }}>
                   <View style={{ justifyContent: 'center' }}>
@@ -50,6 +51,14 @@ export default function Perf(props) {
                 </View>
               </TouchableOpacity>
             </View>
+          </View>
+
+          <View style={{ paddingTop: 5, paddingBottom: 25 }}>
+            <GaugeLinear4Controversy val={company.controversies} />
+          </View>
+
+          <View style={{ marginTop: 0 }}>
+            <TableSummaryPerf data={company} />
           </View>
 
         </View>
@@ -81,5 +90,10 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontFamily: 'NSExtraBold',
     color: "black"
+  },
+  underTitleScore: {
+    fontSize: 18,
+    fontFamily: 'NSExtraBold',
+    color: "dimgray"
   },
 });

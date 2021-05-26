@@ -1,6 +1,8 @@
 import formatNumber from './formatNumber';
 import namecompany from './namecompany';
 import dataGraph from './dataGraph';
+import controversy from './controversy';
+import controversyLabel from './controversyLabel';
 
 export default function transformData( dataLoaded, datenum ) {
 
@@ -26,6 +28,10 @@ export default function transformData( dataLoaded, datenum ) {
         obj.DataGraphE = dataGraph(dataLoaded[t].E_SubSector_decile, datenum)
         obj.DataGraphS = dataGraph(dataLoaded[t].S_SubSector_decile, datenum)
         obj.DataGraphG = dataGraph(dataLoaded[t].G_SubSector_decile, datenum)
+        obj.Cont = controversy(dataLoaded[t].controversies)
+        obj.Controversies = controversyLabel(dataLoaded[t].controversies)
+        obj.ContColor = dataLoaded[t].controversies
+        console.log()
         dataObj.push(obj);
       }
 

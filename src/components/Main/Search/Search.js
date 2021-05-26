@@ -5,7 +5,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 
 // import all the components we are going to use
-import { SafeAreaView, Text, StyleSheet, View, FlatList, TouchableWithoutFeedback } from 'react-native';
+import { SafeAreaView, Text, StyleSheet, View, FlatList, ActivityIndicator, TouchableWithoutFeedback } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import * as fb from '../../../firebase';
 import context from '../../../context';
@@ -51,7 +51,7 @@ export default function Search({ route, navigation }) {
     }
 
     try {
-      if (storeData.allSecuritie == undefined || storeData.allSecurities.length == 0) {
+      if (storeData.allSecurities == undefined || storeData.allSecurities.length == 0) {
         fetchData();
       } else {
         setMasterDataSource(storeData.allSecurities);
@@ -204,13 +204,15 @@ export default function Search({ route, navigation }) {
           placeholder="Search..."
           value={search}
         />
+        {filteredDataSource ? 
         <FlatList
           keyboardShouldPersistTaps={'handled'}
           data={filteredDataSource}
           keyExtractor={(item, index) => index.toString()}
           ItemSeparatorComponent={ItemSeparatorView}
           renderItem={ItemView}
-        />
+        /> : <View style={styles.activityIndicator}><ActivityIndicator size="large" color="#FFF" /></View>
+        }
       </View>
     </SafeAreaView>
   );
@@ -232,4 +234,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 20
   },
+  activityIndicator: {
+    marginTop: 22,
+  }
 });

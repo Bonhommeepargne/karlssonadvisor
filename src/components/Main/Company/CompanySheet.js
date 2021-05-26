@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import Summary from './CompDashboard/Summary'
+import CarbonSummary from './CompDashboard/CarbonSummary'
 import GraphRank from './CompDashboard/GraphRank';
 import TopBar from './TopBar';
 import Perf from './CompDashboard/Perf'
@@ -80,11 +81,12 @@ export default function CompanySheet({ route, navigation }) {
                   <Text style={styles.companyTitle}>{comp.Name}</Text>
                 </View>
                 <Summary data={comp} />
+                <CarbonSummary data={comp} />
+                <Perf data={comp} />
                 <GraphRank data={dataESG} />
                 <GraphRank data={dataE} />
                 <GraphRank data={dataS} />
                 <GraphRank data={dataG} />
-                <Perf data={comp} />
                 <Info data={comp} />
                 <View style={{ height: 100 }}>
                 </View>
