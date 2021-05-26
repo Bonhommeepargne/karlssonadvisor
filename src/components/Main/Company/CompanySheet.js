@@ -79,6 +79,7 @@ export default function CompanySheet({ route, navigation }) {
               <ScrollView>
                 <View style={styles.company}>
                   <Text style={styles.companyTitle}>{comp.Name}</Text>
+                  <Text style={styles.regionCountry}>{comp.Region} - {comp.Country}</Text>
                 </View>
                 <Summary data={comp} />
                 <CarbonSummary data={comp} />
@@ -106,6 +107,12 @@ const styles = StyleSheet.create({
   },
   companyTitle: {
     fontSize: 22,
+    fontFamily: 'NSExtraBold',
+    color: "#40520b",
+    textAlign: 'center',
+  },
+  regionCountry: {
+    fontSize: 14,
     fontFamily: 'NSRegular',
     color: "black",
     textAlign: 'center',

@@ -204,7 +204,7 @@ export default function Search({ route, navigation }) {
           placeholder="Search..."
           value={search}
         />
-        {filteredDataSource ? 
+        {filteredDataSource.length > 0 ? 
         <FlatList
           keyboardShouldPersistTaps={'handled'}
           data={filteredDataSource}
