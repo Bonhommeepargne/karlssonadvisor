@@ -3,7 +3,10 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/core';
 
 import { getColor } from '../../../../util/function'
 
@@ -19,6 +22,7 @@ import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraB
 
 export default function TableSummary(props) {
 
+  const navigation = useNavigation();
   const company = props.data;
   const header = [' ', 'ESG', 'E', 'S', 'G'];
   const data = [['Sector', company.ESG, company.E, company.S, company.G], ['ΔChange 1Y', company.ESG1Y,
@@ -28,23 +32,23 @@ export default function TableSummary(props) {
   ];
 
   function getColor2(data) {
-    if ( data > 0 ) {
+    if (data > 0) {
       return 'blue'
-    } else if ( data < 0) {
+    } else if (data < 0) {
       return 'red'
-    } else if ( data == 0 ) {
+    } else if (data == 0) {
       return 'grey'
-    } 
+    }
   }
 
   function transform(data) {
-    if ( data > 0 ) {
+    if (data > 0) {
       return '+' + data;
-    } else if ( data < 0) {
+    } else if (data < 0) {
       return data
-    } else if ( data == 0 ) {
+    } else if (data == 0) {
       return 'stable'
-    } 
+    }
   }
 
   function RowHeader({ column }) {
@@ -61,17 +65,28 @@ export default function TableSummary(props) {
   }
 
   function CellHeader({ data }) {
+
     return (
       <View style={styles.cellStyleHeader}>
         <Text style={{ fontSize: 20, fontFamily: 'NSExtraBold' }}>{data}</Text>
       </View>
-    );
+    )
   }
 
   function FirstCellHeader({ data }) {
     return (
       <View style={styles.cellStyleFirstHeader}>
-        <Text style={{ fontSize: 20, fontFamily: 'NSExtraBold' }}>{data}</Text>
+
+        <TouchableOpacity onPress={() => { navigation.navigate('TutoESGTab') }} >
+          <Icon
+            style={{ paddingTop: 8 }}
+            name='question-circle-o'
+            type='font-awesome'
+            color='silver'
+            size={22}
+          />
+        </TouchableOpacity>
+
       </View>
     );
   }
@@ -92,7 +107,7 @@ export default function TableSummary(props) {
   function Cell({ ind, data, nrow }) {
 
     return (
-      nrow ==0 ? (<View style={styles.cellStyle}>
+      nrow == 0 ? (<View style={styles.cellStyle}>
         <Text style={{ color: getColor(data), fontSize: 16, fontFamily: 'NSExtraBold', }}>{data}</Text>
       </View>) : (<View style={styles.cellStyle}>
         <Text style={{ color: getColor2(data), fontSize: 16, fontFamily: 'NSBold', }}>{transform(data)}</Text>

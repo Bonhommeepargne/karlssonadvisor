@@ -12,9 +12,19 @@ import NSRegular from '../../../../../assets/fonts/NunitoSans/NunitoSansRegular.
 import NSBold from '../../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
-export default function GaugeSummary({ val }) {
+export default function GaugeLinear3UNGC({ val }) {
 
-  let riskLevel = val;
+  let riskLevel = toNumber(val);
+
+  function toNumber(val) {
+    if ( val == 'Failed' ) {
+      return 1
+    } else if ( val == 'Watch List') {
+      return 2
+    } else if ( val == 'Pass') {
+      return 4
+    }
+  }
 
   return (
     <View>
@@ -26,13 +36,7 @@ export default function GaugeSummary({ val }) {
           <Text style={{ fontSize: 20, fontFamily: 'NSExtraBold', color: (riskLevel == 2 ? 'darkgrey' : '#FFF') }}>▼</Text>
         </View>
         <View style={{ flex: 1, alignItems: 'center', }}>
-          <Text style={{ fontSize: 20, fontFamily: 'NSExtraBold', color: (riskLevel == 3 ? 'darkgrey' : '#FFF') }}>▼</Text>
-        </View>
-        <View style={{ flex: 1, alignItems: 'center', }}>
           <Text style={{ fontSize: 20, fontFamily: 'NSExtraBold', color: (riskLevel == 4 ? 'darkgrey' : '#FFF') }}>▼</Text>
-        </View>
-        <View style={{ flex: 1, alignItems: 'center', }}>
-          <Text style={{ fontSize: 20, fontFamily: 'NSExtraBold', color: (riskLevel == 5 ? 'darkgrey' : '#FFF') }}>▼</Text>
         </View>
       </View>
 
@@ -42,37 +46,20 @@ export default function GaugeSummary({ val }) {
           borderColor: '#C8C8C8', borderBottomLeftRadius: 10,
           padding: 5, borderTopLeftRadius: 10,
         }}>
-          <Text style={{ fontSize: 12, fontFamily: 'NSExtraBold', color: (riskLevel == 1 ? '#FFF' : '#C8C8C8') }}>BAD</Text>
+          <Text style={{ fontSize: 12, fontFamily: 'NSExtraBold', color: (riskLevel == 1 ? '#FFF' : '#C8C8C8') }}>FAILED</Text>
         </View>
-
         <View style={{
           flex: 1, alignItems: 'center', backgroundColor: (riskLevel == 2 ? 'orange' : '#FFF'), borderTopWidth: 1,
           borderColor: '#C8C8C8', borderBottomWidth: 1, padding: 5,
         }}>
-          <Text style={{ fontSize: 12, fontFamily: 'NSExtraBold', color: (riskLevel == 2 ? '#FFF' : '#C8C8C8') }}>POOR</Text>
+          <Text style={{ fontSize: 12, fontFamily: 'NSExtraBold', color: (riskLevel == 2 ? '#FFF' : '#C8C8C8') }}>WATCH LIST</Text>
         </View>
-
         <View style={{
-          flex: 1, alignItems: 'center', backgroundColor: (riskLevel == 3 ? 'yellow' : '#FFF'), borderTopWidth: 1,
-          borderColor: '#C8C8C8', borderBottomWidth: 1, borderLeftWidth: 1, padding: 5,
-        }}>
-          <Text style={{ fontSize: 12, fontFamily: 'NSExtraBold', color: (riskLevel == 3 ? 'darkgrey' : '#C8C8C8') }}>AVG</Text>
-        </View>
-
-        <View style={{
-          flex: 1, alignItems: 'center', backgroundColor: (riskLevel == 4 ? 'lightgreen' : '#FFF'), borderTopWidth: 1,
-          borderColor: '#C8C8C8', borderBottomWidth: 1, borderLeftWidth: 1, padding: 5,
-        }}>
-          <Text style={{ fontSize: 12, fontFamily: 'NSExtraBold', color: (riskLevel == 4 ? '#FFF' : '#C8C8C8') }}>FAIR</Text>
-        </View>
-
-        <View style={{
-          flex: 1, alignItems: 'center', backgroundColor: (riskLevel == 5 ? 'green' : '#FFF'), borderWidth: 1,
+          flex: 1, alignItems: 'center', backgroundColor: (riskLevel == 4 ? 'green' : '#FFF'), borderWidth: 1,
           borderBottomRightRadius: 10, borderColor: '#C8C8C8', padding: 5, borderTopRightRadius: 10,
         }}>
-          <Text style={{ fontSize: 12, fontFamily: 'NSExtraBold', color: (riskLevel == 5 ? '#FFF' : '#C8C8C8') }}>GOOD</Text>
+          <Text style={{ fontSize: 12, fontFamily: 'NSExtraBold', color: (riskLevel == 4 ? '#FFF' : '#C8C8C8') }}>PASS</Text>
         </View>
-
       </View>
 
     </View>

@@ -23,7 +23,7 @@ export default function transformData( dataLoaded, datenum ) {
         obj.SharS =  formatNumber(( dataLoaded[t].salesAverage[1] / dataLoaded[t].totalSalesGroup[1] ) * 100);
         obj.SharC =  formatNumber(( dataLoaded[t].carbonAverage[1] / dataLoaded[t].totalCarbonGroup[1] ) * 100);
         obj.Carbon = Number((Math.abs(dataLoaded[t].carbonAverage[1])/1000).toFixed(1));
-        obj.s = parseInt(dataLoaded[t].Market_Cap/100)/10;
+        obj.s = parseInt(dataLoaded[t].Market_Cap);
         obj.DataGraphESG = dataGraph(dataLoaded[t].ESG_SubSector_decile, datenum)
         obj.DataGraphE = dataGraph(dataLoaded[t].E_SubSector_decile, datenum)
         obj.DataGraphS = dataGraph(dataLoaded[t].S_SubSector_decile, datenum)
@@ -31,7 +31,6 @@ export default function transformData( dataLoaded, datenum ) {
         obj.Cont = controversy(dataLoaded[t].controversies)
         obj.Controversies = controversyLabel(dataLoaded[t].controversies)
         obj.ContColor = dataLoaded[t].controversies
-        console.log()
         dataObj.push(obj);
       }
 

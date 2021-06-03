@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-import TableSummary from './TableSummary'
+import GaugeLinear4Controversy from './GaugeLinear4Controversy'
 
 // https://fonts.google.com/specimen/Nunito+Sans
 import { useFonts } from 'expo-font';
@@ -18,7 +18,7 @@ import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraB
 
 import { useNavigation } from '@react-navigation/core';
 
-export default function Summary(props) {
+export default function Perf(props) {
 
   const company = props.data;
   const navigation = useNavigation();
@@ -26,11 +26,11 @@ export default function Summary(props) {
   return (
     <View style={styles.container}>
       <View style={styles.barRank}>
-        <View style={{ marginHorizontal: 15 }}>
-
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={styles.titleScore}>ESG Sector Ratings</Text>
-            <TouchableOpacity onPress={() => { navigation.navigate('TutoESG') }} >
+        <View style={{ marginHorizontal: 15, marginBottom: 20 }}>
+          
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style={styles.titleScore}>Controversy</Text>
+            <TouchableOpacity onPress={() => { navigation.navigate('TutoControversy') }} >
               <Icon
                 style={{ paddingTop: 8 }}
                 name='question-circle-o'
@@ -41,60 +41,33 @@ export default function Summary(props) {
             </TouchableOpacity>
           </View>
 
-          <View style={{ paddingTop: 10, paddingBottom: 2 }}>
-            <View style={{ flexDirection: 'row', paddingBottom: 5 }}>
-              {/* <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Sector: </Text></View> */}
-              <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.SASBSubSector}</Text>
-            </View>
-            <View style={{ flexDirection: 'row', paddingBottom: 10 }}>
-              <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>World ({company.ESG_SubSector_nb_rk_last}) - Rated ({company.ESG_SubSector_nb_last})</Text>
-            </View>
+          <View style={{ paddingTop: 5, paddingBottom: 10 }}>
+            <GaugeLinear4Controversy val={company.controversies} />
           </View>
 
-          <TableSummary data={company} />
-
-          <View style={{ paddingTop: 20, paddingBottom: 10 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{ paddingVertical: 10 }}>
+            {/* <View style={{ paddingTop: 20, paddingBottom: 10 }}>
               <Text style={styles.underTitleScore}>Comparative Universe</Text>
-              <TouchableOpacity onPress={() => { navigation.navigate('TutoESGComparative') }} >
-                <Icon
-                  style={{ paddingTop: 3 }}
-                  name='question-circle-o'
-                  type='font-awesome'
-                  color='silver'
-                  size={22}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+            </View> */}
+            <View style={{ flexDirection: 'row' }}>
               {/* <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Industry: </Text></View> */}
               <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.SASBIndustryGroup}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, alignItems: 'center' }}>
-              <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>World ({company.ESG_IG_nb_last}) - Rated ({company.ESG_IG_nb_rk_last})</Text>
+              <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>World ({company.ESG_IG_nb_last})</Text>
               <TouchableOpacity
                 style={{ borderWidth: 1, paddingVertical: 3, paddingHorizontal: 8, borderRadius: 10, borderColor: 'grey' }}
-                onPress={() => (navigation.navigate('E S G'))}
+                onPress={() => (navigation.navigate('Controversy'))}
               >
                 <View style={{ flexDirection: 'row' }}>
                   <View style={{ justifyContent: 'center' }}>
-                    <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>Screen</Text>
+                    <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>Screen </Text>
                   </View>
                   <View style={{ justifyContent: 'center' }}><Text style={{ fontSize: 18, color: 'grey' }}> &gt;&gt;</Text></View>
                 </View>
               </TouchableOpacity>
             </View>
           </View>
-
-          {/* <View style={{ paddingTop: 5, paddingBottom: 25 }}>
-            <Text style={styles.titleScore}>Controversy</Text>
-            <GaugeLinear4Controversy val={company.controversies} />
-          </View>
-
-          <View style={{ paddingBottom: 20 }}>
-            <Text style={styles.titleScore}>Carbon Intensity Industry</Text>
-            <CarbonSummary data={company} />
-          </View> */}
 
         </View>
       </View>

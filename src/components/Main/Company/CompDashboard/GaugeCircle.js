@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   titleGauge2: {
     textAlign: 'center',
     color: 'black',
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '100',
     fontFamily: 'NSBold',
   },

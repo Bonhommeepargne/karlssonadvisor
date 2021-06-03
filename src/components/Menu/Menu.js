@@ -14,6 +14,16 @@ import Notifications from './../Main/Notifications/Notifications';
 import SideModal from './../Menu/SideModal/SideModal';
 import DefineCompany from '../Main/Search/DefineCompany';
 import MenuTree from './MenuTree';
+import TutoESG from '../tuto/TutoESG';
+import TutoESGTab from '../tuto/TutoESGTab';
+import TutoESGComparative from '../tuto/TutoESGComparative';
+import TutoCarbon from '../tuto/TutoCarbon';
+import TutoControversy from '../tuto/TutoControversy';
+import TutoESGMenu from '../tuto/TutoESGMenu';
+import TutoCarbonMenu from '../tuto/TutoCarbonMenu';
+import TutoControversyMenu from '../tuto/TutoControversyMenu';
+import TutoPerf from '../tuto/TutoPerf';
+import TutoUNGC from '../tuto/TutoUNGC';
 import Store from '../../context';
 import EmailActivation from '../Connection/Login/EmailActivation'
 
@@ -53,7 +63,7 @@ const modalOptions = {
 };
 
 export default function Menu() {
-  
+
   return (
     <Store.Consumer>
       {(store) => (
@@ -140,6 +150,16 @@ export default function Menu() {
             )
           })}
           />
+          <Stack.Screen name="TutoESG" component={TutoESG} options={modalOptions} />
+          <Stack.Screen name="TutoESGTab" component={TutoESGTab} options={modalOptions} />
+          <Stack.Screen name="TutoESGComparative" component={TutoESGComparative} options={modalOptions} />
+          <Stack.Screen name="TutoCarbon" component={TutoCarbon} options={modalOptions} />
+          <Stack.Screen name="TutoControversy" component={TutoControversy} options={modalOptions} />
+          <Stack.Screen name="TutoPerf" component={TutoPerf} options={modalOptions} />
+          <Stack.Screen name="TutoUNGC" component={TutoUNGC} options={modalOptions} />
+          <Stack.Screen name="TutoESGMenu" component={TutoESGMenu} options={modalOptions} />
+          <Stack.Screen name="TutoCarbonMenu" component={TutoCarbonMenu} options={modalOptions} />
+          <Stack.Screen name="TutoControversyMenu" component={TutoControversyMenu} options={modalOptions} />
         </Stack.Navigator>
       )}
     </Store.Consumer>

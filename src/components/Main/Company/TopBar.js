@@ -5,13 +5,12 @@ import {
     View,
     TouchableWithoutFeedback,
 } from 'react-native';
-import Constants from 'expo-constants';
+
 import Toast from 'react-native-toast-message';
 import { Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import * as fb from "../../../firebase";
 import Store from '../../../context';
-import { set } from 'react-native-reanimated';
 
 export default function TopBar() {
 

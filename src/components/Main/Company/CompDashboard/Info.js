@@ -7,7 +7,6 @@ import {
   Button,
   TouchableOpacity
 } from 'react-native';
-import TableSummaryPerf from './TableSummaryPerf'
 
 // https://fonts.google.com/specimen/Nunito+Sans
 import { useFonts } from 'expo-font';
@@ -17,11 +16,12 @@ import NSBold from '../../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
 import { useNavigation } from '@react-navigation/core';
+import sizeLabel from '../../../../util/sizeLabel';
 
 export default function Info(props) {
 
   const company = props.data;
-
+  const valLabel = sizeLabel(company.s);
 
   const ExternalLinkBtn = (props) => {
     return <TouchableOpacity
@@ -32,8 +32,8 @@ export default function Info(props) {
             alert('Failed to open page')
           })
       }}>
-        <Text style={{ fontSize: 14, fontFamily: 'NSBold', color: 'blue' }}>{props.title}</Text>
-      </TouchableOpacity>
+      <Text style={{ fontSize: 14, fontFamily: 'NSBold', color: 'blue' }}>{props.title}</Text>
+    </TouchableOpacity>
   }
 
   return (
@@ -43,19 +43,45 @@ export default function Info(props) {
           <Text style={styles.titleScore}>Corporate information</Text>
 
           <View style={{ paddingVertical: 15 }}>
-            <View style={{ width: '90%' }}>
+            <View style={{ width: '90%', marginBottom: 15 }}>
               {/* <View><Text style={{ fontSize: 16, fontFamily: 'NSRegular', }}>Address: </Text></View> */}
-              <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.Region}</Text>
-              <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.Country}</Text>
+              <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.SASBSubSector}</Text>
+              <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>&#x21B3;{company.SASBIndustryGroup}</Text>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, alignItems: 'center' }}>
-              <View>
-                <Text style={{ fontSize: 14, fontFamily: 'NSBold', color: 'grey' }}>{company.Phone}</Text>
-                <ExternalLinkBtn title={company.Web} url={company.Web} />
+            <View style={{
+              flexDirection: 'row',
+              paddingTop: 0,
+            }}>
+              <View style={{ flex: 5, justifyContent: 'center' }}>
+                <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.Region}</Text>
+                <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.Country}</Text>
               </View>
-              <View>
+              <View style={{ flex: 3 }}>
+                <View style={{ borderColor: 'grey', borderWidth: 1, alignItems: 'center', 
+                    borderTopLeftRadius: 15, borderTopRightRadius: 15 }}>
+                  <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>Mkt. Cap.</Text>
+                </View>
+                <View style={{ borderColor: 'grey', borderLeftWidth: 1, borderRightWidth: 1,
+                    borderBottomWidth: 1, alignItems: 'center',
+                    borderBottomLeftRadius: 15, borderBottomRightRadius: 15 }}>
+                  <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.s.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} M€</Text>
+                  <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{valLabel.label}</Text>
+                </View>
+              </View>
+            </View>
+            <View style={{
+              flexDirection: 'row', justifyContent: 'space-between',
+              paddingTop: 10, alignItems: 'flex-start'
+            }}>
+              <View style={{ flex: 5 }}>
+                <Text style={{ fontSize: 14, fontFamily: 'NSBold', color: 'grey' }}>{company.Phone}</Text>
+                <ExternalLinkBtn title={company.Web.length > 25 ? company.Web.substring(7, 25) + '...' : company.Web} url={company.Web} />
+              </View>
+              <View style={{ flex: 3 }}>
                 <Text style={{ fontSize: 14, fontFamily: 'NSBold', color: 'grey' }}>#Nb of employee</Text>
-                <Text style={{ fontSize: 14, fontFamily: 'NSBold', color: 'grey' }}>{!isNaN(company.employee) ? company.employee.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '-'}</Text>
+                <Text style={{ fontSize: 14, fontFamily: 'NSBold', color: 'grey' }}>
+                  {isNaN(company.employee) || company.employee == '' ? '-' : company.employee.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </Text>
               </View>
             </View>
           </View>

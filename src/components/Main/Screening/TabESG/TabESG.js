@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { getColor } from '../../../../util/function';
+import sizeLabel from '../../../../util/sizeLabel';
+import filterByCriteria from '../../../../util/filterByCriteria';
 import Store from '../../../../context';
 import _ from "lodash";
 import { useNavigation } from '@react-navigation/native';
@@ -13,7 +15,7 @@ import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraB
 
 // "alpha-s-circle-outline" : "alpha-s-circle-outline"
 
-export default function TabESG() {
+export default function TabESG({ filter }) {
 
     const navigation = useNavigation();
     const [columns, setColumns] = useState([
@@ -32,9 +34,10 @@ export default function TabESG() {
 
     useEffect(() => {
 
-        setData(_.orderBy(dataStore.sectorArray[dataStore.indexSector], 's', "desc"));
+        setData(_.orderBy(filterByCriteria(dataStore.sectorArray[dataStore.indexSector], filter)
+            , 's', "desc"));
 
-    }, [dataStore.indexSector]);
+    }, [dataStore.indexSector, filter]);
 
     const getItem = (item) => {
         // console.log({ row: dataStore.indexSector, col: item.ind });
@@ -86,14 +89,15 @@ export default function TabESG() {
 
     // {delta > 1 ? '↑' : ( delta > -1 ? '' :'↓' )}
 
-    const DisplaySize = ({ size }) => (
+    const DisplaySize = ({ size }) => {
+        
+        let label = sizeLabel(size);
+
+        return (
         <>
-            {size > 10 ? <Text style={{ ...styles.columnSecondRowTxt, color: 'dodgerblue' }}>L</Text> : (
-                size > 2 ? <Text style={{ ...styles.columnSecondRowTxt, color: 'deepskyblue' }}>M</Text> :
-                    <Text style={{ ...styles.columnSecondRowTxt, color: 'lightskyblue' }}>S</Text>
-            )}
-        </>
-    )
+            <Text style={{ ...styles.columnSecondRowTxt, color: 'grey' }}>{label.letter}</Text>
+        </>)
+    }
 
     return (
 

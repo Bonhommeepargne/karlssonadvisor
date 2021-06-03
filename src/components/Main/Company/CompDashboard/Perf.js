@@ -6,8 +6,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 import TableSummaryPerf from './TableSummaryPerf'
+import { Icon } from 'react-native-elements'
 
-import GaugeLinear4Controversy from './GaugeLinear4Controversy'
 
 // https://fonts.google.com/specimen/Nunito+Sans
 import { useFonts } from 'expo-font';
@@ -27,7 +27,23 @@ export default function Perf(props) {
     <View style={styles.container}>
       <View style={styles.barRank}>
         <View style={{ marginHorizontal: 15, marginBottom: 20 }}>
-          <Text style={styles.titleScore}>Controversy</Text>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style={styles.titleScore}>Market Performances</Text>
+            <TouchableOpacity onPress={() => { navigation.navigate('TutoPerf') }} >
+              <Icon
+                style={{ paddingTop: 8 }}
+                name='question-circle-o'
+                type='font-awesome'
+                color='silver'
+                size={22}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View style={{ marginVertical: 10 }}>
+            <TableSummaryPerf data={company} />
+          </View>
 
           <View style={{ paddingVertical: 10 }}>
             {/* <View style={{ paddingTop: 20, paddingBottom: 10 }}>
@@ -53,13 +69,6 @@ export default function Perf(props) {
             </View>
           </View>
 
-          <View style={{ paddingTop: 5, paddingBottom: 25 }}>
-            <GaugeLinear4Controversy val={company.controversies} />
-          </View>
-
-          <View style={{ marginTop: 0 }}>
-            <TableSummaryPerf data={company} />
-          </View>
 
         </View>
       </View>

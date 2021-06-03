@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import GaugeCircle from './GaugeCircle';
 import GaugeLinear4 from './GaugeLinear4';
 import { useNavigation } from '@react-navigation/core';
+import { Icon } from 'react-native-elements';
 
 import NSLight from '../../../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
 import NSRegular from '../../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
@@ -28,7 +29,21 @@ export default function CarbonSummary(props) {
     <View style={styles.container}>
       <View style={styles.barRank}>
         <View style={{ marginHorizontal: 15 }}>
-          <Text style={styles.titleScore}>Carbon Intensity Industry</Text>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style={styles.titleScore}>Carbon Intensity</Text>
+            <TouchableOpacity onPress={() => { navigation.navigate('TutoCarbon') }} >
+              <Icon
+                style={{ paddingTop: 8 }}
+                name='question-circle-o'
+                type='font-awesome'
+                color='silver'
+                size={22}
+              />
+            </TouchableOpacity>
+          </View>
+
+
           <View style={styles.container}>
             <View style={{ paddingBottom: 10 }} >
               <View style={{ paddingBottom: 10 }}>
@@ -37,14 +52,14 @@ export default function CarbonSummary(props) {
                   <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'grey' }}>{company.SASBIndustryGroup}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, alignItems: 'center' }}>
-                  <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>Total {company.carbonAverage_nb[1]} Stocks</Text>
+                  <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>World ({company.carbonAverage_nb[1]}) - Rated ({company.carbonAverage_nb_rk[1]})</Text>
                   <TouchableOpacity
                     style={{ borderWidth: 1, paddingVertical: 3, paddingHorizontal: 8, borderRadius: 10, borderColor: 'grey' }}
                     onPress={() => (navigation.navigate('Carbon'))}
                   >
                     <View style={{ flexDirection: 'row' }}>
                       <View style={{ justifyContent: 'center' }}>
-                        <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>{company.carbonAverage_nb_rk[1]} Rated</Text>
+                        <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>Screen</Text>
                       </View>
                       <View style={{ justifyContent: 'center' }}><Text style={{ fontSize: 18, color: 'grey' }}> &gt;&gt;</Text></View>
                     </View>
@@ -59,7 +74,7 @@ export default function CarbonSummary(props) {
                 <GaugeCircle val={sectorsales} text1='TOTAL SALES' text2="INDUSTRY" />
               </View>
               <View style={{ paddingHorizontal: 10, }}>
-                <GaugeCircle val={sectorco2} text1='CO2 EMISSION' text2="INDUSTRY" />
+                <GaugeCircle val={sectorco2} text1='CO2 EMISSIONS' text2="INDUSTRY" />
               </View>
             </View>
           </View>

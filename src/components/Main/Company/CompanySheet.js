@@ -12,7 +12,9 @@ import Summary from './CompDashboard/Summary'
 import CarbonSummary from './CompDashboard/CarbonSummary'
 import GraphRank from './CompDashboard/GraphRank';
 import TopBar from './TopBar';
+import Controversy from './CompDashboard/Controversy'
 import Perf from './CompDashboard/Perf'
+import Ungc from './CompDashboard/Ungc'
 import Info from './CompDashboard/Info'
 
 // https://fonts.google.com/specimen/Nunito+Sans
@@ -83,7 +85,9 @@ export default function CompanySheet({ route, navigation }) {
                 </View>
                 <Summary data={comp} />
                 <CarbonSummary data={comp} />
+                <Controversy data={comp} />
                 <Perf data={comp} />
+                <Ungc data={comp} />
                 <GraphRank data={dataESG} />
                 <GraphRank data={dataE} />
                 <GraphRank data={dataS} />

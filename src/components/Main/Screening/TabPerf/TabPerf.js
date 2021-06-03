@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import controversy from '../../../../util/controversy';
+import { getColor } from '../../../../util/function';
+import sizeLabel from '../../../../util/sizeLabel';
+import filterByCriteria from '../../../../util/filterByCriteria';
 import Store from '../../../../context';
 import _ from "lodash";
 import { useNavigation } from '@react-navigation/native';
@@ -11,7 +13,7 @@ import NSRegular from '../../../../../assets/fonts/NunitoSans/NunitoSansRegular.
 import NSBold from '../../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
-export default function TabESG() {
+export default function TabPerf({ filter }) {
 
     const navigation = useNavigation();
     const [columns, setColumns] = useState([
@@ -30,9 +32,10 @@ export default function TabESG() {
 
     useEffect(() => {
 
-        setData(_.orderBy(dataStore.sectorArray[dataStore.indexSector], 's', "desc"));
+        setData(_.orderBy(filterByCriteria(dataStore.sectorArray[dataStore.indexSector], filter)
+            , 's', "desc"));
 
-    }, [dataStore.indexSector]);
+    }, [dataStore.indexSector, filter]);
 
     const getItem = (item) => {
         // console.log({ row: dataStore.indexSector, col: item.ind });
@@ -87,14 +90,15 @@ export default function TabESG() {
 
     // {delta > 1 ? '↑' : ( delta > -1 ? '' :'↓' )}
 
-    const DisplaySize = ({ size }) => (
+    const DisplaySize = ({ size }) => {
+        
+        let label = sizeLabel(size);
+
+        return (
         <>
-            {size > 10 ? <Text style={{ ...styles.columnSecondRowTxt, color: 'dodgerblue' }}>L</Text> : (
-                size > 2 ? <Text style={{ ...styles.columnSecondRowTxt, color: 'deepskyblue' }}>M</Text> :
-                    <Text style={{ ...styles.columnSecondRowTxt, color: 'lightskyblue' }}>S</Text>
-            )}
-        </>
-    )
+            <Text style={{ ...styles.columnSecondRowTxt, color: 'grey' }}>{label.letter}</Text>
+        </>)
+    }
 
     return (
 
@@ -138,7 +142,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-evenly",
         alignItems: "center",
-        backgroundColor: "#353535", //#6A8712",
+        backgroundColor: '#53586f', //#6A8712",
         // borderTopEndRadius: 10,
         // borderTopStartRadius: 10,
         height: 50

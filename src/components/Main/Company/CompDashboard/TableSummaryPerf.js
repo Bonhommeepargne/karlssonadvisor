@@ -20,7 +20,7 @@ import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraB
 export default function TableSummaryPerf(props) {
 
   const company = props.data;
-  const header = ['Market Performance', '%'];
+  const header = ['', '%'];
   const data = [['ΔLast Month', company.Perf1M ],
                 ['ΔYear to date', company.PerfYTD ],
                ['Δ3 Month', company.Perf3M ],
