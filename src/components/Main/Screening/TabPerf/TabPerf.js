@@ -55,6 +55,21 @@ export default function TabPerf({ filter }) {
         setData(sortedData)
     }
     const tableHeader = () => (
+        <>
+        <View style={styles.tableHeaderTop}>
+            <View style={styles.columnFirstHeader}>
+
+            </View>
+            <View style={styles.columnSecondHeader}>
+                
+            </View>
+            <View style={styles.columnHeader}>
+                
+            </View>
+            <View style={styles.columnHeader3}>
+                <Text style={styles.columnHeaderTop}>Market Performance %</Text>
+            </View>
+        </View>
         <View style={styles.tableHeader}>
             {
                 columns.map((column, index) => {
@@ -62,7 +77,8 @@ export default function TabPerf({ filter }) {
                         return (
                             <TouchableOpacity
                                 key={index}
-                                style={index == 0 ? styles.columnFirstHeader : (index == 1 ? styles.columnSecondHeader : styles.columnHeader)}
+                                style={index == 0 ? styles.columnFirstHeader : (index == 1 ? styles.columnSecondHeader : 
+                                    (index == 2 ? styles.columnThirdHeader : styles.columnHeader))}
                                 onPress={() => sortTable(column)}>
                                 <Text style={styles.columnHeaderTxt}>{column == 's' ? selectedColumn != 's' && <MaterialCommunityIcons
                                     name='alpha-c-box' size={20} /> : (column.substring(0, 4) == 'Perf' ? column.substring(4, 6) : column )}
@@ -77,6 +93,7 @@ export default function TabPerf({ filter }) {
                 })
             }
         </View>
+        </>
     )
 
     const DisplayRank = ({ perf }) => (
@@ -144,7 +161,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#53586f', //#6A8712",
         // borderTopEndRadius: 10,
         // borderTopStartRadius: 10,
-        height: 50
+        height: 40
+    },
+    tableHeaderTop: {
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        backgroundColor: '#53586f', //#6A8712",
+        // borderTopEndRadius: 10,
+        // borderTopStartRadius: 10,
+        height: 30
     },
     tableRow: {
         flexDirection: "row",
@@ -161,14 +187,30 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "flex-start"
     },
-    columnHeader: {
+    columnThirdHeader: {
         width: "14%",
         justifyContent: "center",
         alignItems: "center"
     },
+    columnHeader: {
+        width: "14%",
+        justifyContent: "center",
+        alignItems: "center",
+        // borderLeftWidth: 1,
+        // borderLeftColor: '#FFF'
+    },
+    columnHeader3: {
+        width: "42%",
+        justifyContent: "center",
+        alignItems: "center",
+    },
     columnHeaderTxt: {
         color: "white",
-        fontFamily: 'NSBold',
+        fontFamily: 'NSRegular',
+    },
+    columnHeaderTop: {
+        color: "white",
+        fontFamily: 'NSRegular',
     },
     columnFirstRowTxt: {
         textAlign: "left",

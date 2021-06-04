@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     },
     columnHeaderTxt: {
         color: "white",
-        fontFamily: 'NSBold',
+        fontFamily: 'NSRegular',
     },
     columnFirstRowTxt: {
         textAlign: "left",

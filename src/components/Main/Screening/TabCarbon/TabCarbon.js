@@ -43,7 +43,7 @@ export default function TabCarbon() {
         // console.log({ row: dataStore.indexSector, col: item.ind });
         navigation.navigate('Company');
         dataStore.newIndexCompany({ row: dataStore.indexSector, col: item.ind });
-      };
+    };
 
     const sortTable = (column) => {
         let newDirection = null;
@@ -58,48 +58,70 @@ export default function TabCarbon() {
         setData(sortedData)
     }
     const tableHeader = () => (
-        <View style={styles.tableHeader}>
-            {
-                columns.map((column, index) => {
-                    {
-                        return (
-                            <TouchableOpacity
-                                key={index}
-                                style={index == 0 ? styles.columnFirstHeader : (index == 1 ? styles.columnSecondHeader : styles.columnHeader)}
-                                onPress={() => sortTable(column)}>
-                                <Text style={styles.columnHeaderTxt}>{column == 's' ? selectedColumn != 's' && <MaterialCommunityIcons
-                                    name='alpha-c-box' size={20} /> : ( column )}
-                                    {selectedColumn === column && <MaterialCommunityIcons
-                                        name={direction === "desc" ? "arrow-down-drop-circle" : "arrow-up-drop-circle"} size={column == 's' ? 20 : 12} // "arrow-down-drop-circle" : "arrow-up-drop-circle"
-                                    />
-                                    }
-                                </Text>
-                            </TouchableOpacity>
-                        )
-                    }
-                })
-            }
-        </View>
+        <>
+            <View style={styles.tableHeaderTop}>
+                <View style={styles.columnFirstHeader}>
+
+                </View>
+                <View style={styles.columnSecondHeader}>
+
+                </View>
+                <View style={styles.columnHeader}>
+
+                </View>
+                <View style={styles.columnHeader}>
+
+                </View>
+                <View style={styles.columnHeader}>
+                    <Text style={styles.columnHeaderTop}>%</Text>
+                </View>
+                <View style={styles.columnHeader}>
+                    <Text style={styles.columnHeaderTop}>%</Text>
+                </View>
+            </View>
+            <View style={styles.tableHeader}>
+                {
+                    columns.map((column, index) => {
+                        {
+                            return (
+                                <TouchableOpacity
+                                    key={index}
+                                    style={index == 0 ? styles.columnFirstHeader : (index == 1 ? styles.columnSecondHeader : styles.columnHeader)}
+                                    onPress={() => sortTable(column)}>
+                                    <Text style={styles.columnHeaderTxt}>{column == 's' ? selectedColumn != 's' && <MaterialCommunityIcons
+                                        name='alpha-c-box' size={20} /> : (column)}
+                                        {selectedColumn === column && <MaterialCommunityIcons
+                                            name={direction === "desc" ? "arrow-down-drop-circle" : "arrow-up-drop-circle"} size={column == 's' ? 20 : 12} // "arrow-down-drop-circle" : "arrow-up-drop-circle"
+                                        />
+                                        }
+                                    </Text>
+                                </TouchableOpacity>
+                            )
+                        }
+                    })
+                }
+            </View>
+        </>
     )
 
-    const DisplayRank = ( { note } ) => (
+    const DisplayRank = ({ note }) => (
         <Text style={{ ...styles.columnRowTxt, color: 'black' }}>{note == 0 ? '-' : note}</Text>
     )
 
     const DisplayIntensity = ({ note }) => {
         let val = intensity(note);
 
-        return <Text style={{ ...styles.columnRowTxt, color: val.color }}>{ val.text }</Text>
+        return <Text style={{ ...styles.columnRowTxt, color: val.color }}>{val.text}</Text>
     };
 
     const DisplaySize = ({ size }) => {
-        
+
         let label = sizeLabel(size);
 
         return (
-        <>
-            <Text style={{ ...styles.columnSecondRowTxt, color: 'grey' }}>{label.letter}</Text>
-        </>)
+            <>
+                <Text style={{ ...styles.columnSecondRowTxt, color: 'grey' }}>{label.letter}</Text>
+            </>)
     }
 
     return (
@@ -115,7 +137,7 @@ export default function TabCarbon() {
                 renderItem={({ item, index }) => {
                     return (
                         <View style={{ ...styles.tableRow, backgroundColor: index % 2 == 1 ? "#f6f6f6" : "white" }}>
-                            <TouchableOpacity style={{width: "39%"}} onPress={() => { getItem({ code: item.Sedol7, name: item.Name, ind: item.ind }) }} >
+                            <TouchableOpacity style={{ width: "39%" }} onPress={() => { getItem({ code: item.Sedol7, name: item.Name, ind: item.ind }) }} >
                                 <Text style={styles.columnFirstRowTxt}>{item.Name}</Text>
                             </TouchableOpacity>
                             <DisplaySize size={item.s} />
@@ -147,7 +169,16 @@ const styles = StyleSheet.create({
         backgroundColor: "gray",
         // borderTopEndRadius: 10,
         // borderTopStartRadius: 10,
-        height: 50
+        height: 40
+    },
+    tableHeaderTop: {
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        backgroundColor: 'gray', //#6A8712",
+        // borderTopEndRadius: 10,
+        // borderTopStartRadius: 10,
+        height: 30
     },
     tableRow: {
         flexDirection: "row",
@@ -171,7 +202,11 @@ const styles = StyleSheet.create({
     },
     columnHeaderTxt: {
         color: "white",
-        fontFamily: 'NSBold',
+        fontFamily: 'NSRegular',
+    },
+    columnHeaderTop: {
+        color: "white",
+        fontFamily: 'NSRegular',
     },
     columnFirstRowTxt: {
         textAlign: "left",
