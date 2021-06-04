@@ -25,10 +25,17 @@ export default function TableSummary(props) {
   const navigation = useNavigation();
   const company = props.data;
   const header = [' ', 'ESG', 'E', 'S', 'G'];
-  const data = [['Sector', company.ESG, company.E, company.S, company.G], ['ΔChange 1Y', company.ESG1Y,
-    company.E1Y,
-    company.S1Y,
-    company.G1Y],
+  const data = [['Sector',
+    company.ESG == 0 ? 'na' : company.ESG,
+    company.E == 0 ? 'na' : company.E,
+    company.S == 0 ? 'na' : company.S,
+    company.G == 0 ? 'na' : company.G
+  ], 
+  ['ΔChange 1Y',
+    company.ESG == 0 ? 'na' : company.ESG1Y,
+    company.E == 0 ? 'na' : company.E1Y,
+    company.S == 0 ? 'na' : company.S1Y,
+    company.G == 0 ? 'na' : company.G1Y],
   ];
 
   function getColor2(data) {
@@ -36,8 +43,8 @@ export default function TableSummary(props) {
       return 'blue'
     } else if (data < 0) {
       return 'red'
-    } else if (data == 0) {
-      return 'grey'
+    } else if (data == 'na') {
+      return '#CCC'
     }
   }
 
@@ -48,6 +55,8 @@ export default function TableSummary(props) {
       return data
     } else if (data == 0) {
       return 'stable'
+    } else if (data == 'na') {
+      return data
     }
   }
 

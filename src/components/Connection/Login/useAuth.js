@@ -10,7 +10,7 @@ function useAuth() {
     user: null, userInfo: null, updateUser: null,
     sectorArray: null, pushSectorArray: null, indexSector: null, newIndexSector: null, indexCompanyRow: null,
     indexCompanyCol: null, newIndexCompany: null,
-    watchList: null, storeWatchList: null, allSecurities: [], storeAllSecurities: null,
+    watchList: null, storeWatchList: null, allSecurities: [], storeAllSecurities: null, preferences: null, updatePreferences: null,
     updateDate: null
   });
 
@@ -26,6 +26,13 @@ function useAuth() {
       for (const key in data) {
         oldState.userInfo[key] = data[key];
       }
+      return { ...oldState };
+    });
+  }
+
+  const updatePreferences = (data) => {
+    setAuthUser((oldState) => {
+      oldState.preferences = data;
       return { ...oldState };
     });
   }
@@ -94,7 +101,7 @@ function useAuth() {
                   sectorArray: [], pushSectorArray: pushSectorArray, indexSector: null,
                   newIndexSector: newIndexSector, indexCompany: { row: 0, col: 0 }, newIndexCompany: newIndexCompany,
                   watchList: [], storeWatchList: storeWatchList, allSecurities: [], storeAllSecurities: storeAllSecurities,
-                  updateDate: mult[1].data.date
+                  preferences: [1, 2, 3, 4, 5, 6, 7, 8], updatePreferences: updatePreferences, updateDate: mult[1].data.date
                 })
               } else {
                 dataObj = transformData(ESGData.data, mult[1].data.date);
@@ -105,7 +112,8 @@ function useAuth() {
                   sectorArray: [dataObj], pushSectorArray: pushSectorArray, indexSector: 0,
                   newIndexSector: newIndexSector, indexCompany: { row: 0, col: companyInSector }, newIndexCompany: newIndexCompany,
                   watchList: [], storeWatchList: storeWatchList, allSecurities: [], storeAllSecurities: storeAllSecurities,
-                  updateDate: mult[1].data.date
+                  preferences: !dataUser.preferences ? [1, 2, 3, 4, 5, 6, 7, 8] : dataUser.preferences,
+                  updatePreferences: updatePreferences, updateDate: mult[1].data.date
                 });
               }
             }
@@ -118,7 +126,8 @@ function useAuth() {
               sectorArray: [], pushSectorArray: pushSectorArray, indexSector: null,
               newIndexSector: newIndexSector, indexCompany: { row: 0, col: 0 }, newIndexCompany: newIndexCompany,
               watchList: [], storeWatchList: storeWatchList, allSecurities: [], storeAllSecurities: storeAllSecurities,
-              updateDate: mult[1].data.date
+              preferences: !dataUser.preferences ? [1, 2, 3, 4, 5, 6, 7, 8] : dataUser.preferences,
+              updatePreferences: updatePreferences, updateDate: mult[1].data.date
             });
           }
         }).catch(err => console.log('Erreur useAuth : ', err))

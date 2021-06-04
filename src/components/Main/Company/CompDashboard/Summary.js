@@ -52,6 +52,20 @@ export default function Summary(props) {
           </View>
 
           <TableSummary data={company} />
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 10, alignItems: 'center' }}>
+              <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}></Text>
+              <TouchableOpacity
+                style={{ borderWidth: 1, paddingVertical: 3, paddingHorizontal: 8, borderRadius: 10, borderColor: 'grey' }}
+                onPress={() => (navigation.navigate('CompanyHistory'))}
+              >
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={{ justifyContent: 'center' }}>
+                    <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: 'grey' }}>Rating History</Text>
+                  </View>
+                  <View style={{ justifyContent: 'center' }}><Text style={{ fontSize: 18, color: 'grey' }}> &gt;&gt;</Text></View>
+                </View>
+              </TouchableOpacity>
+            </View>
 
           <View style={{ paddingTop: 20, paddingBottom: 10 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>

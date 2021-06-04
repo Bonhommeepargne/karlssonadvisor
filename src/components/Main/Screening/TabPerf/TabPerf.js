@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { getColor } from '../../../../util/function';
 import sizeLabel from '../../../../util/sizeLabel';
 import filterByCriteria from '../../../../util/filterByCriteria';
 import Store from '../../../../context';
 import _ from "lodash";
 import { useNavigation } from '@react-navigation/native';
+import onSelectedItemsChange from '../../../../util/onSelectedItemsChange';
 
 import NSLight from '../../../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
 import NSRegular from '../../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
@@ -31,11 +31,10 @@ export default function TabPerf({ filter }) {
     const dataStore = useContext(Store);
 
     useEffect(() => {
-
-        setData(_.orderBy(filterByCriteria(dataStore.sectorArray[dataStore.indexSector], filter)
+        setData(_.orderBy(filterByCriteria(dataStore.sectorArray[dataStore.indexSector], onSelectedItemsChange(dataStore.preferences))
             , 's', "desc"));
 
-    }, [dataStore.indexSector, filter]);
+    }, [dataStore.indexSector, dataStore.preferences]);
 
     const getItem = (item) => {
         // console.log({ row: dataStore.indexSector, col: item.ind });

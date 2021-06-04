@@ -7,6 +7,7 @@ import filterByCriteria from '../../../../util/filterByCriteria';
 import Store from '../../../../context';
 import _ from "lodash";
 import { useNavigation } from '@react-navigation/native';
+import onSelectedItemsChange from '../../../../util/onSelectedItemsChange';
 
 import NSLight from '../../../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
 import NSRegular from '../../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
@@ -15,7 +16,7 @@ import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraB
 
 // "alpha-s-circle-outline" : "alpha-s-circle-outline"
 
-export default function TabESG({ filter }) {
+export default function TabESG() {
 
     const navigation = useNavigation();
     const [columns, setColumns] = useState([
@@ -33,11 +34,10 @@ export default function TabESG({ filter }) {
     const dataStore = useContext(Store);
 
     useEffect(() => {
-
-        setData(_.orderBy(filterByCriteria(dataStore.sectorArray[dataStore.indexSector], filter)
+        setData(_.orderBy(filterByCriteria(dataStore.sectorArray[dataStore.indexSector], onSelectedItemsChange(dataStore.preferences))
             , 's', "desc"));
 
-    }, [dataStore.indexSector, filter]);
+    }, [dataStore.indexSector, dataStore.preferences]);
 
     const getItem = (item) => {
         // console.log({ row: dataStore.indexSector, col: item.ind });

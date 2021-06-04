@@ -19,7 +19,7 @@ import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraB
 
 export default function GraphRank(props) {
 
-  let rank = props.data.series[11].decile;
+  let rank = props.data.series[11].decile == 0 ? 'na' : props.data.series[11].decile ;
   let series = props.data.series;
   let date = props.data.series[11].month;
   let title = props.data.title;
@@ -38,7 +38,7 @@ export default function GraphRank(props) {
           <View style={styles.barRankHeaderRanking}>
             <View style={styles.barRankHeaderRankingScore}>
               <View style={styles.note}>
-                <Text style={{ fontSize: 35, fontFamily: 'NSExtraBold', color: getColor(rank) }}>{rank}</Text>
+                <Text style={{ fontSize: rank == 'na' ? 30 : 35, fontFamily: 'NSExtraBold', color: getColor(rank) }}>{rank}</Text>
               </View>
               <View style={styles.sur}>
                 <Text style={styles.textSur}> / 10</Text>

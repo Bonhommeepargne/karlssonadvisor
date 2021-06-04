@@ -13,6 +13,8 @@ import WatchList from './../Main/WatchList/WatchList';
 import Notifications from './../Main/Notifications/Notifications';
 import SideModal from './../Menu/SideModal/SideModal';
 import DefineCompany from '../Main/Search/DefineCompany';
+import CompanyHistory from '../Main/Company/CompanyHistory';
+import SelectFilter from '../Main/Screening/Header/SelectFilter';
 import MenuTree from './MenuTree';
 import TutoESG from '../tuto/TutoESG';
 import TutoESGTab from '../tuto/TutoESGTab';
@@ -112,6 +114,13 @@ export default function Menu() {
               borderBottomWidth: 0
             }
           }} />
+          <Stack.Screen name="CompanyHistory" component={CompanyHistory} options={{
+            title: 'Rating History',
+            headerTintColor: '#fff', headerStyle: {
+              backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
+              borderBottomWidth: 0
+            }
+          }} />
           <Stack.Screen name="Subscription" component={Subscription} options={{
             title: 'Subscription',
             headerTintColor: '#fff', headerStyle: {
@@ -160,6 +169,7 @@ export default function Menu() {
           <Stack.Screen name="TutoESGMenu" component={TutoESGMenu} options={modalOptions} />
           <Stack.Screen name="TutoCarbonMenu" component={TutoCarbonMenu} options={modalOptions} />
           <Stack.Screen name="TutoControversyMenu" component={TutoControversyMenu} options={modalOptions} />
+          <Stack.Screen name="SelectFilter" component={SelectFilter} options={modalOptions} />
         </Stack.Navigator>
       )}
     </Store.Consumer>

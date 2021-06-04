@@ -25,8 +25,8 @@ export default function App() {
   
   let { user, userInfo, updateUserInfo, sectorArray, pushSectorArray, indexSector, newIndexSector,
     indexCompany, newIndexCompany, watchList, storeWatchList, 
-    allSecurities, storeAllSecurities, updateDate} = useAuth();
-
+    allSecurities, storeAllSecurities, preferences, updatePreferences, updateDate} = useAuth();
+    
   const MyTheme = {
     ...DefaultTheme,
     colors: {
@@ -42,7 +42,7 @@ export default function App() {
     NSBold,
     NSExtraBold,
   });
-
+  // #3c4d08
   return (
     <>
       <StatusBar backgroundColor="#3c4d08"/>
@@ -50,7 +50,8 @@ export default function App() {
           <SafeAreaView style={styles.container}>
             <Context.Provider value={{ user, userInfo, updateUserInfo, sectorArray,
                 pushSectorArray, indexSector, newIndexSector, indexCompany, newIndexCompany,
-                watchList, storeWatchList, allSecurities, storeAllSecurities, updateDate,
+                watchList, storeWatchList, allSecurities, storeAllSecurities, 
+                preferences, updatePreferences,updateDate,
                 loader, setLoader, ourLoader, setOurLoader }}>
                   {loadedFont && <Main />}
                   {!loadedFont || !ourLoader && <Loader />}

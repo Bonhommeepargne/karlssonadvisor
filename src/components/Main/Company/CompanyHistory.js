@@ -8,14 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import Summary from './CompDashboard/Summary'
-import CarbonSummary from './CompDashboard/CarbonSummary'
 import GraphRank from './CompDashboard/GraphRank';
-import TopBar from './TopBar';
-import Controversy from './CompDashboard/Controversy'
-import Perf from './CompDashboard/Perf'
-import Ungc from './CompDashboard/Ungc'
-import Info from './CompDashboard/Info'
 
 // https://fonts.google.com/specimen/Nunito+Sans
 // import { useFonts } from 'expo-font';
@@ -26,49 +19,46 @@ import Info from './CompDashboard/Info'
 
 import Store from '../../../context';
 
-export default function CompanySheet({ route, navigation }) {
+export default function CompanyHistory({ route, navigation }) {
 
   const dataStore = useContext(Store);
 
   const [comp, setComp] = useState(null);
-  // const [dataESG, setDataESG] = useState(null);
-  // const [dataE, setDataE] = useState(null);
-  // const [dataS, setDataS] = useState(null);
-  // const [dataG, setDataG] = useState(null);
+  const [dataESG, setDataESG] = useState(null);
+  const [dataE, setDataE] = useState(null);
+  const [dataS, setDataS] = useState(null);
+  const [dataG, setDataG] = useState(null);
 
   let company = null;
-  useEffect(() => {
-    dataStore.setOurLoader(true);
-  }, [])
 
   useEffect(() => {
     company = dataStore.sectorArray[dataStore.indexCompany.row][dataStore.indexCompany.col]
 
     setComp(company);
 
-    // setDataESG({
-    //   title: 'Agregate ESG Rating',
-    //   groupname: company.SASBSubSector,
-    //   series: company.DataGraphESG
-    // });
+    setDataESG({
+      title: 'Aggregate ESG Rating',
+      groupname: company.SASBSubSector,
+      series: company.DataGraphESG
+    });
 
-    // setDataE({
-    //   title: 'Environmental Rating',
-    //   groupname: company.SASBSubSector,
-    //   series: company.DataGraphE
-    // });
+    setDataE({
+      title: 'Environmental Rating',
+      groupname: company.SASBSubSector,
+      series: company.DataGraphE
+    });
 
-    // setDataS({
-    //   title: 'Social Rating',
-    //   groupname: company.SASBSubSector,
-    //   series: company.DataGraphS
-    // })
+    setDataS({
+      title: 'Social Rating',
+      groupname: company.SASBSubSector,
+      series: company.DataGraphS
+    })
 
-    // setDataG({
-    //   title: 'Governance Rating',
-    //   groupname: company.SASBSubSector,
-    //   series: company.DataGraphG
-    // })
+    setDataG({
+      title: 'Governance Rating',
+      groupname: company.SASBSubSector,
+      series: company.DataGraphG
+    })
 
   }, [dataStore.indexCompany.row, dataStore.indexCompany.col]);
 
@@ -76,7 +66,7 @@ export default function CompanySheet({ route, navigation }) {
     <>
       { comp &&
         (<View style={{ backgroundColor: "#F5F5F5", flex: 1 }} >
-          <TopBar />
+          {/* <TopBar /> */}
           <View>
             <SafeAreaView>
               <ScrollView>
@@ -84,17 +74,13 @@ export default function CompanySheet({ route, navigation }) {
                   <Text style={styles.companyTitle}>{comp.Name}</Text>
                   <Text style={styles.regionCountry}>{comp.Region} - {comp.Country}</Text>
                 </View>
-                <Summary data={comp} />
-                <CarbonSummary data={comp} />
-                <Ungc data={comp} />
-                <Controversy data={comp} />
-                <Perf data={comp} />
-                {/* <GraphRank data={dataESG} />
+                {/* <Summary data={comp} /> */}
+                <GraphRank data={dataESG} />
                 <GraphRank data={dataE} />
                 <GraphRank data={dataS} />
-                <GraphRank data={dataG} /> */}
-                <Info data={comp} />
-                <View style={{ height: 100 }}>
+                <GraphRank data={dataG} />
+                {/* <Info data={comp} /> */}
+                <View style={{ height: 50 }}>
                 </View>
               </ScrollView>
             </SafeAreaView>
