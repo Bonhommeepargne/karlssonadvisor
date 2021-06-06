@@ -30,7 +30,7 @@ const items = [
               id: 6,
           },
           {
-              name: 'MIDDLE EAST',
+              name: 'MID EAST',
               id: 7,
           },
           {

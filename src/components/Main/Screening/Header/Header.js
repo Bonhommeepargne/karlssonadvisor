@@ -16,7 +16,7 @@ import NSRegular from '../../../../../assets/fonts/NunitoSans/NunitoSansRegular.
 import NSBold from '../../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
-export default function Header({ helper, color }) {
+export default function Header({ helper, color, nb }) {
 
     const dataStore = useContext(Store);
     const navigation = useNavigation();
@@ -27,7 +27,7 @@ export default function Header({ helper, color }) {
     useEffect(() => {
         // setSelectedItems(dataStore.preferences);
         setFilter(onSelectedItemsChange(dataStore.preferences));
-    }, [ dataStore.preferences ])
+    }, [dataStore.preferences])
 
     let HandlerRight = () => (
         <View style={{ flexDirection: "row", paddingRight: 5 }}>
@@ -80,16 +80,39 @@ export default function Header({ helper, color }) {
                     <View style={{
                         marginTop: 0, backgroundColor: color,
                         color: '#FFF', flexDirection: "row", justifyContent: 'space-between',
-                        alignItems: 'center', paddingHorizontal: 15, paddingVertical: 10
+                        alignItems: 'center', paddingHorizontal: 15, paddingBottom: 10
                     }}>
-                        <View style={{ flex: 1, alignContent: 'flex-start' }} >
-                            <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: "#FFF" }}>
-                                {filter.map(function (elem) {
-                                    return elem.Region;
-                                }).join(", ")
-                                }</Text>
+                        <View style={{ flex: 5, justifyContent: 'center' }}>
+                            <TouchableOpacity onPress={() => { navigation.navigate('SelectFilter'); }} >
+                                <View>
+                                    <Text>
+                                        <Text style={{ fontSize: 14, fontFamily: 'NSRegular', color: "#FFF" }}>
+                                            {onSelectedItemsChange(store.preferences).map(function (elem) {
+                                                return elem.Region;
+                                            }).join(", ")
+                                            }</Text>
+                                        <Text style={{ fontSize: 16, fontFamily: 'NSRegular', color: "#FFF" }}>  {'\u270E'}</Text>
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
                         </View>
-                        <HandlerRight2 />
+                        <View style={{ flex: 1 }}>
+                            <View style={{
+                                borderColor: '#FFF', borderWidth: 1, alignItems: 'center',
+                                borderTopLeftRadius: 15, borderTopRightRadius: 15
+                            }}>
+                                <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: '#FFF' }}>{nb}</Text>
+                            </View>
+                            <View style={{
+                                borderColor: '#FFF', borderLeftWidth: 1, borderRightWidth: 1,
+                                borderBottomWidth: 1, alignItems: 'center',
+                                borderBottomLeftRadius: 15, borderBottomRightRadius: 15
+                            }}>
+                                <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: '#FFF' }}>
+                                    {store.sectorArray[store.indexCompany.row][store.indexCompany.col].ESG_IG_nb_last}
+                                </Text>
+                            </View>
+                        </View>
                     </View>
 
                 </View>

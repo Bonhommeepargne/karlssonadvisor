@@ -16,7 +16,7 @@ import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraB
 
 // "alpha-s-circle-outline" : "alpha-s-circle-outline"
 
-export default function TabESG() {
+export default function TabESG({ setNb }) {
 
     const navigation = useNavigation();
     const [columns, setColumns] = useState([
@@ -34,8 +34,9 @@ export default function TabESG() {
     const dataStore = useContext(Store);
 
     useEffect(() => {
-        setData(_.orderBy(filterByCriteria(dataStore.sectorArray[dataStore.indexSector], onSelectedItemsChange(dataStore.preferences))
-            , 's', "desc"));
+        let calcData = _.orderBy(filterByCriteria(dataStore.sectorArray[dataStore.indexSector], onSelectedItemsChange(dataStore.preferences)), 's', 'desc');
+        setData(calcData);
+        dataStore.updateNbESG(calcData.length);
 
     }, [dataStore.indexSector, dataStore.preferences]);
 

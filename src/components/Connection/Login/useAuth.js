@@ -11,7 +11,7 @@ function useAuth() {
     sectorArray: null, pushSectorArray: null, indexSector: null, newIndexSector: null, indexCompanyRow: null,
     indexCompanyCol: null, newIndexCompany: null,
     watchList: null, storeWatchList: null, allSecurities: [], storeAllSecurities: null, preferences: null, updatePreferences: null,
-    updateDate: null
+    nbESG: null, updateNbESG: null, nbCarbon: null, updateNbCarbon: null, nbPerf: null, updateNbPerf: null, updateDate: null
   });
 
   const pushSectorArray = (compArray) => {
@@ -33,6 +33,27 @@ function useAuth() {
   const updatePreferences = (data) => {
     setAuthUser((oldState) => {
       oldState.preferences = data;
+      return { ...oldState };
+    });
+  }
+
+  const updateNbESG = (data) => {
+    setAuthUser((oldState) => {
+      oldState.nbESG = data;
+      return { ...oldState };
+    });
+  }
+
+  const updateNbCarbon = (data) => {
+    setAuthUser((oldState) => {
+      oldState.nbCarbon = data;
+      return { ...oldState };
+    });
+  }
+
+  const updateNbPerf = (data) => {
+    setAuthUser((oldState) => {
+      oldState.nbPerf = data;
       return { ...oldState };
     });
   }
@@ -101,7 +122,8 @@ function useAuth() {
                   sectorArray: [], pushSectorArray: pushSectorArray, indexSector: null,
                   newIndexSector: newIndexSector, indexCompany: { row: 0, col: 0 }, newIndexCompany: newIndexCompany,
                   watchList: [], storeWatchList: storeWatchList, allSecurities: [], storeAllSecurities: storeAllSecurities,
-                  preferences: [1, 2, 3, 4, 5, 6, 7, 8], updatePreferences: updatePreferences, updateDate: mult[1].data.date
+                  preferences: [1, 2, 3, 4, 5, 6, 7, 8], updatePreferences: updatePreferences, 
+                  nb: 0, updateNb: updateNb, updateDate: mult[1].data.date
                 })
               } else {
                 dataObj = transformData(ESGData.data, mult[1].data.date);
@@ -113,7 +135,9 @@ function useAuth() {
                   newIndexSector: newIndexSector, indexCompany: { row: 0, col: companyInSector }, newIndexCompany: newIndexCompany,
                   watchList: [], storeWatchList: storeWatchList, allSecurities: [], storeAllSecurities: storeAllSecurities,
                   preferences: !dataUser.preferences ? [1, 2, 3, 4, 5, 6, 7, 8] : dataUser.preferences,
-                  updatePreferences: updatePreferences, updateDate: mult[1].data.date
+                  updatePreferences: updatePreferences, 
+                  nbESG: 0, updateNbESG: updateNbESG, nbCarbon: 0, updateNbCarbon: updateNbCarbon, nbPerf: 0, updateNbPerf: updateNbPerf,
+                  updateDate: mult[1].data.date
                 });
               }
             }
@@ -127,7 +151,9 @@ function useAuth() {
               newIndexSector: newIndexSector, indexCompany: { row: 0, col: 0 }, newIndexCompany: newIndexCompany,
               watchList: [], storeWatchList: storeWatchList, allSecurities: [], storeAllSecurities: storeAllSecurities,
               preferences: !dataUser.preferences ? [1, 2, 3, 4, 5, 6, 7, 8] : dataUser.preferences,
-              updatePreferences: updatePreferences, updateDate: mult[1].data.date
+              updatePreferences: updatePreferences, 
+              nbESG: 0, updateNbESG: updateNbESG, nbCarbon: 0, updateNbCarbon: updateNbCarbon, nbPerf: 0, updateNbPerf: updateNbPerf,
+              updateDate: mult[1].data.date
             });
           }
         }).catch(err => console.log('Erreur useAuth : ', err))

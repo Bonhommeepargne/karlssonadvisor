@@ -25,7 +25,9 @@ export default function App() {
   
   let { user, userInfo, updateUserInfo, sectorArray, pushSectorArray, indexSector, newIndexSector,
     indexCompany, newIndexCompany, watchList, storeWatchList, 
-    allSecurities, storeAllSecurities, preferences, updatePreferences, updateDate} = useAuth();
+    allSecurities, storeAllSecurities, preferences, updatePreferences, 
+    nbESG, updateNbESG, nbCarbon, updateNbCarbon, nbPerf, updateNbPerf,
+    updateDate} = useAuth();
     
   const MyTheme = {
     ...DefaultTheme,
@@ -51,8 +53,9 @@ export default function App() {
             <Context.Provider value={{ user, userInfo, updateUserInfo, sectorArray,
                 pushSectorArray, indexSector, newIndexSector, indexCompany, newIndexCompany,
                 watchList, storeWatchList, allSecurities, storeAllSecurities, 
-                preferences, updatePreferences,updateDate,
-                loader, setLoader, ourLoader, setOurLoader }}>
+                preferences, updatePreferences, 
+                nbESG, updateNbESG, nbCarbon, updateNbCarbon, nbPerf, updateNbPerf,
+                updateDate, loader, setLoader, ourLoader, setOurLoader }}>
                   {loadedFont && <Main />}
                   {!loadedFont || !ourLoader && <Loader />}
                   {loader && <DataLoader />}

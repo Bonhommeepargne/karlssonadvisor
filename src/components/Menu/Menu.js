@@ -9,6 +9,7 @@ import UserMenu from './../Main/User/UserMenu';
 import ManageProfile from './../Main/User/ManageProfile';
 import Subscription from './../Main/User/Subscription';
 import Parameters from './../Main/User/Parameters';
+import Contact from './../Main/User/Contact';
 import WatchList from './../Main/WatchList/WatchList';
 import Notifications from './../Main/Notifications/Notifications';
 import SideModal from './../Menu/SideModal/SideModal';
@@ -159,6 +160,13 @@ export default function Menu() {
             )
           })}
           />
+          <Stack.Screen name="Contact" component={Contact} options={{
+            title: 'Send Message',
+            headerTintColor: '#fff', headerStyle: {
+              backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
+              borderBottomWidth: 0
+            }
+          }}  />
           <Stack.Screen name="TutoESG" component={TutoESG} options={modalOptions} />
           <Stack.Screen name="TutoESGTab" component={TutoESGTab} options={modalOptions} />
           <Stack.Screen name="TutoESGComparative" component={TutoESGComparative} options={modalOptions} />

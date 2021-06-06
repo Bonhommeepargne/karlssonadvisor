@@ -3,20 +3,25 @@ import { StyleSheet, Text, View } from 'react-native';
 import TabESG from './TabESG';
 import Header from '../Header/Header';
 import _ from 'lodash';
+import Store from './../../../../context';
 
 export default function MTabESG() {
 
   return (
-    <View style={styles.container}>
-      <Header helper={'TutoESGMenu'} color={'#6A8712'} />
-      <TabESG />
-    </View>
+    <Store.Consumer>
+      {(store) => (
+        <View style={styles.container}>
+          <Header helper={'TutoESGMenu'} color={'#6A8712'} nb={store.nbESG} />
+          <TabESG />
+        </View>
+      )}
+    </Store.Consumer>
   );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#f6f6f6'
-    },
-  });
+  container: {
+    flex: 1,
+    backgroundColor: '#f6f6f6'
+  },
+});

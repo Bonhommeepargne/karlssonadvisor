@@ -16,7 +16,7 @@ import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraB
 
 // "alpha-s-circle-outline" : "alpha-s-circle-outline"
 
-export default function TabCarbon() {
+export default function TabCarbon({ setNb }) {
 
     const navigation = useNavigation();
     const [columns, setColumns] = useState([
@@ -34,8 +34,9 @@ export default function TabCarbon() {
     const dataStore = useContext(Store);
 
     useEffect(() => {
-        setData(_.orderBy(filterByCriteria(dataStore.sectorArray[dataStore.indexSector], onSelectedItemsChange(dataStore.preferences))
-            , 's', "desc"));
+        let calcData = _.orderBy(filterByCriteria(dataStore.sectorArray[dataStore.indexSector], onSelectedItemsChange(dataStore.preferences), 's', "desc"));
+        setData(calcData);
+        dataStore.updateNbCarbon(calcData.length);
 
     }, [dataStore.indexSector, dataStore.preferences]);
 
@@ -169,7 +170,6 @@ const styles = StyleSheet.create({
         backgroundColor: "gray",
         // borderTopEndRadius: 10,
         // borderTopStartRadius: 10,
-        height: 40
     },
     tableHeaderTop: {
         flexDirection: "row",
@@ -178,7 +178,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'gray', //#6A8712",
         // borderTopEndRadius: 10,
         // borderTopStartRadius: 10,
-        height: 30
     },
     tableRow: {
         flexDirection: "row",
@@ -202,11 +201,14 @@ const styles = StyleSheet.create({
     },
     columnHeaderTxt: {
         color: "white",
-        fontFamily: 'NSRegular',
+        fontFamily: 'NSBold',
+        paddingBottom: 10,
     },
     columnHeaderTop: {
         color: "white",
-        fontFamily: 'NSRegular',
+        fontFamily: 'NSBold',
+        fontSize: 14,
+        paddingTop: 5,
     },
     columnFirstRowTxt: {
         textAlign: "left",
