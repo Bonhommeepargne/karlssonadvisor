@@ -82,7 +82,7 @@ export default function Header({ helper, color, nb }) {
                         color: '#FFF', flexDirection: "row", justifyContent: 'space-between',
                         alignItems: 'center', paddingHorizontal: 15, paddingBottom: 10
                     }}>
-                        <View style={{ flex: 5, justifyContent: 'center' }}>
+                        <View style={{ flex: 7, justifyContent: 'center' }}>
                             <TouchableOpacity onPress={() => { navigation.navigate('SelectFilter'); }} >
                                 <View>
                                     <Text>
@@ -101,14 +101,14 @@ export default function Header({ helper, color, nb }) {
                                 borderColor: '#FFF', borderWidth: 1, alignItems: 'center',
                                 borderTopLeftRadius: 15, borderTopRightRadius: 15
                             }}>
-                                <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: '#FFF' }}>{nb}</Text>
+                                <Text style={{ fontSize: 14, fontFamily: 'NSLight', color: '#FFF' }}>{nb}</Text>
                             </View>
                             <View style={{
                                 borderColor: '#FFF', borderLeftWidth: 1, borderRightWidth: 1,
                                 borderBottomWidth: 1, alignItems: 'center',
                                 borderBottomLeftRadius: 15, borderBottomRightRadius: 15
                             }}>
-                                <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: '#FFF' }}>
+                                <Text style={{ fontSize: 14, fontFamily: 'NSLight', color: '#FFF' }}>
                                     {store.sectorArray[store.indexCompany.row][store.indexCompany.col].ESG_IG_nb_last}
                                 </Text>
                             </View>

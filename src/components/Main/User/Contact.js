@@ -6,13 +6,12 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
-  SafeAreaView
+  SafeAreaView,
+  Linking
 } from 'react-native';
-import Loader from './../../Loader/Loader'
-import { useIsFocused } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
+import { sendEmail } from '../../../requests/request';
 
-import * as fb from "../../../firebase";
 import Context from '../../../context';
 
 // npm install react-native-elements
@@ -39,17 +38,48 @@ export default function ManageProfile({ route, navigation }) {
   const [phone, setPhone] = React.useState(store.userInfo.phone);
   const [email, setEmail] = React.useState(store.userInfo.email);
 
-  async function sendEmail() {
-    if (!message === '') {
+  const ExternalLinkBtn = (props) => {
+    return <TouchableOpacity
+      onPress={() => {
+        Linking.openURL(props.url)
+          .catch(err => {
+            console.error("Failed opening page because: ", err)
+            alert('Failed to open page')
+          })
+      }} >
+      <Text style={{ fontSize: 16, fontFamily: 'NSBold', color: 'blue' }}>{props.title}</Text>
+    </TouchableOpacity>
+  }
+
+  async function sendEmailToKarlsson() {
+    if (message != '') {
       try {
+        setFirebaseError(null);
         setActivityIndicator(true);
 
-        // envoyer un email ici
-        await fb.updateUser(store.user.uid, {
-          fullname: fullname,
-          phone: typeof phone == 'undefined' ? '' : phone
-        });
+        let HTMLContent = `<p>Full Name: ${fullname}</p>`
+          + `<p>email: <a href="${email}">${email}</a></p>`
+          + `<p>Phone: ${phone}</p>`
+          + `<p>Company: ${store.userInfo.company.n}</p>`
+          + `<p>uid: ${store.userInfo.uid}</p>`
+          + `<p>Message: ${message}</p>`
 
+        let TEXTContent = `Full Name: ${fullname}\n`
+          + `email: ${email}\n`
+          + `Phone: ${phone}\n`
+          + `Company: ${store.userInfo.company.n}\n`
+          + `uid: ${store.userInfo.uid}\n`
+          + `Message: ${message}\n`
+
+        let content = {
+          from: 'app@karlssonadvisor@com',
+          to: 'charles.granger@karlssonadvisor.com,pierre.savarzeix@gmail.com',
+          subject: "Message from Karlsson App user",
+          text: TEXTContent,
+          html: HTMLContent,
+        };
+
+        await sendEmail(content);
         setMessage('');
 
         setActivityIndicator(false);
@@ -60,7 +90,7 @@ export default function ManageProfile({ route, navigation }) {
           visibilityTime: 4000,
           autoHide: true,
           topOffset: 30,
-          bottomOffset: 40
+          bottomOffset: 100
         })
       } catch (err) {
         console.error("Update Info Error", err);
@@ -72,7 +102,7 @@ export default function ManageProfile({ route, navigation }) {
           visibilityTime: 4000,
           autoHide: true,
           topOffset: 30,
-          bottomOffset: 40
+          bottomOffset: 100
         })
       }
     } else {
@@ -82,14 +112,27 @@ export default function ManageProfile({ route, navigation }) {
 
   return (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps={'handled'} >
         <View style={styles.container}>
+          <View style={{ alignItems: 'center',paddingBottom: 20 }}>
+            <Text style={{
+              fontSize: 16,
+              fontFamily: 'NSLight',
+              color: 'dimgrey',
+            }} >You can send an Email to: </Text>
+            <ExternalLinkBtn title={'pierre.riskin@karlssonadvisor.com'} url={'mailto:pierre.riskin@karlssonadvisor.com'} />
+            <Text style={{
+              fontSize: 16,
+              fontFamily: 'NSLight',
+              color: 'dimgrey',
+            }} > or fill the form below:</Text>
+          </View>
           <View style={styles.inputView}>
             <Icon
               style={{ paddingHorizontal: 4, width: 30 }}
               name='user'
               type='font-awesome'
-              color='black'
+              color='dimgrey'
               size={22}
             />
             <TextInput
@@ -97,7 +140,7 @@ export default function ManageProfile({ route, navigation }) {
               value={fullname}
               style={styles.input}
               placeholder='Full Name'
-              placeholderTextColor='black'
+              placeholderTextColor='dimgrey'
               textContentType='name'
               autoCompleteType='name'
               returnKeyType='next'
@@ -108,7 +151,7 @@ export default function ManageProfile({ route, navigation }) {
               style={{ paddingHorizontal: 4, width: 30 }}
               name='email'
               type='Fontisto'
-              color='black'
+              color='dimgrey'
               size={22}
             />
             <TextInput
@@ -116,7 +159,7 @@ export default function ManageProfile({ route, navigation }) {
               value={email}
               style={styles.input}
               placeholder='Email'
-              placeholderTextColor='black'
+              placeholderTextColor='dimgrey'
               textContentType='emailAddress'
               autoCompleteType='email'
               returnKeyType='next'
@@ -127,7 +170,7 @@ export default function ManageProfile({ route, navigation }) {
               style={{ paddingHorizontal: 4, width: 30 }}
               name='phone'
               type='font-awesome'
-              color='black'
+              color='dimgrey'
               size={22}
             />
             <TextInput
@@ -135,7 +178,7 @@ export default function ManageProfile({ route, navigation }) {
               value={phone}
               style={styles.input}
               placeholder='Phone'
-              placeholderTextColor='black'
+              placeholderTextColor='dimgrey'
               textContentType='telephoneNumber'
               autoCompleteType='tel'
               keyboardType='phone-pad'
@@ -147,7 +190,7 @@ export default function ManageProfile({ route, navigation }) {
           style={{ paddingHorizontal: 4, width: 30 }}
           name='user'
           type='font-awesome'
-          color='black'
+          color='dimgrey'
           size={22}
         /> */}
             <TextInput
@@ -159,16 +202,16 @@ export default function ManageProfile({ route, navigation }) {
               value={message}
               style={styles.inputLarge}
               placeholder='Message'
-              placeholderTextColor='black'
+              placeholderTextColor='dimgrey'
               returnKeyType='next'
             />
           </View>
-          <View style={{ paddingTop: 20 }}>
+          <View style={{ flexDirection:'row', justifyContent: 'flex-end', paddingTop: 20 }}>
             {!activityIndicator ?
-              <TouchableOpacity style={styles.button} onPress={sendEmail}>
-                <Text style={styles.buttonText}>Send Message</Text>
+              <TouchableOpacity style={styles.button} onPress={sendEmailToKarlsson}>
+                <Text style={styles.buttonText}>Send</Text>
               </TouchableOpacity> :
-              <View style={styles.activityIndicator}><ActivityIndicator size="large" color="black" /></View>}
+              <View style={styles.button}><ActivityIndicator size="large" color="dimgrey" /></View>}
           </View>
           {firebaseError &&
             <View style={styles.errorView}>
@@ -184,7 +227,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFF",
-    marginVertical: 10,
+    marginVertical: 20,
   },
   back: {
     marginTop: 20,
@@ -213,7 +256,7 @@ const styles = StyleSheet.create({
   inputView: {
     height: 40,
     borderBottomWidth: 1,
-    borderBottomColor: 'black',
+    borderBottomColor: 'dimgrey',
     marginTop: 10,
     marginHorizontal: 20,
     display: 'flex',
@@ -237,82 +280,34 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'NSLight',
     paddingHorizontal: 4,
-    color: 'black',
+    color: 'dimgrey',
   },
   inputLarge: {
     fontSize: 16,
     fontFamily: 'NSLight',
     paddingHorizontal: 4,
-    color: 'black',
+    color: 'dimgrey',
   },
   inputViewLarge: {
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: 'dimgrey',
+    borderRadius: 10,
     marginTop: 30,
     marginHorizontal: 20,
+    padding: 5,
     // display: 'flex',
     // flexDirection: 'row',
   },
   button: {
+    height:45,
+    width: 110,
     marginHorizontal: 20,
-    backgroundColor: '#fafafa',
-    marginTop: 12,
-    paddingVertical: 10,
+    borderColor: 'grey',
+    marginTop: 0,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    justifyContent:'center',
+    borderWidth: 1,
+    borderRadius: 10
   },
-  buttonText: { fontFamily: 'NSRegular', fontSize: 16, color: '#000' },
-  forgotPasswordText: {
-    marginHorizontal: 20,
-    marginTop: 20,
-    alignSelf: 'flex-end',
-    color: '#fff',
-    fontSize: 18,
-    fontFamily: 'NSBold',
-  },
-  activityIndicator: {
-    paddingTop: 10,
-  },
-  buttonOpacity: {
-    backgroundColor: '#222f3e',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 4,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.5,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalView: {
-    width: '90%',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    paddingTop: 10,
-    paddingBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
+  buttonText: { fontFamily: 'NSRegular', fontSize: 16, color: 'grey' },
 });

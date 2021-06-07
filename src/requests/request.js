@@ -94,4 +94,24 @@ async function getUpdateDate() {
     }
 }
 
-export { getCompanyESG, getSectorESG, getAllSecurities, getUpdateDate };
+async function sendEmail(data) {
+    var config = {
+        method: 'post',
+        url: 'http://99.80.211.255:8080/sendemail' ,
+        headers: {
+            'pass': 'CALLIBRI'
+        },
+        data: data
+    };
+
+    try {
+        const res = await axios(config);
+        handleError(res);
+        return res;
+    } catch (e) {
+        console.log('Error axios request.js', e);
+        return e;
+    }
+}
+
+export { getCompanyESG, getSectorESG, getAllSecurities, getUpdateDate, sendEmail };

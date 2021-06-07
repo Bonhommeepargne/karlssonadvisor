@@ -36,7 +36,7 @@ export default function Parameters() {
         visibilityTime: 4000,
         autoHide: true,
         topOffset: 30,
-        bottomOffset: 40
+        bottomOffset: 100
       })
     }
   };

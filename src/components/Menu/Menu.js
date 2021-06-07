@@ -161,7 +161,7 @@ export default function Menu() {
           })}
           />
           <Stack.Screen name="Contact" component={Contact} options={{
-            title: 'Send Message',
+            title: 'Contact Karlsson',
             headerTintColor: '#fff', headerStyle: {
               backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
               borderBottomWidth: 0

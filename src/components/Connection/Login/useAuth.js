@@ -123,7 +123,8 @@ function useAuth() {
                   newIndexSector: newIndexSector, indexCompany: { row: 0, col: 0 }, newIndexCompany: newIndexCompany,
                   watchList: [], storeWatchList: storeWatchList, allSecurities: [], storeAllSecurities: storeAllSecurities,
                   preferences: [1, 2, 3, 4, 5, 6, 7, 8], updatePreferences: updatePreferences, 
-                  nb: 0, updateNb: updateNb, updateDate: mult[1].data.date
+                  nbESG: 0, updateNbESG: updateNbESG, nbCarbon: 0, updateNbCarbon: updateNbCarbon, nbPerf: 0, updateNbPerf: updateNbPerf,
+                  updateDate: mult[1].data.date
                 })
               } else {
                 dataObj = transformData(ESGData.data, mult[1].data.date);

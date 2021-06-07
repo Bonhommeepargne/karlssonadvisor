@@ -29,6 +29,7 @@ import NSLight from '../../../../assets/fonts/NunitoSans/NunitoSansLight.ttf';
 import NSRegular from '../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf';
 import NSBold from '../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
+import moment from 'moment';
 
 // import pour la Gestion du formulaire
 import * as fb from "./../../../firebase";
@@ -67,9 +68,11 @@ export default function LoginScreen() {
       } else {
         setActivityIndicator(true);
         const newUser = await fb.register(fullname, email, password);
+        const today = moment();
         await fb.addUser(newUser.user.uid, {
           email: email, fullname: fullname,
-          uid: newUser.user.uid, admin: false, created: Date.now()
+          uid: newUser.user.uid, admin: false, created: today.format(), subscription:
+           { type: '3 Months Trial', start: today.format(), expire: today.add(3, 'month').format() }
         });
         // setActivityIndicator(false);
         // setActiveTab("Login");

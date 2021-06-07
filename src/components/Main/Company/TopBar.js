@@ -56,7 +56,7 @@ export default function TopBar() {
                 visibilityTime: 4000,
                 autoHide: true,
                 topOffset: 30,
-                bottomOffset: 40
+                bottomOffset: 100
             })
         } catch (error) {
             Toast.show({
@@ -66,7 +66,7 @@ export default function TopBar() {
                 visibilityTime: 4000,
                 autoHide: true,
                 topOffset: 30,
-                bottomOffset: 40
+                bottomOffset: 100
             });
         }
     }
@@ -82,7 +82,7 @@ export default function TopBar() {
                 visibilityTime: 4000,
                 autoHide: true,
                 topOffset: 30,
-                bottomOffset: 40
+                bottomOffset: 100
             })
         } catch (error) {
             Toast.show({
@@ -92,7 +92,7 @@ export default function TopBar() {
                 visibilityTime: 4000,
                 autoHide: true,
                 topOffset: 30,
-                bottomOffset: 40
+                bottomOffset: 100
             });
         };
     }

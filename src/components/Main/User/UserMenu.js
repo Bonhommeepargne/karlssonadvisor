@@ -81,7 +81,7 @@ export default function UserMenu() {
               <Text style={styles.nameUser}>{store.userInfo.fullname}</Text>
               <Text style={styles.info}>{store.userInfo.company ? store.userInfo.company.n : 'No company'}</Text>
               <Text style={styles.description}>{store.userInfo.position ? store.userInfo.position : 'No position'}</Text>
-              <Text style={styles.subscription}>{store.userInfo.subscription ? store.userInfo.subscription : 'No subscription'}</Text>
+              <Text style={styles.subscription}>{store.userInfo.subscription.type}</Text>
             </View>
             <View style={styles.centeredView} >
               <Modal animationType='slide' transparent={true} visible={modalVisible} >

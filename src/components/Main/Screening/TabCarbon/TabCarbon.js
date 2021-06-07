@@ -176,6 +176,8 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
         alignItems: "center",
         backgroundColor: 'gray', //#6A8712",
+        borderBottomWidth: 3,
+        borderColor: 'gray'
         // borderTopEndRadius: 10,
         // borderTopStartRadius: 10,
     },

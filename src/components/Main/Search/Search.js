@@ -124,7 +124,7 @@ export default function Search({ route, navigation }) {
           visibilityTime: 4000,
           autoHide: true,
           topOffset: 30,
-          bottomOffset: 40
+          bottomOffset: 100
         })
         // console.log(navigation)
         navigation.goBack();
@@ -136,7 +136,7 @@ export default function Search({ route, navigation }) {
           visibilityTime: 4000,
           autoHide: true,
           topOffset: 30,
-          bottomOffset: 40
+          bottomOffset: 100
         });
         // navigation.goBack();
       }
@@ -150,7 +150,7 @@ export default function Search({ route, navigation }) {
         visibilityTime: 4000,
         autoHide: true,
         topOffset: 30,
-        bottomOffset: 40
+        bottomOffset: 100
       })
       navigation.goBack();
     } else if (route.params.query === 'select') {
@@ -172,7 +172,7 @@ export default function Search({ route, navigation }) {
         storeData.newIndexSector(val.coord.row);
         storeData.newIndexCompany(val.coord);
         storeData.updateUserInfo({ company: item });
-        navigation.navigate('Company');
+        // navigation.navigate('Company');
         storeData.setLoader(false);
       }).catch(err => {
         storeData.setLoader(false);
@@ -185,7 +185,7 @@ export default function Search({ route, navigation }) {
         visibilityTime: 4000,
         autoHide: true,
         topOffset: 30,
-        bottomOffset: 40
+        bottomOffset: 100
       })
     };
   };
@@ -226,7 +226,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'NSBold',
     paddingTop: 10,
-    paddingLeft: 20
+    paddingLeft: 20,
+    color: 'black'
   },
   itemCountry: {
     fontSize: 12,

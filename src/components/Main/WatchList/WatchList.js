@@ -91,7 +91,7 @@ export default function WatchList() {
         visibilityTime: 4000,
         autoHide: true,
         topOffset: 30,
-        bottomOffset: 40
+        bottomOffset: 100
       })
     } catch (error) {
       Toast.show({
@@ -101,7 +101,7 @@ export default function WatchList() {
         visibilityTime: 4000,
         autoHide: true,
         topOffset: 30,
-        bottomOffset: 40
+        bottomOffset: 100
       });
     };
   };

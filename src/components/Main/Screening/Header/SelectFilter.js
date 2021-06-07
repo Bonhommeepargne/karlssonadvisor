@@ -85,7 +85,7 @@ export default function SelectFilter() {
                 visibilityTime: 4000,
                 autoHide: true,
                 topOffset: 30,
-                bottomOffset: 40
+                bottomOffset: 100
             })
         } catch (err) {
             console.error("Update Sector Preferences Error", err);
@@ -96,7 +96,7 @@ export default function SelectFilter() {
                 visibilityTime: 4000,
                 autoHide: true,
                 topOffset: 30,
-                bottomOffset: 40
+                bottomOffset: 100
             })
         }
     }

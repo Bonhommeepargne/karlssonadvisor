@@ -28,7 +28,6 @@ import NSExtraBold from '../../../../assets/fonts/NunitoSans/NunitoSansExtraBold
 
 // import pour la Gestion du formulaire
 import { resetPassword } from '../../../firebase';
-import { NavigationHelpersContext } from '@react-navigation/core';
 
 var email = "";
 

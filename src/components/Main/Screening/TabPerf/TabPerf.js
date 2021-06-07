@@ -160,14 +160,18 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
         alignItems: "center",
         backgroundColor: '#53586f', //#6A8712",
-        // borderTopEndRadius: 10,
-        // borderTopStartRadius: 10,
+        paddingTop: 2,
+        paddingBottom: 0,
     },
     tableHeaderTop: {
         flexDirection: "row",
         justifyContent: "space-evenly",
         alignItems: "center",
         backgroundColor: '#53586f', //#6A8712",
+        paddingTop: 10,
+        paddingBottom: 2,
+        borderBottomWidth: 3,
+        borderColor: '#53586f'
         // borderTopEndRadius: 10,
         // borderTopStartRadius: 10,
     },
@@ -211,8 +215,7 @@ const styles = StyleSheet.create({
     columnHeaderTop: {
         color: "white",
         fontFamily: 'NSBold',
-        fontSize: 14,
-        paddingTop: 5,
+        fontSize: 12,
     },
     columnFirstRowTxt: {
         textAlign: "left",

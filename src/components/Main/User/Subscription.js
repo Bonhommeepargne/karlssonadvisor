@@ -3,19 +3,11 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Modal,
+  TouchableOpacity
 } from 'react-native';
-
-// expo install expo-linear-gradient (For Expo Users)
-// Alternate: npm i react-native-linear-gradient (For non-expo users)
-import { LinearGradient } from 'expo-linear-gradient';
-
-// npm install react-native-elements
-import { Icon } from 'react-native-elements';
+import Store from "./../../../context";
+import moment from 'moment';
+import { useNavigation } from '@react-navigation/native';
 
 // https://fonts.google.com/specimen/Nunito+Sans
 import { useFonts } from 'expo-font';
@@ -24,146 +16,68 @@ import NSRegular from '../../../../assets/fonts/NunitoSans/NunitoSansRegular.ttf
 import NSBold from '../../../../assets/fonts/NunitoSans/NunitoSansBold.ttf';
 import NSExtraBold from '../../../../assets/fonts/NunitoSans/NunitoSansExtraBold.ttf';
 
+
 export default function Subscription() {
 
-  const [loaded] = useFonts({
-    NSLight,
-    NSRegular,
-    NSBold,
-    NSExtraBold,
-  });
-
-  if (!loaded) {
-    return (
-      <View>
-        <Text></Text>
-      </View>
-    );
-  }
+  const navigation = useNavigation();
 
   return (
-      <View>
-        <Text style={styles.welcomeText}>
-          Subscription
-        </Text>
-      </View>
+    <Store.Consumer>
+      {(store) => (
+        <View style={styles.container}>
+            <View style={styles.manchette} >
+              <Text style={styles.text}>Plan type:</Text>
+              <Text style={styles.val}>{store.userInfo.subscription.type}</Text>
+            </View >
+            <View style={styles.manchette} >
+              <Text style={styles.text}>Start Date:</Text>
+              <Text style={styles.val}>{moment(store.userInfo.subscription.start).format('DD-MMMM-YYYY')}</Text>
+            </View >
+            <View style={styles.manchette} >
+              <Text style={styles.text}>Expire:</Text>
+              <Text style={styles.val}>{moment(store.userInfo.subscription.expire).format('DD-MMMM-YYYY')}</Text>
+            </View >
+            <View style={{ flexDirection:'row', justifyContent: 'flex-end', paddingTop: 20 }}>
+              <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Contact')}>
+                <Text style={styles.buttonText}>Contact Karlsson to renew</Text>
+              </TouchableOpacity>
+          </View>
+        </View >
+      )
+}
+    </Store.Consumer >
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 10,
+    paddingHorizontal: 15
   },
-  back: {
-    marginTop: 20,
-    marginHorizontal: 0,
-    alignItems: 'flex-start'
+  text: {
+    fontSize: 18,
+    color: 'black'
   },
-  welcomeText: {
-    alignSelf: 'center',
-    fontSize: 40,
-    fontFamily: 'NSLight',
-    marginTop: 190,
-    color: '#fff',
+  val: {
+    fontSize: 18,
+    color: 'grey',
+    paddingLeft: 10
   },
-  switchTabsView: {
-    display: 'flex',
+  manchette: {
     flexDirection: 'row',
-    paddingHorizontal: 20,
-    marginTop: 20,
-  },
-  switchText: {
-    padding: 2,
-    fontSize: 20,
-    color: '#fff',
-    fontFamily: 'NSExtraBold',
-  },
-  inputView: {
-    height: 40,
-    borderBottomWidth: 1,
-    borderBottomColor: '#fff',
-    marginTop: 10,
-    marginHorizontal: 20,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  errorView: {
-    marginTop: 40,
-    marginHorizontal: 20,
-  },
-  errorText: {
-    padding: 2,
-    fontSize: 17,
-    color: '#FFA07A',
-    fontFamily: 'NSRegular',
-    textAlign: 'center',
-  },
-  input: {
-    flex: 1,
-    height: 40,
-    fontSize: 16,
-    fontFamily: 'NSLight',
-    paddingHorizontal: 4,
-    color: '#fff',
+    paddingVertical: 10
   },
   button: {
-    marginHorizontal: 20,
-    backgroundColor: '#fafafa',
-    marginTop: 12,
-    paddingVertical: 10,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  buttonText: { fontFamily: 'NSRegular', fontSize: 16, color: '#000' },
-  forgotPasswordText: {
-    marginHorizontal: 20,
-    marginTop: 20,
-    alignSelf: 'flex-end',
-    color: '#fff',
-    fontSize: 18,
-    fontFamily: 'NSBold',
-  },
-  buttonOpacity: {
-    backgroundColor: '#222f3e',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 4,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.5,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
+    marginHorizontal: 20,
+    borderColor: 'grey',
+    marginTop: 0,
     alignItems: 'center',
+    justifyContent:'center',
+    borderWidth: 1,
+    borderRadius: 10
   },
-  modalView: {
-    width: '90%',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    paddingTop: 10,
-    paddingBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
+  buttonText: { fontFamily: 'NSRegular', fontSize: 16, color: 'grey' },
 });
