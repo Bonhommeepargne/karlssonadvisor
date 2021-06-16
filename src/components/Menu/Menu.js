@@ -2,6 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React, { useEffect, } from 'react';
 import { StyleSheet, Text, View, TouchableWithoutFeedback, Animated } from 'react-native';
 import { Icon } from 'react-native-elements';
+import moment from 'moment';
 
 import Search from './../Main/Search/Search';
 import WatchListSelect from './../Main/Company/WatchListSelect';
@@ -72,15 +73,26 @@ export default function Menu() {
       {(store) => (
         <Stack.Navigator>
           { store.user.emailVerified == true ?
-            !store.userInfo.company ?
-              <Stack.Screen name="DefineCompany" component={DefineCompany} options={{ headerShown: false }} />
+            (moment().isBefore(moment(store.userInfo.subscription.expire)) ?
+              (!store.userInfo.company ?
+                <Stack.Screen name="DefineCompany" component={DefineCompany} options={{ headerShown: false }} />
+                :
+                <Stack.Screen name="MenuTree" component={MenuTree} options={{ headerShown: false }} />)
               :
-              <Stack.Screen name="MenuTree" component={MenuTree} options={{ headerShown: false }} />
+              <Stack.Screen name="SubscriptionExpired" component={Subscription} options={{
+                title: 'Subscription',
+                headerBackTitle: 'Back',
+                headerTintColor: '#fff', headerStyle: {
+                  backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
+                  borderBottomWidth: 0,
+                }
+              }} />)
             :
             <Stack.Screen name="EmailActivation" component={EmailActivation} options={{ headerShown: false }} />
           }
           <Stack.Screen name="WatchListSelect" component={WatchListSelect} options={({ route, navigation }) => ({
             title: 'Watchlist',
+            headerBackTitle: 'Back',
             headerTintColor: 'black', headerStyle: {
               backgroundColor: '#FFF', elevation: 0, shadowOpacity: 0,
               borderBottomWidth: 1
@@ -102,6 +114,7 @@ export default function Menu() {
           />
           <Stack.Screen name="Search" component={Search} options={{
             title: 'Search company',
+            headerBackTitle: 'Back',
             headerTintColor: '#fff', headerStyle: {
               backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
               borderBottomWidth: 0
@@ -110,6 +123,7 @@ export default function Menu() {
           <Stack.Screen name="UserMenu" component={UserMenu} options={{ headerShown: false }} />
           <Stack.Screen name="ManageProfile" component={ManageProfile} options={{
             title: 'Edit profile',
+            headerBackTitle: 'Back',
             headerTintColor: '#fff', headerStyle: {
               backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
               borderBottomWidth: 0
@@ -117,6 +131,7 @@ export default function Menu() {
           }} />
           <Stack.Screen name="CompanyHistory" component={CompanyHistory} options={{
             title: 'Rating History',
+            headerBackTitle: 'Back',
             headerTintColor: '#fff', headerStyle: {
               backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
               borderBottomWidth: 0
@@ -124,6 +139,7 @@ export default function Menu() {
           }} />
           <Stack.Screen name="Subscription" component={Subscription} options={{
             title: 'Subscription',
+            headerBackTitle: 'Back',
             headerTintColor: '#fff', headerStyle: {
               backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
               borderBottomWidth: 0,
@@ -131,6 +147,7 @@ export default function Menu() {
           }} />
           <Stack.Screen name="Parameters" component={Parameters} options={{
             title: 'Parameters',
+            headerBackTitle: 'Back',
             headerTintColor: '#fff', headerStyle: {
               backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
               borderBottomWidth: 0,
@@ -141,6 +158,7 @@ export default function Menu() {
           <Stack.Screen name="SideModal" component={SideModal} options={modalOptions} />
           <Stack.Screen name="WatchList" component={WatchList} options={({ route, navigation }) => ({
             title: 'Watchlist',
+            headerBackTitle: 'Back',
             headerTintColor: '#fff', headerStyle: {
               backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
               borderBottomWidth: 0
@@ -162,11 +180,12 @@ export default function Menu() {
           />
           <Stack.Screen name="Contact" component={Contact} options={{
             title: 'Contact Karlsson',
+            headerBackTitle: 'Back',
             headerTintColor: '#fff', headerStyle: {
               backgroundColor: '#6A8712', elevation: 0, shadowOpacity: 0,
               borderBottomWidth: 0
             }
-          }}  />
+          }} />
           <Stack.Screen name="TutoESG" component={TutoESG} options={modalOptions} />
           <Stack.Screen name="TutoESGTab" component={TutoESGTab} options={modalOptions} />
           <Stack.Screen name="TutoESGComparative" component={TutoESGComparative} options={modalOptions} />

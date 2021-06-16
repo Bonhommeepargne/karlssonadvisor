@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "karlssonadvisor",
-    "slug": "karlssonadvisor",
+    "name": "karlsson",
+    "slug": "karlsson",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,7 +24,9 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.karlssonadvisor.ratingconsensus"
+      "package": "com.karlsson.ratingconsensus",
+      "permissions": ["READ_INTERNAL_STORAGE"],
+      "versionCode": 3
     },
     "web": {
       "favicon": "./assets/favicon.png"

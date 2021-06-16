@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-
-import { getColor } from '../../../../util/function'
+import Store from '../../../../context';
+import moment from 'moment';
 
 // import { Dimensions } from "react-native";
 // const screenWidth = Dimensions.get("window").width;
@@ -19,8 +19,12 @@ import NSExtraBold from '../../../../../assets/fonts/NunitoSans/NunitoSansExtraB
 
 export default function TableSummaryPerf(props) {
 
+  const dataStore = useContext(Store);
+
+  const endOfMonth = moment(dataStore.updateDate).endOf('month').subtract(1, 'month').format('DD/MM/YY');
+
   const company = props.data;
-  const header = ['', '%'];
+  const header = [ endOfMonth, '%'];
   const data = [['ΔLast Month', company.Perf1M ],
                 ['ΔYear to date', company.PerfYTD ],
                ['Δ3 Month', company.Perf3M ],
@@ -72,7 +76,8 @@ export default function TableSummaryPerf(props) {
   function FirstCellHeader({ data }) {
     return (
       <View style={styles.cellStyleFirstHeader}>
-        <Text style={{ fontSize: 16, fontFamily: 'NSExtraBold' }}>{data}</Text>
+        <Text style={{ fontSize: 16, fontFamily: 'NSExtraBold',
+            textAlign: 'center' }}>{data}</Text>
       </View>
     );
   }
