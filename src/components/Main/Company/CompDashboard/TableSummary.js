@@ -85,10 +85,9 @@ export default function TableSummary(props) {
   function FirstCellHeader({ data }) {
     return (
       <View style={styles.cellStyleFirstHeader}>
-
         <TouchableOpacity onPress={() => { navigation.navigate('TutoESGTab') }} >
           <Icon
-            style={{ paddingTop: 8 }}
+            style={{ height: 26 }}
             name='question-circle-o'
             type='font-awesome'
             color='silver'
@@ -193,6 +192,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderBottomColor: '#C8C8C8',
     borderBottomWidth: 1,
+    height: 38
   },
   cellStyleFirst: {
     flex: 2,
@@ -209,5 +209,6 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderBottomColor: '#C8C8C8',
     borderBottomWidth: 1,
+    height: 38
   }
 });

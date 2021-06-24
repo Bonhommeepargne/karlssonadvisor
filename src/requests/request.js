@@ -9,13 +9,18 @@ function handleError(res) {
     }
 }
 
+let apiUrl = "http://99.80.211.255:8080"; // api Heroku
+if (__DEV__) {
+    apiUrl = "http://99.80.211.255:8080"; // (utiliser localhost:8080 pour dev )
+}
+
 async function getCompanyESG(code) {
 
     // https://finlive-app.herokuapp.com/ESG/
 
     var config = {
         method: 'get',
-        url: 'http://99.80.211.255:8080/ESG/' + code,
+        url: apiUrl + '/ESG/' + code,
         headers: {
             'pass': 'CALLIBRI'
         }
@@ -38,7 +43,7 @@ async function getSectorESG(type,code) {
 
     var config = {
         method: 'get',
-        url: 'http://99.80.211.255:8080/ESGWHERE/' + type + '/' + code ,
+        url: apiUrl + '/ESGWHERE/' + type + '/' + code ,
         headers: {
             'pass': 'CALLIBRI'
         }
@@ -58,7 +63,7 @@ async function getSectorESG(type,code) {
 async function getAllSecurities() {
     var config = {
         method: 'get',
-        url: 'http://99.80.211.255:8080/ESGlist/' ,
+        url: apiUrl + '/ESGlist/' ,
         headers: {
             'pass': 'CALLIBRI'
         }
@@ -78,7 +83,7 @@ async function getAllSecurities() {
 async function getUpdateDate() {
     var config = {
         method: 'get',
-        url: 'http://99.80.211.255:8080/ESGupdate' ,
+        url: apiUrl + '/ESGupdate' ,
         headers: {
             'pass': 'CALLIBRI'
         }
@@ -97,7 +102,7 @@ async function getUpdateDate() {
 async function sendEmail(data) {
     var config = {
         method: 'post',
-        url: 'http://99.80.211.255:8080/sendemail' ,
+        url: apiUrl + '/sendemail' ,
         headers: {
             'pass': 'CALLIBRI'
         },

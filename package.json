@@ -2,10 +2,16 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
+    "start-prod": "expo start --no-dev --minify",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject"
+    "update-dev": "expo publish --release-channel dev",
+    "update-prod": "expo publish --release-channel default",
+    "build-dev-android": "expo build:android --release-channel dev",
+    "build-dev-ios": "expo build:ios --release-channel dev",
+    "build-prod-android": "expo build:android --release-channel default",
+    "build-prod-ios": "expo build:ios --release-channel default",
+    "help": "echo /!\\ Documentation des script npm /!\\\n\nnpm run =>\nstart = Démarre Expo/Expo GO \nstart-prod = Démarre Expo/Expo GO sans les erreur (simulation de production)\nandroid = Start Expo/Exp GO pour android\nips = Start Expo/Expo GO pour IOS\nupdate-dev = met à jours les build de developements\nppdate-prod = met à jours les build en production\nbuild-dev-android = Crée un build de dévelopement pour Android (ATTENTION ! Ne jamais push sur les store)\nbuild-dev-ios = Crée un build de dévelopement pour IOS (ATTENTION ! Ne jamais push sur les store)\nbuild-prod-android = (<!> Attention la création d'un build met à jours toute les application !) Crée un build de Production pour Anroid (A push sur le Play Store /!\\ NE PAS OUBLIER D'INCREMENTER VERSION CODE DANS APP.JSON)\nbuild-prod-ios = (<!> Attention la création d'un build met à jours toute les application !) Crée un build de Production pour IOS (A push sur l'Apple Store)"
   },
   "dependencies": {
     "@callstack/reanimated-arc": "0.1.0-alpha.3",
