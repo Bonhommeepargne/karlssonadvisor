@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "karlsson",
-    "slug": "karlsson",
+    "name": "ESG",
+    "slug": "ESG",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,16 +17,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.karlsson.esg"
     },
     "android": {
+      "jsEngine": "hermes",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.karlsson.ratingconsensus",
+      "package": "com.karlsson.esg",
       "permissions": ["READ_INTERNAL_STORAGE"],
-      "versionCode": 3
+      "versionCode": 5
     },
     "web": {
       "favicon": "./assets/favicon.png"

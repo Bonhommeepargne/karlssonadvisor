@@ -56,6 +56,7 @@ export default function App() {
                 preferences, updatePreferences, 
                 nbESG, updateNbESG, nbCarbon, updateNbCarbon, nbPerf, updateNbPerf,
                 updateDate, loader, setLoader, ourLoader, setOurLoader }}>
+                  {/* <Loader /> */}
                   {loadedFont && <Main />}
                   {!loadedFont || !ourLoader && <Loader />}
                   {loader && <DataLoader />}

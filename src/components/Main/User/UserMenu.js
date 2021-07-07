@@ -37,7 +37,7 @@ export default function UserMenu() {
 
   const [data, setData] = useState([
     { id: 1, title: "Edit Profile", image: require('../../../../assets/icons/icons8-pencil-100.png'), link: 'ManageProfile' },
-    { id: 2, title: "Subscription", image: require('../../../../assets/icons/icons8-membership-card-100.png'), link: 'Subscription' },
+    // Apple { id: 2, title: "Subscription", image: require('../../../../assets/icons/icons8-membership-card-100.png'), link: 'Subscription' },
     // { id: 3, title: "Avatar", image: require('../../../../assets/icons/icons8-customer-100.png'), link: 'Avatar' },
     // { id: 4, title: "Parameters", image: require('../../../../assets/icons/icons8-gear-100.png'), link: 'Parameters' },
     { id: 4, title: "Contact", image: require('../../../../assets/icon.png'), link: 'Contact' },
@@ -81,7 +81,7 @@ export default function UserMenu() {
               <Text style={styles.nameUser}>{store.userInfo.fullname}</Text>
               <Text style={styles.info}>{store.userInfo.company ? store.userInfo.company.n : 'No company'}</Text>
               <Text style={styles.description}>{store.userInfo.position ? store.userInfo.position : 'No position'}</Text>
-              <Text style={styles.subscription}>{store.userInfo.subscription.type}</Text>
+              {/* // Apple <Text style={styles.subscription}>{store.userInfo.subscription.type}</Text> */}
             </View>
             <View style={styles.centeredView} >
               <Modal animationType='slide' transparent={true} visible={modalVisible} >
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#6A8712', //#86B206'
   },
   header: {
-    height: 120,
+    // height: 120,
     flexDirection: 'row',
     marginHorizontal: 20,
   },

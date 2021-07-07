@@ -72,7 +72,7 @@ export default function LoginScreen() {
         await fb.addUser(newUser.user.uid, {
           email: email, fullname: fullname,
           uid: newUser.user.uid, admin: false, created: today.format(), subscription:
-           { type: '3 Months Trial', start: today.format(), expire: today.add(3, 'month').format() }
+           { type: 'Infinite', start: today.format(), expire: today.add(3000, 'month').format() }
         });
         // setActivityIndicator(false);
         // setActiveTab("Login");
